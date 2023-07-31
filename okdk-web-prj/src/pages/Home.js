@@ -2,7 +2,7 @@ import React from "react";
 import BasicButton from "../components/Button";
 import CardBtn from "../components/Card";
 
-export default function Home() {
+export default function Home({}) {
   const handleOK = () => {
     console.log("hi");
   };
