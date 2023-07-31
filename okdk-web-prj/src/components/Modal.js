@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Modal from 'react-modal';
+import ListBtn from './Button';
 
 const ModalComponent = ({ isOpen, onRequestClose }) => {
   return (
@@ -13,6 +14,7 @@ const ModalComponent = ({ isOpen, onRequestClose }) => {
       <h2>Modal Content</h2>
       <p>This is the content of the modal.</p>
       <button onClick={onRequestClose}>Close Modal</button>
+      <ListBtn />
     </Modal>
   );
 };

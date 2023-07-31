@@ -10,43 +10,59 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
 import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
 import Payment from "./pages/Payment";
 import Setting from "./pages/Setting";
 
+const GlobalStyle = createGlobalStyle`
+ *{
+      margin: 0;
+      padding: 0;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  }
+  body {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 479px;
+  }
+  .hidden {height:100%; min-height:100%; overflow:hidden !important; touch-action:none;}
+  .button {color: #056CF2; border-radius: 30px;}
+`;
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-},
-{
+  },
+  {
     path: "/Home",
     element: <Home />,
-},
+  },
 
-{
+  {
     path: "/Favorite",
     element: <Favorite />,
-},
+  },
 
-{
+  {
     path: "/Payment",
     element: <Payment />,
-},
-{
-  path: "/Setting",
-  element: <Setting />,
-},
+  },
+  {
+    path: "/Setting",
+    element: <Setting />,
+  },
 ]);
 
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router}/>
+      <GlobalStyle />
+      <RouterProvider router={router} />
     </div>
-  )
+  );
 }
- 
 
 export default App;
