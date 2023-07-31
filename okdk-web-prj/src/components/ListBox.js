@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import BasicButton from "./Button";
+
 const ListBoxContainer = styled.div`
   width: 20rem;
   min-height: 9rem;
@@ -24,7 +26,7 @@ const TitleText = styled.p`
 `;
 
 const TitleContainer = styled.div`
-  margin: 1.19rem;
+  margin: 0.5rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,12 +36,23 @@ const ChildrenContainer = styled.div`
   padding: 0px 10px 10px 5px;
   box-sizing: border-box;
 `;
-const ListBox = ({ listTitle, children }) => {
+const ListBox = ({ listTitle, children, handleShowMore }) => {
   return (
     <ListBoxContainer>
       <TitleContainer>
         <TitleText>{listTitle}</TitleText>
-        <div>더보기</div>
+        <BasicButton
+          btnName="더보기"
+          onClick={handleShowMore}
+          width="4.1rem"
+          height="1.8rem"
+          backgroundColor="#056CF2"
+          borderRadius="1.25rem"
+          fontSize="1rem"
+          color="#FFF"
+          fontFamily="Pretendard"
+          fontWeight="bold"
+        />
       </TitleContainer>
       <ChildrenContainer>{children}</ChildrenContainer>
     </ListBoxContainer>

@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
 import Payment from "./pages/Payment";
 import Setting from "./pages/Setting";
+import Login from "./pages/Login";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/Setting",
     element: <Setting />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
