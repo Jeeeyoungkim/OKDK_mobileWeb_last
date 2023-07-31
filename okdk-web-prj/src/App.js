@@ -15,6 +15,10 @@ import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
 import Payment from "./pages/Payment";
 import Setting from "./pages/Setting";
+import Morecards from "./pages/Morecards";
+import CardEnroll from "./pages/CardEnroll";
+import CardSetting from "./pages/CardSetting";
+import DirectInput from "./pages/DirectInput";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -53,6 +57,22 @@ const router = createBrowserRouter([
   {
     path: "/Setting",
     element: <Setting />,
+  },
+  {
+    path : "/Morecards",
+    element: <Morecards />,
+  },
+  {
+    path : "/CardEnroll",
+    element: <CardEnroll />,
+  },
+  {
+    path : "/CardSetting",
+    element: <CardSetting />,
+  },
+  {
+    path : "/DirectInput",
+    element: <DirectInput />,
   },
 ]);
 

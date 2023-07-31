@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Directinput() {
+export default function DirectInput() {
     return (
         <div>
             

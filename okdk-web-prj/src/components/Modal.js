@@ -49,21 +49,14 @@ export const ModalDocument = styled.div`
 `;
 
 export default function Modal({ children, title }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <>
-      {isOpen ? (
-        <Overlay onClick={openModalHandler}>
+        <Overlay>
           <ModalWrap onClick={(e) => e.stopPropagation()}>
-            <ModalTitle>{title}</ModalTitle>
             <ModalDocument>{children}</ModalDocument>
           </ModalWrap>
         </Overlay>
-      ) : null}
     </>
   );
 }
