@@ -28,13 +28,14 @@ const TitleContainer = styled.div`
   align-items: center;
 `;
 
-const ListBox = ({ listTitle }) => {
+const ListBox = ({ listTitle, children }) => {
   return (
     <ListBoxContainer>
       <TitleContainer>
         <TitleText>{listTitle}</TitleText>
         <div>더보기</div>
       </TitleContainer>
+      {children}
     </ListBoxContainer>
   );
 };
