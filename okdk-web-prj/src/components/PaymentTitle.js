@@ -17,11 +17,11 @@ export const PaymentSubTitle = styled.div`
   width: 100%;
   display: flex;
 `;
-export default function PaymentTitle({ name }) {
+export default function PaymentTitle({ name, describe }) {
   return (
     <TitleWrap>
       <PaymentSubTitle>{name}님의</PaymentSubTitle>
-      <PaymentSubTitle>결제관리 화면입니다</PaymentSubTitle>
+      <PaymentSubTitle>{describe ? describe : "설명 텍스트"}</PaymentSubTitle>
     </TitleWrap>
   );
 }
