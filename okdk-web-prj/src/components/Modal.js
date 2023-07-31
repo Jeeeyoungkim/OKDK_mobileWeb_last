@@ -1,22 +1,69 @@
-// Modal.js
+import React, { useState } from "react";
+import styled from "styled-components";
 
-import React from 'react';
-import Modal from 'react-modal';
-import ListBtn from './Button';
+export const Overlay = styled.section`
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
 
-const ModalComponent = ({ isOpen, onRequestClose }) => {
+export const ModalWrap = styled.div`
+  width: 20rem;
+  height: 35rem;
+  background-color: white;
+  border-radius: 1.25rem;
+  box-sizing: border-box;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ModalTitle = styled.span`
+  color: black;
+  width: 100%;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  white-space: pre-line;
+`;
+
+export const ModalDocument = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+export default function Modal({ children, title }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      contentLabel="Example Modal"
-    >
-      <h2>Modal Content</h2>
-      <p>This is the content of the modal.</p>
-      <button onClick={onRequestClose}>Close Modal</button>
-      <ListBtn />
-    </Modal>
+    <>
+      {isOpen ? (
+        <Overlay onClick={openModalHandler}>
+          <ModalWrap onClick={(e) => e.stopPropagation()}>
+            <ModalTitle>{title}</ModalTitle>
+            <ModalDocument>{children}</ModalDocument>
+          </ModalWrap>
+        </Overlay>
+      ) : null}
+    </>
   );
-};
-
-export default ModalComponent;
+}
