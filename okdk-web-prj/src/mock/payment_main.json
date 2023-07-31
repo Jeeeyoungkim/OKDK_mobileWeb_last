@@ -1,0 +1,52 @@
+{
+  "username": "김연출",
+  "card": [
+    {
+      "cardname": "신한",
+      "cardnumber": "1234",
+      "cardimg": "https://www.shinhancard.com/pconts/images/contents/card/plate/cdCreaditBFBBQ0.png"
+    }
+  ],
+  "barcode": [
+    {
+      "barcodename": "스타벅스 상명대점",
+      "barcodenum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    },
+    {
+      "barcodename": "이디야 상명대점",
+      "barcodenum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    },
+    {
+      "barcodename": "이디야 상명대점",
+      "barcodenum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    },
+    {
+      "barcodename": "이디야 상명대점",
+      "barcodenum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    },
+    {
+      "barcodename": "이디야 상명대점",
+      "barcodenum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    }
+  ],
+  "totalpayment": 12345,
+  "monthlypayment": [
+    {
+      "month": "12월",
+      "month_payment": 50000
+    },
+    {
+      "month": "1월",
+      "month_payment": 70000
+    },
+    {
+      "month": "2월",
+      "month_payment": 90000
+    }
+  ]
+}
