@@ -28,18 +28,16 @@ export const BarcodeName = styled.div`
   line-height: normal;
 `;
 
-export default function Barcode({ img, num, name }) {
+export const BarcodeImage = styled.img`
+  width: ${(props) => (props.width ? props.width : "6.25rem")};
+  height: ${(props) => (props.height ? props.height : "3.937rem")};
+`;
+export default function Barcode({ width, height, img, num, name }) {
   return (
     <Wrap>
-      <img
-        style={{
-          width: "6.25rem",
-          height: "3.937rem",
-        }}
-        src={img}
-      />
-      <BarcodeNumber>{num}</BarcodeNumber>
-      <BarcodeName>{name}</BarcodeName>
+      <BarcodeImage src={img} width={width} height={height} />
+      {num ? <BarcodeNumber>{num}</BarcodeNumber> : null}
+      {name ? <BarcodeName>{name}</BarcodeName> : null}
     </Wrap>
   );
 }
