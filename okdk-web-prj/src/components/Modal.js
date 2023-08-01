@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import BasicButton from "./Button";
 
 export const Overlay = styled.section`
   z-index: 1;
@@ -32,6 +33,7 @@ export const ModalWrap = styled.div`
 export const ModalTitle = styled.span`
   color: black;
   width: 100%;
+  height: fit-content;
   color: #000;
   font-family: Pretendard;
   font-size: 1.25rem;
@@ -39,24 +41,44 @@ export const ModalTitle = styled.span`
   font-weight: 500;
   line-height: normal;
   white-space: pre-line;
+  text-align: left;
 `;
 
 export const ModalDocument = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
 `;
 
-export default function Modal({ children, title }) {
-
+export default function Modal({
+  children,
+  title,
+  basicButtonName,
+  basicButtonOnClick,
+}) {
   return (
     <>
-        <Overlay>
-          <ModalWrap onClick={(e) => e.stopPropagation()}>
-            <ModalDocument>{children}</ModalDocument>
-          </ModalWrap>
-        </Overlay>
+      <Overlay>
+        <ModalWrap onClick={(e) => e.stopPropagation()}>
+          <ModalDocument>
+            <ModalTitle>{title}</ModalTitle>
+            {children}
+          </ModalDocument>
+        </ModalWrap>
+        {basicButtonName && basicButtonOnClick ? (
+          <BasicButton btnName={basicButtonName} onClick={basicButtonOnClick}  
+          width="20rem"
+          height="4rem"
+          backgroundColor="#056CF2"
+          borderRadius="30px"
+          font-size="1.25rem"
+          color="white"
+          font-family="Pretendard"
+          font-weight="bold"/>
+        ) : null}
+      </Overlay>
     </>
   );
 }
