@@ -33,7 +33,7 @@ export default function Morecards({ navigation }) {
               기본으로 결제할 카드를 설정해주세요
             </p>
           </section>
-          <section style={{ padding: "80px" }}>
+          <section style={{ padding: "55px" }}>
             <div>
               <Card />
               <div style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
@@ -62,6 +62,20 @@ export default function Morecards({ navigation }) {
           font-weight="bold"/>
         </Container>
       </Modal>
+      <div style={{position:'absolute', top:"87%", left:'3%'}}>
+      <BasicButton
+        btnName="확인"
+        onClick={() => navigation.navigate('Payment')}
+        width="20rem"
+          height="4rem"
+          backgroundColor="#056CF2"
+          borderRadius="30px"
+          font-size="1.25rem"
+          color="white"
+          font-family="Pretendard"
+          font-weight="bold"
+      />
+      </div>
     </div>
   );
 }
