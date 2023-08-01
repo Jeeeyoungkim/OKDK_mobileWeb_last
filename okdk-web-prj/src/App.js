@@ -72,9 +72,8 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-    path: "/Morecards",
-    element: <Morecards />,
   },
+  { path: "/Morecards", element: <Morecards /> },
   {
     path: "/CardEnroll",
     element: <CardEnroll />,
