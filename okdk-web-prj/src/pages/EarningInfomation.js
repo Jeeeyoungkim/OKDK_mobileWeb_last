@@ -10,7 +10,8 @@ import Barcode from "../components/Barcode";
 import BasicButton from "../components/Button";
 export const Body = styled.div`
   width: 100%;
-  height: 100vh;
+  height: fit-content;
+  min-height: 100vh;
   background-color: #f5f7fb;
 `;
 export const ScrollWrap = styled.div`
@@ -27,7 +28,7 @@ export default function Payment() {
     <Body>
       <TopNavigation navigation={navigation} />
       <ScrollWrap>
-        <PaymentTitle name={"이거바꿔라"} />
+        <PaymentTitle name={"이거바꿔라"} describe={"적립정보를 관리합니다"} />
 
         {barcodeData.barcode.map((data, index) => (
           <ListBox listTitle={data.barcodename}>
@@ -40,14 +41,18 @@ export default function Payment() {
                 justifyContent: "center",
               }}
             >
-              <Barcode img={data.barcodeimg} num={data.barcodenum} />
+              <Barcode
+                width={"9.31331rem"}
+                height={"5.5rem"}
+                img={data.barcodeimg}
+              />
               <text>{data.barcodeNum}</text>
             </div>
           </ListBox>
         ))}
         <BasicButton
           btnName="매장추가하기"
-          // onClick={handleOK}
+          onClick={() => navigation.navigate("AddStoreToEarning")}
         />
       </ScrollWrap>
     </Body>
