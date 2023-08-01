@@ -7,13 +7,13 @@ const ListBoxContainer = styled.div`
   width: 20rem;
   min-height: 9rem;
   height: fit-content;
-
   margin-bottom: 1.5rem;
   border-radius: 1.25rem;
   //border: 1px solid #96b3d9;
   background: #fff;
   box-shadow: 0px 4px 4px 0px #96b3d9;
 
+  /* backdrop-filter: blur(3px); */
   position: relative;
 `;
 
@@ -22,7 +22,6 @@ const BlurEffect = styled.div`
   width: calc(100% + 5px);
   height: fit-content;
   border-radius: 1.25rem;
-
   position: relative;
   top: 3px;
   right: 3px;
