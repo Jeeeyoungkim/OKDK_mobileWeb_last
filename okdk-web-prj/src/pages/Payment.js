@@ -37,7 +37,10 @@ export default function Payment() {
     <Body>
       <TopNavigation navigation={navigation} />
       <ScrollWrap>
-        <PaymentTitle name={payment_main.username} />
+        <PaymentTitle
+          name={payment_main.username}
+          describe={"적립 관리 화면입니다."}
+        />
         <ListBox listTitle={"결제 카드"}>
           <div
             style={{

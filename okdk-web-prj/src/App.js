@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
 import Payment from "./pages/Payment";
 import Setting from "./pages/Setting";
+import Login from "./pages/Login";
 import Morecards from "./pages/Morecards";
 import CardEnroll from "./pages/CardEnroll";
 import CardSetting from "./pages/CardSetting";
@@ -59,19 +60,21 @@ const router = createBrowserRouter([
     element: <Setting />,
   },
   {
-    path : "/Morecards",
+    path: "/login",
+    element: <Login />,
+    path: "/Morecards",
     element: <Morecards />,
   },
   {
-    path : "/CardEnroll",
+    path: "/CardEnroll",
     element: <CardEnroll />,
   },
   {
-    path : "/CardSetting",
+    path: "/CardSetting",
     element: <CardSetting />,
   },
   {
-    path : "/DirectInput",
+    path: "/DirectInput",
     element: <DirectInput />,
   },
 ]);
