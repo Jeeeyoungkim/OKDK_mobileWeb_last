@@ -7,6 +7,7 @@ const ListBoxContainer = styled.div`
   width: 20rem;
   min-height: 9rem;
   height: fit-content;
+
   margin-bottom: 1.5rem;
   border-radius: 1.25rem;
   border: 1px solid #96b3d9;
@@ -50,17 +51,17 @@ const ChildrenContainer = styled.div`
   background-color: transparent;
 `;
 
-const ListBox = ({ listTitle, children, handleShowMore }) => {
+const ListBox = ({ listTitle, children, handleShowMore, btnName }) => {
   return (
     <ListBoxContainer>
       <BlurEffect>
         <TitleContainer>
           <TitleText>{listTitle}</TitleText>
           <BasicButton
-            btnName="더보기"
+            btnName={btnName ? btnName : "더보기"}
             onClick={handleShowMore}
-            width="4.1rem"
-            height="1.8rem"
+            width={btnName ? "5rem" : "4.1rem"}
+            height={"1.8rem"}
             backgroundColor="#056CF2"
             borderRadius="1.25rem"
             fontSize="1rem"

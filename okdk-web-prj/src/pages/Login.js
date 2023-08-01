@@ -9,7 +9,7 @@ const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 19.12rem;
+  padding-top: 10rem;
 `;
 
 const LoginLogo = styled.img`
@@ -23,7 +23,9 @@ export default function Login() {
   };
 
   return (
-    <>
+    <div
+      style={{ width: "360px", height: "800px", backgroundColor: "#F5F7FB" }}
+    >
       <LogoContainer>
         <LoginLogo src={Logo} alt="로고" />
       </LogoContainer>
@@ -66,6 +68,6 @@ export default function Login() {
         fontWeight="bold"
         imguri="https://freesvg.org/img/1534129544.png"
       />
-    </>
+    </div>
   );
 }
