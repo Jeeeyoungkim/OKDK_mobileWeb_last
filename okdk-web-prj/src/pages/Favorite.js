@@ -49,7 +49,7 @@ export default function Favorite() {
             <CoffeeComponent
               imgURI={require("../assets/images/sampleCoffee.png")}
               first_description="스타벅스"
-              second_description="아이스 아메리카노"
+              second_description="아메리카노"
               background="#0583F2"
             ></CoffeeComponent>
             <CoffeeComponent
