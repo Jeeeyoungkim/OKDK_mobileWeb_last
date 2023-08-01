@@ -1,0 +1,20 @@
+{
+  "username": "김연출",
+  "barcode": [
+    {
+      "barcodename": "이디야커피",
+      "barcodeNum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    },
+    {
+      "barcodename": "스타벅스 상명대점",
+      "barcodeNum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    },
+    {
+      "barcodename": "켜켜이커피",
+      "barcodeNum": "1234567890",
+      "barcodeimg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.png/220px-UPC-A-036000291452.png"
+    }
+  ]
+}

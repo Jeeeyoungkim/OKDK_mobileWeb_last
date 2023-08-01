@@ -27,15 +27,17 @@ const CardImage = styled.div`
     object-fit: contain;
   }
 `;
-const Card = ({ width, height, backgroundColor, borderRadius, imguri }) => {
+const Card = ({ width, height, imgWidth, imgHeight, imgBorderRadius, backgroundColor, borderRadius, imguri }) => {
   if (imguri) {
     return (
       <img
         src={imguri}
         style={{
-          width: "6.333331rem",
-          height: "4rem",
+          width: imgWidth,
+          height: imgHeight,
+          borderRadius: imgBorderRadius,
         }}
+        alt=""
       />
     );
   } else {
