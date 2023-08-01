@@ -14,7 +14,6 @@ const ListBoxContainer = styled.div`
   background: #fff;
   box-shadow: 0px 4px 4px 0px #96b3d9;
 
-  backdrop-filter: blur(3px);
   position: relative;
 `;
 
