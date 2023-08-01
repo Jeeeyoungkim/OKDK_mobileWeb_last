@@ -1,9 +1,8 @@
 // directInput
 
 import React from "react";
-import Modal, { ModalDocument, ModalTitle, Overlay } from "../components/Modal";
+import Modal from "../components/Modal";
 import TopNavigation from "../components/TopNavigation";
-import { ModalWrap } from "../components/Modal/ModalWrap";
 import Card from "../components/Card";
 import styled from "styled-components";
 import Directinput from "./DirectInput";
