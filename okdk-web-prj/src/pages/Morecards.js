@@ -1,27 +1,39 @@
-// Morecards 
+// Morecards
 
 import React from "react";
-import Modal, { ModalDocument, ModalTitle, Overlay } from "../components/Modal";
+import Modal from "../components/Modal";
 import TopNavigation from "../components/TopNavigation";
-import { ModalWrap } from "../components/Modal/ModalWrap";
 import Card from "../components/Card";
 import styled from "styled-components";
-import Directinput from "./DirectInput";
+import DirectInput from "./DirectInput";
 import BasicButton from "../components/Button";
-export default function Morecards({ navigation }) {
+import { useNavigate } from "react-router-dom";
+import cardList from "../mock/CardList.json";
+export default function Morecards() {
+  const navigation = useNavigate();
   const Container = styled.div`
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; */
   `;
 
   const handleEnrollMove = () => {
-    navigation.navigate('')
-  }
+    navigation.navigate("CardEnroll");
+  };
+  const handlePaymentMove = () => {
+    navigation.navigate("Payment");
+  };
   return (
     <div>
       <TopNavigation />
-      <Modal title="결제카드">
+      <Modal
+        title="결제카드"
+        basicButtonName="확인"
+        basicButtonOnClick={handlePaymentMove}
+      >
+        <div style={{ textAlign: "left" }}>
+          기본으로 결제할 카드를 설정해주세요
+        </div>
         <Container>
           <section
             style={{
@@ -29,55 +41,55 @@ export default function Morecards({ navigation }) {
               flexDirection: "column",
               alignItems: "flex-start",
             }}
-          >
-            <p style={{ fontSize: "1.25rem", fontWeight: "600" }}>결제카드</p>
-            <p style={{ fontSize: "1rem", fontWeight: "500" }}>
-              기본으로 결제할 카드를 설정해주세요
-            </p>
-          </section>
+          ></section>
           <section style={{ padding: "55px" }}>
-            <div>
-              <Card />
-              <div style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                <input type="radio" />
-                <p style={{ padding:'5px'}}>신한 (1234)</p>
+            {cardList.card.map((card) => (
+              <div>
+                <Card 
+                imgWidth="9.89581rem"
+                imgHeight="6.25rem"
+                imguri={card.cardimg}
+                imgBorderRadius="7px"/>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                  }}
+                >
+                  <input type="radio" />
+                  <p style={{ padding: "5px" }}>{card.cardname} {(card.cardnumber)}</p>
+                </div>
               </div>
-            </div>
-            <div style={{ marginTop: "20px" }}>
+            ))}
+            {/* <div style={{ marginTop: "20px" }}>
               <Card />
-              <div style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
                 <input type="radio" />
-                <p style={{ padding:'5px'}}>신한 (5678)</p>
+                <p style={{ padding: "5px" }}>신한 (5678)</p>
               </div>
-            </div>
+            </div> */}
           </section>
           <BasicButton
-          btnName="카드 등록하기"
-          onClick={handleEnrollMove}
-          width="15rem"
-          height="3.5rem"
-          backgroundColor="#056CF2"
-          borderRadius="30px"
-          font-size="1.25rem"
-          color="white"
-          font-family="Pretendard"
-          font-weight="bold"/>
+            btnName="카드 등록하기"
+            onClick={handleEnrollMove}
+            width="15rem"
+            height="3.5rem"
+            backgroundColor="#056CF2"
+            borderRadius="30px"
+            font-size="1.25rem"
+            color="white"
+            font-family="Pretendard"
+            font-weight="bold"
+          />
         </Container>
       </Modal>
-      <div style={{position:'absolute', top:"87%", left:'3%'}}>
-      <BasicButton
-        btnName="확인"
-        onClick={() => navigation.navigate('Payment')}
-        width="20rem"
-          height="4rem"
-          backgroundColor="#056CF2"
-          borderRadius="30px"
-          font-size="1.25rem"
-          color="white"
-          font-family="Pretendard"
-          font-weight="bold"
-      />
-      </div>
     </div>
   );
 }

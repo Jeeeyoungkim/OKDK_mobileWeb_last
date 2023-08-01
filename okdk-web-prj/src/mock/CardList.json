@@ -1,0 +1,14 @@
+{
+    "card": [
+    {
+      "cardname": "신한",
+      "cardnumber": "1234",
+      "cardimg": "../assets/images/Shinhan.jpg"
+    },
+    {
+        "cardname": "국민",
+        "cardnumber": "1234",
+        "cardimg": "../assets/images/KBKookmin.png"
+    }
+  ]
+}
