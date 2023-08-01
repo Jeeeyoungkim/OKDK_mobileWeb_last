@@ -7,13 +7,24 @@ const ListBoxContainer = styled.div`
   width: 20rem;
   min-height: 9rem;
   height: fit-content;
-  border-radius: 1.25rem;
-  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.25) 100%);
+  margin-bottom: 1.5rem;
   border-radius: 1.25rem;
   border: 1px solid #96b3d9;
+  background: #fff;
   box-shadow: 0px 4px 4px 0px #96b3d9;
-  // filter: blur(5px);
-  margin-bottom: 1.5rem;
+  position: relative;
+`;
+
+const BlurEffect = styled.div`
+  backdrop-filter: blur(3px);
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
+  border-radius: 1.25rem;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
 `;
 
 const TitleText = styled.p`
@@ -30,31 +41,36 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: transparent;
 `;
 
 const ChildrenContainer = styled.div`
   padding: 0px 10px 10px 5px;
   box-sizing: border-box;
+  background-color: transparent;
 `;
+
 const ListBox = ({ listTitle, children, handleShowMore }) => {
   return (
     <ListBoxContainer>
-      <TitleContainer>
-        <TitleText>{listTitle}</TitleText>
-        <BasicButton
-          btnName="더보기"
-          onClick={handleShowMore}
-          width="4.1rem"
-          height="1.8rem"
-          backgroundColor="#056CF2"
-          borderRadius="1.25rem"
-          fontSize="1rem"
-          color="#FFF"
-          fontFamily="Pretendard"
-          fontWeight="bold"
-        />
-      </TitleContainer>
-      <ChildrenContainer>{children}</ChildrenContainer>
+      <BlurEffect>
+        <TitleContainer>
+          <TitleText>{listTitle}</TitleText>
+          <BasicButton
+            btnName="더보기"
+            onClick={handleShowMore}
+            width="4.1rem"
+            height="1.8rem"
+            backgroundColor="#056CF2"
+            borderRadius="1.25rem"
+            fontSize="1rem"
+            color="#FFF"
+            fontFamily="Pretendard"
+            fontWeight="bold"
+          />
+        </TitleContainer>
+        <ChildrenContainer>{children}</ChildrenContainer>
+      </BlurEffect>
     </ListBoxContainer>
   );
 };
