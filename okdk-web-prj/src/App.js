@@ -15,6 +15,8 @@ import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
 import Payment from "./pages/Payment";
 import Setting from "./pages/Setting";
+import EarningInfomation from "./pages/EarningInfomation";
+import AddStoreToEarning from "./pages/AddStoreToEarning";
 import Login from "./pages/Login";
 import Morecards from "./pages/Morecards";
 import CardEnroll from "./pages/CardEnroll";
@@ -58,6 +60,14 @@ const router = createBrowserRouter([
   {
     path: "/Setting",
     element: <Setting />,
+  },
+  {
+    path: "/EarningInfomation",
+    element: <EarningInfomation />,
+  },
+  {
+    path: "/AddStoreToEarning",
+    element: <AddStoreToEarning />,
   },
   {
     path: "/login",
