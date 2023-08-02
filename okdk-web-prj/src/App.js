@@ -13,15 +13,17 @@ import {
 import { createGlobalStyle } from "styled-components";
 import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
-import Payment from "./pages/Payment";
+import Payment from "./pages/Payment/Payment";
 import Setting from "./pages/Setting";
-import EarningInfomation from "./pages/EarningInfomation";
-import AddStoreToEarning from "./pages/AddStoreToEarning";
+import EarningInfomation from "./pages/Payment/EarningInfomation";
+import AddStoreToEarning from "./pages/Payment/AddStoreToEarning";
 import Login from "./pages/Login";
 import Morecards from "./pages/Morecards";
 import CardEnroll from "./pages/CardEnroll";
 import CardSetting from "./pages/CardSetting";
 import DirectInput from "./pages/DirectInput";
+import DetailEarningInfomation from "./pages/Payment/DetailEarningInfomation";
+import PaymentDetail from "./pages/Payment/PaymentDetail";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -68,6 +70,14 @@ const router = createBrowserRouter([
   {
     path: "/AddStoreToEarning",
     element: <AddStoreToEarning />,
+  },
+  {
+    path: "/DetailEarningInfomation",
+    element: <DetailEarningInfomation />,
+  },
+  {
+    path: "/PaymentDetail",
+    element: <PaymentDetail />,
   },
   {
     path: "/login",
