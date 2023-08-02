@@ -64,7 +64,7 @@ export default function Payment() {
           describe={"적립정보를 관리합니다"}
         />
 
-        {barcodeData.barcode.map((data, index) => (
+        {/* {barcodeData.barcode.map((data, index) => (
           <ListBox
             listTitle={data.barcodename}
             handleShowMore={() => navigation("/DetailEarningInfomation")}
@@ -87,14 +87,14 @@ export default function Payment() {
               <p>{data.barcodeNum}</p>
             </div>
           </ListBox>
-        ))}
+        ))} */}
         {barcode.map((data, index) => (
           <ListBox
+            key={index}
             listTitle={data.brand}
             handleShowMore={() => navigation("/DetailEarningInfomation")}
           >
             <div
-              key={index}
               style={{
                 width: "100%",
                 display: "flex",
@@ -106,7 +106,7 @@ export default function Payment() {
               <Barcode
                 width={"9.31331rem"}
                 height={"5.5rem"}
-                img={data.barcodeimg}
+                img={data.image}
               />
               <p>{data.serial_num}</p>
             </div>
