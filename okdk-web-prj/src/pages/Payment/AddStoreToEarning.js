@@ -4,15 +4,27 @@ import Modal from "../../components/Modal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TopNavigation from "../../components/TopNavigation";
-
-export const SearchInput = styled.input`
+import { FiSearch } from "react-icons/fi";
+export const SearchInputWrap = styled.div`
   width: 17.5rem;
   height: 1.875rem;
   border: none;
   border-bottom: 1px solid #a4a4a4;
-  /* background-image: url("../assets/images/OKDKLogo.png");
-  background-repeat: no-repeat;
-  background-image: 10px; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const SearchInput = styled.input`
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+`;
+
+export const SearchButton = styled.button`
+  background-color: transparent;
+  border: none;
 `;
 
 export const BrandComponentWrap = styled.div`
@@ -78,7 +90,12 @@ export default function AddStoreToEarning() {
         basicButtonName="확인"
         basicButtonOnClick={() => navigation(-1)}
       >
-        <SearchInput />
+        <SearchInputWrap>
+          <SearchInput />
+          <SearchButton>
+            <FiSearch size={"1.25rem"} />
+          </SearchButton>
+        </SearchInputWrap>
         <BrandComponentWrap>
           {membershipBrand.map((data, index) => (
             <BrandComponent key={index}>{data.name}</BrandComponent>
