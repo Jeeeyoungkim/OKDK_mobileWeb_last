@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import TopNavigation from "../components/TopNavigation";
+import TopNavigation from "../../components/TopNavigation";
 import { useNavigate } from "react-router-dom";
-import ListBox from "../components/ListBox";
-import Card from "../components/Card";
-import PaymentTitle from "../components/PaymentTitle";
-import payment_main from "../mock/payment_main.json";
-import Barcode from "../components/Barcode";
-import MonthlyPayment from "../components/MonthlyPayment";
+import ListBox from "../../components/ListBox";
+import Card from "../../components/Card";
+import PaymentTitle from "../../components/PaymentTitle";
+import payment_main from "../../mock/payment_main.json";
+import Barcode from "../../components/Barcode";
+import MonthlyPayment from "../../components/MonthlyPayment";
 
 export const Body = styled.div`
   width: 100%;
@@ -23,7 +23,7 @@ export const ScrollWrap = styled.div`
   align-items: center;
 `;
 
-export const UndefinedText = styled.text`
+export const UndefinedText = styled.p`
   color: #aaaaaa;
 `;
 
@@ -62,10 +62,10 @@ export default function Payment() {
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        console.log(paymentDetailData.data);
+        // console.log(paymentDetailData.data);
 
         setUser(userData.data);
-        // setCard(basicCardData.data);
+        setCard(basicCardData.data);
         setBarcode(barcodeData.data);
         setPaymentDetail(paymentDetailData.data);
       } catch (error) {
@@ -101,14 +101,19 @@ export default function Payment() {
                   imgWidth={"6.333331rem"}
                   imgHeight={"4rem"}
                 />
-                <text>{card.name}</text>
+                <p>{card.name}</p>
               </>
             ) : (
               <UndefinedText>결제 카드를 등록해 주세요</UndefinedText>
             )}
           </div>
         </ListBox>
-        <ListBox listTitle={"적립 바코드"}>
+        <ListBox
+          listTitle={"적립 바코드"}
+          handleShowMore={() => {
+            navigation("/EarningInfomation");
+          }}
+        >
           {/* {payment_main.barcode.map((data, index) => (
               <Barcode
                 img={data.barcodeimg}
@@ -136,24 +141,35 @@ export default function Payment() {
               ))}
             </div>
           ) : (
-            <UndefinedText>결제 카드를 등록해 주세요</UndefinedText>
+            <UndefinedText>바코드를 등록해 주세요</UndefinedText>
           )}
         </ListBox>
         <ListBox listTitle={"이번달 결제 내역"}>
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "2rem",
-              fontWeight: 700,
-              fontStyle: "normal",
-              fontFamily: "Pretendard",
-            }}
-          >
-            {/* 총 {payment_main.totalpayment}원 총 {paymentDetail}원 */}
-          </div>
+          {paymentDetail.length > 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                fontWeight: 700,
+                fontStyle: "normal",
+                fontFamily: "Pretendard",
+              }}
+            >
+              총{" "}
+              {paymentDetail.reduce(
+                (total, data) => total + data.totalPrice,
+                0
+              )}
+              원
+            </div>
+          ) : (
+            <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
+          )}
+          {/* 총 {payment_main.totalpayment}원 총 {paymentDetail}원 */}
         </ListBox>
         <ListBox listTitle={"월별 결제 내역"}>
-          <MonthlyPayment monthlypayment={payment_main.monthlypayment} />
+          {/* <MonthlyPayment monthlypayment={payment_main.monthlypayment} /> */}
+          <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
         </ListBox>
       </ScrollWrap>
     </Body>
