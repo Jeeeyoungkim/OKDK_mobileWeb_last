@@ -7,9 +7,9 @@ const Button = styled.button`
   color: white;
   border: none;
   background-color: ${(props) =>
-    props.backgroundColor ? props.backgroundColor : "#056CF2"};
+    props.backgroundcolor ? props.backgroundcolor : "#056CF2"};
   border-radius: ${(props) =>
-    props.borderRadius ? props.borderRadius : "30px"};
+    props.borderradius ? props.borderradius : "30px"};
   &:hover {
     color: white;
     cursor: pointer;
@@ -44,8 +44,8 @@ const BasicButton = ({
   onClick,
   width,
   height,
-  backgroundColor,
-  borderRadius,
+  backgroundcolor,
+  borderradius,
   fontSize,
   color,
   fontFamily,
@@ -57,8 +57,8 @@ const BasicButton = ({
       onClick={onClick}
       width={width}
       height={height}
-      backgroundColor={backgroundColor} // camelCase 사용
-      borderRadius={borderRadius} // camelCase 사용
+      backgroundColor={backgroundcolor} // camelCase 사용
+      borderRadius={borderradius} // camelCase 사용
     >
       <ButtonWarp>
         {imguri ? <Image src={imguri} /> : null}
