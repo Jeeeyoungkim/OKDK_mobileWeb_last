@@ -49,7 +49,8 @@ export const ModalDocument = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
+  align-items: center;
 `;
 
 export default function Modal({
@@ -68,15 +69,18 @@ export default function Modal({
           </ModalDocument>
         </ModalWrap>
         {basicButtonName && basicButtonOnClick ? (
-          <BasicButton btnName={basicButtonName} onClick={basicButtonOnClick}  
-          width="20rem"
-          height="4rem"
-          backgroundColor="#056CF2"
-          borderRadius="30px"
-          font-size="1.25rem"
-          color="white"
-          font-family="Pretendard"
-          font-weight="bold"/>
+          <BasicButton
+            btnName={basicButtonName}
+            onClick={basicButtonOnClick}
+            width="20rem"
+            height="4rem"
+            backgroundColor="#056CF2"
+            borderRadius="30px"
+            font-size="1.25rem"
+            color="white"
+            font-family="Pretendard"
+            font-weight="bold"
+          />
         ) : null}
       </Overlay>
     </>
