@@ -7,7 +7,7 @@ export const Wrap = styled.div`
   padding: 0px 10px;
 `;
 
-export const BarcodeNumber = styled.text`
+export const BarcodeNumber = styled.p`
   color: #000;
   text-align: center;
   font-family: Pretendard;
