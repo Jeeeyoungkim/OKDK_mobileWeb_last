@@ -33,10 +33,10 @@ export default function Payment() {
   const accessToken = localStorage.getItem("access"); //access Token
 
   //state management------------------------------
-  const [user, setUser] = useState({});
-  const [card, setCard] = useState({});
+  const [user, setUser] = useState(null);
+  const [card, setCard] = useState(null);
   const [barcode, setBarcode] = useState([]);
-  const [paymentDetail, setPaymentDetail] = useState("");
+  const [totalThisMonth, setTotalThisMonth] = useState(null);
 
   //Randering management--------------------------
   //axios function
@@ -57,17 +57,19 @@ export default function Payment() {
           "/payment/membership/list/",
           config
         );
-        const paymentDetailData = await axios.get("/order/recents/", config);
+        const totalThisMonthData = await axios.get("/order/month/", config);
+        const monthKey = Object.keys(totalThisMonthData.data)[0];
+        const monthData = totalThisMonthData.data[monthKey];
 
         // console.log(userData.data);
-        // console.log(basicCardData.data);
+        console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        // console.log(paymentDetailData.data);
+        // console.log(totalThisMonth.data);
 
         setUser(userData.data);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
-        setPaymentDetail(paymentDetailData.data);
+        setTotalThisMonth(monthData);
       } catch (error) {
         console.error("에러 발생:", error);
       }
@@ -80,7 +82,7 @@ export default function Payment() {
       <TopNavigation navigation={navigation} />
       <ScrollWrap>
         <PaymentTitle
-          name={user.nickname || "익명"}
+          name={user ? user.nickname : "익명"}
           describe={"적립 관리 화면입니다."}
         />
         <ListBox listTitle={"결제 카드"}>
@@ -93,7 +95,7 @@ export default function Payment() {
               justifyContent: "center",
             }}
           >
-            {card.name ? (
+            {card ? (
               <>
                 <Card
                   Width={"6.333331rem"}
@@ -134,8 +136,8 @@ export default function Payment() {
               {barcode.map((data, index) => (
                 <Barcode
                   key={index}
-                  // img={data.barcodeimg}
-                  // name={data.barcodename}
+                  img={data.image}
+                  name={data.brand}
                   num={data.serial_num}
                 />
               ))}
@@ -145,7 +147,7 @@ export default function Payment() {
           )}
         </ListBox>
         <ListBox listTitle={"이번달 결제 내역"}>
-          {paymentDetail.length > 0 ? (
+          {totalThisMonth ? (
             <div
               style={{
                 textAlign: "center",
@@ -155,12 +157,7 @@ export default function Payment() {
                 fontFamily: "Pretendard",
               }}
             >
-              총{" "}
-              {paymentDetail.reduce(
-                (total, data) => total + data.totalPrice,
-                0
-              )}
-              원
+              총 {totalThisMonth.total}원
             </div>
           ) : (
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
