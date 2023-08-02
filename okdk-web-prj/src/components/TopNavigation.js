@@ -33,13 +33,13 @@ export default function TopNavigation({ navigation }) {
       <LogoImage
         src={Logo}
         onClick={() => {
-          navigation.popToTop();
+          navigation("/");
         }}
       />
       <ArrowBackImage
         src={ArrowBack}
         onClick={() => {
-          navigation.goBack();
+          navigation(-1);
         }}
       />
     </WrapTopNavigation>
