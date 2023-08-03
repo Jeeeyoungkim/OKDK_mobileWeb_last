@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Home from "./pages/Home";
-import Favorite from "./pages/Favorite";
+import Favorite from "./pages/Favorite/Favorite";
 import Payment from "./pages/Payment/Payment";
 import Setting from "./pages/Setting";
 import EarningInfomation from "./pages/Payment/EarningInfomation";
@@ -24,6 +24,10 @@ import CardSetting from "./pages/CardSetting";
 import DirectInput from "./pages/DirectInput";
 import DetailEarningInfomation from "./pages/Payment/DetailEarningInfomation";
 import PaymentDetail from "./pages/Payment/PaymentDetail";
+import Warning from "./pages/Warning";
+import AddStoreToFavorite from "./pages/Favorite/AddStoreToFavorite";
+import AddFavoriteMenu from "./pages/Favorite/AddFavoriteMenu";
+import AddFavoriteMenuOption from "./pages/Favorite/AddFavoriteMenuOption";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -95,6 +99,22 @@ const router = createBrowserRouter([
   {
     path: "/DirectInput",
     element: <DirectInput />,
+  },
+  {
+    path: "/Warning",
+    element: <Warning />,
+  },
+  {
+    path: "/AddStoreToFavorite",
+    element: <AddStoreToFavorite />,
+  },
+  {
+    path: "/AddFavoriteMenu",
+    element: <AddFavoriteMenu />,
+  },
+  {
+    path: "/AddFavoriteMenuOption",
+    element: <AddFavoriteMenuOption />,
   },
 ]);
 

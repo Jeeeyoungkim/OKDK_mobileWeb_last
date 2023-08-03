@@ -1,10 +1,10 @@
 import React from "react";
-import BasicButton from "../components/Button";
-import TopNavigation from "../components/TopNavigation";
+import BasicButton from "../../components/Button";
+import TopNavigation from "../../components/TopNavigation";
 import styled from "styled-components";
-import PaymentTitle from "../components/PaymentTitle";
-import ListBox from "../components/ListBox";
-import CoffeeComponent from "../components/CoffeeComponent";
+import PaymentTitle from "../../components/PaymentTitle";
+import ListBox from "../../components/ListBox";
+import CoffeeComponent from "../../components/CoffeeComponent";
 
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +38,6 @@ export default function Favorite() {
       <ScrollWrap>
         <PaymentTitle name={"김지영"} describe={"즐겨찾는 메뉴입니다"} />
         <ListBox listTitle={"이디야 커피"} btnName={"수정하기"}>
-          {" "}
           <div
             style={{
               display: "flex",
@@ -47,19 +46,19 @@ export default function Favorite() {
             }}
           >
             <CoffeeComponent
-              imgURI={require("../assets/images/sampleCoffee.png")}
+              imgURI={require("../../assets/images/sampleCoffee.png")}
               first_description="스타벅스"
               second_description="아메리카노"
               background="#0583F2"
             ></CoffeeComponent>
             <CoffeeComponent
-              imgURI={require("../assets/images/sampleCoffee.png")}
+              imgURI={require("../../assets/images/sampleCoffee.png")}
               first_description="이디야"
               second_description="토피넛 라떼"
               background="#F29B0C"
             ></CoffeeComponent>
             <CoffeeComponent
-              imgURI={require("../assets/images/sampleCoffee.png")}
+              imgURI={require("../../assets/images/sampleCoffee.png")}
               first_description="스타벅스"
               second_description="카페 라뗴"
               background="#0583F2"
@@ -76,19 +75,19 @@ export default function Favorite() {
             }}
           >
             <CoffeeComponent
-              imgURI={require("../assets/images/sampleCoffee.png")}
+              imgURI={require("../../assets/images/sampleCoffee.png")}
               first_description="스타벅스"
               second_description="아이스 아메리카노"
               background="#0583F2"
             ></CoffeeComponent>
             <CoffeeComponent
-              imgURI={require("../assets/images/sampleCoffee.png")}
+              imgURI={require("../../assets/images/sampleCoffee.png")}
               first_description="이디야"
               second_description="토피넛 라떼"
               background="#F29B0C"
             ></CoffeeComponent>
             <CoffeeComponent
-              imgURI={require("../assets/images/sampleCoffee.png")}
+              imgURI={require("../../assets/images/sampleCoffee.png")}
               first_description="스타벅스"
               second_description="카페 라뗴"
               background="#0583F2"
@@ -97,7 +96,9 @@ export default function Favorite() {
         </ListBox>
         <BasicButton
           btnName="매장 추가 하기"
-          onClick={handleOK}
+          onClick={() => {
+            navigation("/AddStoreToFavorite");
+          }}
           width="20rem"
           height="4rem"
           backgroundColor="#056CF2;"

@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 
 import { ReactComponent as SelectLadder } from "../assets/images/selectLadder.svg";
 import { ReactComponent as ChangeArrow } from "../assets/images/changeArrow.svg";
+import { ReactComponent as SelectedLadder } from "../assets/images/selectedLadder.svg";
 
 const ListBoxContainer = styled.div`
   width: 20rem;
@@ -74,7 +75,7 @@ const OverlayText1 = styled.div`
   position: absolute;
   top: 45px; /* 원하는 위치로 조정하세요 */
   left: 20px; /* 원하는 위치로 조정하세요 */
-  color: #fff;
+  color: ${(props) => (!props.$easyMode ? "white" : "black")};
 
   font-family: Pretendard;
   font-size: 1.25rem;
@@ -90,7 +91,7 @@ const OverlayText2 = styled.div`
   position: absolute;
   top: 70px; /* 원하는 위치로 조정하세요 */
   left: 210px; /* 원하는 위치로 조정하세요 */
-  color: #000;
+  color: ${(props) => (props.$easyMode ? "white" : "black")};
 
   font-family: Pretendard;
   font-size: 1.25rem;
@@ -115,10 +116,14 @@ const ChangeArrowContainer = styled.div`
 
 function ChangeComponent() {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [easyMode, setEasyMode] = useState(false);
 
   const handleChangeButton = () => {
-    console.log("모드 변경");
+    if (isAnimating) {
+      return; // 애니메이션 진행중일 때는 아무 작업도 수행하지 않고 함수를 종료
+    }
     setIsAnimating(true);
+    setEasyMode((prevEasyMode) => !prevEasyMode);
 
     setTimeout(() => {
       setIsAnimating(false);
@@ -129,22 +134,44 @@ function ChangeComponent() {
     <ListBoxContainer>
       <ChildrenContainer>
         <BlurEffect>
-          <OverlayText1>
-            현재
-            <br />
-            일반 키오스크
-            <br />
-            모드 입니다
+          <OverlayText1 $easyMode={easyMode}>
+            {!easyMode
+              ? [
+                  "현재",
+                  <br key="1" />,
+                  "일반 키오스크",
+                  <br key="2" />,
+                  "모드 입니다",
+                ]
+              : [
+                  "일반 키오스크",
+                  <br key="1" />,
+                  "모드로",
+                  <br key="2" />,
+                  "변경하기",
+                ]}
           </OverlayText1>
 
-          <OverlayText2>
-            쉬운 모드로
-            <br />
-            변경하기
+          <OverlayText2 $easyMode={easyMode}>
+            {!easyMode
+              ? ["쉬운 모드로", <br key="1" />, "변경하기"]
+              : ["쉬운 모드", <br key="1" />, "입니다"]}
           </OverlayText2>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <SelectLadder
-              style={{ filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))" }}
+              style={{
+                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                opacity: easyMode ? 0 : 1,
+                transition: "opacity 0.5s",
+              }}
+            />
+            <SelectedLadder
+              style={{
+                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                transform: "translateX(-4.5rem)",
+                opacity: easyMode ? 1 : 0,
+                transition: "opacity 0.5s",
+              }}
             />
           </div>
         </BlurEffect>

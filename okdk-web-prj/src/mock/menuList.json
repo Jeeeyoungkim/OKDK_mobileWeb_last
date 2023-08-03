@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "image": "http://3.37.87.3/media/menu/Espresso.jpg",
+    "name": "에스프레소",
+    "price": 1000
+  },
+  {
+    "id": 2,
+    "image": "http://3.37.87.3/media/menu/Americano.jpg",
+    "name": "아메리카노",
+    "price": 0
+  },
+  {
+    "id": 3,
+    "image": "http://3.37.87.3/media/menu/Cafelatte.jpg",
+    "name": "카페라떼",
+    "price": 0
+  },
+  {
+    "id": 4,
+    "image": "http://3.37.87.3/media/menu/Cafemocha.jpg",
+    "name": "카페모카",
+    "price": 0
+  },
+  {
+    "id": 5,
+    "image": "http://3.37.87.3/media/menu/VanilaLatte.jpg",
+    "name": "바닐라라떼",
+    "price": 0
+  },
+  {
+    "id": 6,
+    "image": "http://3.37.87.3/media/menu/Caramel%20Macchiato.jpg",
+    "name": "카라멜마끼아또",
+    "price": 0
+  },
+  {
+    "id": 15,
+    "image": "http://3.37.87.3/media/menu/Chocolate%20Latte.jpg",
+    "name": "초코라떼",
+    "price": 0
+  },
+  {
+    "id": 16,
+    "image": "http://3.37.87.3/media/menu/Strawberry%20Latte.png",
+    "name": "딸기라떼",
+    "price": 0
+  },
+  {
+    "id": 17,
+    "image": "http://3.37.87.3/memenu_menudia/menu/Sweet%20Potato%20Latte.jpg",
+    "name": "고구마라떼",
+    "price": 0
+  },
+  {
+    "id": 7,
+    "image": "http://3.37.87.3/media/menu/LemonAde.jpg",
+    "name": "레몬에이드",
+    "price": 0
+  },
+  {
+    "id": 8,
+    "image": "http://3.37.87.3/media/menu/Grapefruit%20Ade.jpg",
+    "name": "자몽에이드",
+    "price": 0
+  },
+  {
+    "id": 9,
+    "image": "http://3.37.87.3/media/menu/Green%20Grape%20Ade.jpg",
+    "name": "청포도에이드",
+    "price": 0
+  },
+  {
+    "id": 12,
+    "image": "http://3.37.87.3/media/menu/Smoothie.jpg",
+    "name": "스무디",
+    "price": 0
+  },
+  {
+    "id": 13,
+    "image": "http://3.37.87.3/media/menu/Frappuccino.jpg",
+    "name": "프라푸치노",
+    "price": 0
+  },
+  {
+    "id": 14,
+    "image": "http://3.37.87.3/media/menu/MilkShake.jpeg",
+    "name": "밀크쉐이크",
+    "price": 0
+  },
+  {
+    "id": 10,
+    "image": "http://3.37.87.3/media/menu/Lemon%20Tea.jpg",
+    "name": "레몬차",
+    "price": 0
+  },
+  {
+    "id": 11,
+    "image": "http://3.37.87.3/media/menu/Citron%20Tea.jpg",
+    "name": "유자차",
+    "price": 0
+  }
+]
