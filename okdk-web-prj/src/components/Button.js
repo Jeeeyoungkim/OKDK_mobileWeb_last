@@ -7,9 +7,15 @@ const Button = styled.button`
   color: white;
   border: none;
   background-color: ${(props) =>
+<<<<<<< Updated upstream
     props.backgroundcolor ? props.backgroundcolor : "#056CF2"};
   border-radius: ${(props) =>
     props.borderradius ? props.borderradius : "30px"};
+=======
+    props.$backgroundColor ? props.$backgroundColor : "#056CF2"};
+  border-radius: ${(props) =>
+    props.$borderRadius ? props.$borderRadius : "30px"};
+>>>>>>> Stashed changes
   &:hover {
     color: white;
     cursor: pointer;
@@ -57,8 +63,13 @@ const BasicButton = ({
       onClick={onClick}
       width={width}
       height={height}
+<<<<<<< Updated upstream
       backgroundColor={backgroundcolor} // camelCase 사용
       borderRadius={borderradius} // camelCase 사용
+=======
+      $backgroundColor={backgroundColor} // camelCase 사용
+      $borderRadius={borderRadius} // camelCase 사용
+>>>>>>> Stashed changes
     >
       <ButtonWarp>
         {imguri ? <Image src={imguri} /> : null}
