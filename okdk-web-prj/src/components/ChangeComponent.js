@@ -122,10 +122,7 @@ function ChangeComponent() {
     if (isAnimating) {
       return; // 애니메이션 진행중일 때는 아무 작업도 수행하지 않고 함수를 종료
     }
-
-    console.log("모드 변경");
     setIsAnimating(true);
-
     setEasyMode((prevEasyMode) => !prevEasyMode);
 
     setTimeout(() => {
