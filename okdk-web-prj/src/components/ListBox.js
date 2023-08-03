@@ -62,6 +62,7 @@ const ListBox = ({ listTitle, children, handleShowMore, btnName }) => {
             btnName={btnName ? btnName : "더보기"}
             onClick={handleShowMore}
             width={btnName ? "5rem" : "4.1rem"}
+            gi
             height={"1.8rem"}
             backgroundColor="#056CF2"
             borderRadius="1.25rem"
