@@ -10,11 +10,15 @@ const Button = styled.button`
     props.$backgroundColor ? props.$backgroundColor : "#056CF2"};
   border-radius: ${(props) =>
     props.$borderRadius ? props.$borderRadius : "30px"};
+  margin: ${(props) => (props.margin ? props.margin : "0.5rem")};
+
   &:hover {
     color: white;
     cursor: pointer;
   }
-  margin: 0.5rem;
+  &:active {
+    filter: brightness(75%); //클릭시 좀더 찐하게
+  }
 `;
 
 const Text = styled.p`
@@ -51,6 +55,7 @@ const BasicButton = ({
   fontFamily,
   fontWeight,
   imguri,
+  margin,
 }) => {
   return (
     <Button
@@ -59,6 +64,7 @@ const BasicButton = ({
       height={height}
       $backgroundColor={backgroundColor} // camelCase 사용
       $borderRadius={borderRadius} // camelCase 사용
+      margin={margin}
     >
       <ButtonWarp>
         {imguri ? <Image src={imguri} /> : null}
