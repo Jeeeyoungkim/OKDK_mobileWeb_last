@@ -16,7 +16,7 @@ const CoffeeComponentContainer = styled.div`
   align-items: center;
   width: 3.42806rem;
   height: 6.101rem;
-  margin: 0 10px 10px 0;
+  margin: 0 5px 10px 10px;
 `;
 
 const Image = styled.img`
@@ -42,13 +42,15 @@ const Description = styled.p`
 `;
 
 const CoffeeComponent = ({
+  id,
   imgURI,
   first_description,
   second_description,
   background,
+  onClick,
 }) => {
   return (
-    <CoffeeComponentContainer>
+    <CoffeeComponentContainer onClick={onClick}>
       <CoffeeBackground color={background}>
         <Image src={imgURI} alt="Image" />
       </CoffeeBackground>
