@@ -39,7 +39,10 @@ export default function Home() {
       <ScrollWrap>
         <PaymentTitle name={"김지영"} describe={"좋은 아침입니다!"} />
         <ChangeComponent />
-        <ListBox listTitle={"즐겨찾는 메뉴"}>
+        <ListBox
+          listTitle={"즐겨찾는 메뉴"}
+          handleShowMore={() => navigation("/Favorite")}
+        >
           <div
             style={{
               display: "flex",
