@@ -84,11 +84,15 @@ export default function Setting() {
       <TopNavigation navigation={navigation} />
       <ScrollWrap>
         <PaymentTitle
-          name={user.nickname || "익명"}
+          name={user ? user.nickname : "익명"}
           describe={"설정화면 입니다."}
         />
         <ListBoxContainer
-          onClick={() => console.log("click")}
+          onClick={() => {
+            navigation("/FaceRegistration", {
+              state: { user: user },
+            });
+          }}
           style={{
             marginTop: "7.3rem",
           }}
@@ -97,12 +101,24 @@ export default function Setting() {
             <ItemContainer>얼굴 데이터 관리</ItemContainer>
           </BlurEffect>
         </ListBoxContainer>
-        <ListBoxContainer onClick={() => console.log("click")}>
+        <ListBoxContainer
+          onClick={() => {
+            navigation("/AccountOfficer", {
+              state: { user: user },
+            });
+          }}
+        >
           <BlurEffect>
             <ItemContainer>계정 관리</ItemContainer>
           </BlurEffect>
         </ListBoxContainer>
-        <ListBoxContainer onClick={() => console.log("click")}>
+        <ListBoxContainer
+          onClick={() => {
+            navigation("/ThemeSetting", {
+              state: { user: user },
+            });
+          }}
+        >
           <BlurEffect>
             <ItemContainer>테마 설정</ItemContainer>
           </BlurEffect>
