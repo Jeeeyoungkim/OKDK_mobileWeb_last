@@ -29,6 +29,9 @@ import AddStoreToFavorite from "./pages/Favorite/AddStoreToFavorite";
 import AddFavoriteMenu from "./pages/Favorite/AddFavoriteMenu";
 import AddFavoriteMenuOption from "./pages/Favorite/AddFavoriteMenuOption";
 import PaymentHistoryReceipt from "./pages/Payment/PaymentHistoryReceipt";
+import FaceRegistration from "./pages/SettingPage/FaceRegistration";
+import AccountOfficer from "./pages/SettingPage/AccountOfficer";
+import ThemeSetting from "./pages/SettingPage/ThemeSetting";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -87,6 +90,18 @@ const router = createBrowserRouter([
   {
     path: "/PaymentHistoryReceipt",
     element: <PaymentHistoryReceipt />,
+  },
+  {
+    path: "/FaceRegistration",
+    element: <FaceRegistration />,
+  },
+  {
+    path: "/AccountOfficer",
+    element: <AccountOfficer />,
+  },
+  {
+    path: "/ThemeSetting",
+    element: <ThemeSetting />,
   },
   {
     path: "/login",
