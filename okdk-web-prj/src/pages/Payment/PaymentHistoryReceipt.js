@@ -89,8 +89,9 @@ export const GoBackButton = styled.button`
 `;
 
 export default function PaymentHistoryReceipt() {
+  // navigation management-----------------------------
   const navigation = useNavigate();
-
+  // parameter management------------------------------
   const location = useLocation();
   const payment = location.state && location.state.payment;
   return (
