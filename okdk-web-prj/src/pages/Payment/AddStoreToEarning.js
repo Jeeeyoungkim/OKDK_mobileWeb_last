@@ -73,7 +73,7 @@ export default function AddStoreToEarning() {
           config
         );
 
-        console.log(membershipBrandData.data);
+        console.log(membershipBrandData);
 
         setMembershipBrand(membershipBrandData.data);
       } catch (error) {
