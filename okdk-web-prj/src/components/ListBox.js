@@ -58,19 +58,21 @@ const ListBox = ({ listTitle, children, handleShowMore, btnName }) => {
       <BlurEffect>
         <TitleContainer>
           <TitleText>{listTitle}</TitleText>
-          <BasicButton
-            btnName={btnName ? btnName : "더보기"}
-            onClick={handleShowMore}
-            width={btnName ? "5rem" : "4.1rem"}
-            gi
-            height={"1.8rem"}
-            backgroundColor="#056CF2"
-            borderRadius="1.25rem"
-            fontSize="1rem"
-            color="#FFF"
-            fontFamily="Pretendard"
-            fontWeight="bold"
-          />
+          {handleShowMore && (
+            <BasicButton
+              btnName={btnName ? btnName : "더보기"}
+              onClick={handleShowMore}
+              width={btnName ? "5rem" : "4.1rem"}
+              gi
+              height={"1.8rem"}
+              backgroundColor="#056CF2"
+              borderRadius="1.25rem"
+              fontSize="1rem"
+              color="#FFF"
+              fontFamily="Pretendard"
+              fontWeight="bold"
+            />
+          )}
         </TitleContainer>
         <ChildrenContainer>{children}</ChildrenContainer>
       </BlurEffect>
