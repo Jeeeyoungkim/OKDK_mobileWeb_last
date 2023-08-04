@@ -18,7 +18,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-export default function MonthlyPayment({ labels, data }) {
+export default function MonthlyPayment({ labels, data, navigation }) {
   const chartRef = useRef();
 
   const avgLabels = ["평균", ...labels.map((month) => `${Number(month)}월`)];
@@ -44,8 +44,15 @@ export default function MonthlyPayment({ labels, data }) {
     const activeElement = getElementAtEvent(chartRef.current, event);
     if (activeElement.length > 0) {
       const dataIndex = activeElement[0].index;
-      const clickedLabel = chartData.labels[dataIndex];
-      console.log("Clicked Label:", clickedLabel);
+      const clickedLabel = chartData.labels[dataIndex].slice(0, -1);
+      //나중에 수정해라이
+      if (clickedLabel == "평") {
+        return true;
+      } else {
+        navigation("/PaymentDetail", {
+          state: { month: clickedLabel },
+        });
+      }
     }
   };
 
