@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TopNavigation from "../../components/TopNavigation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import PaymentTitle from "../../components/PaymentTitle";
 import axios from "axios";
 
@@ -61,6 +61,7 @@ export const SubTitle = styled.div`
 `;
 
 export const CreatedAtWrap = styled.p`
+  padding-bottom: 0.5rem;
   margin-top: 0.75rem;
   margin-left: 0.5rem;
   text-align: start;
@@ -112,6 +113,10 @@ export const PriceWrap = styled.p`
 `;
 
 export default function PaymentDetail() {
+  // parameter management--------------------------------
+  const location = useLocation();
+  const month = location.state && location.state.month;
+
   const accessToken = localStorage.getItem("access"); //access Token
 
   const navigation = useNavigate();
@@ -148,12 +153,14 @@ export default function PaymentDetail() {
 
     data.forEach((item) => {
       const date = item.created_at.slice(0, 10); // "YYYY-MM-DD" 형식의 날짜 추출
+      if (month && date.slice(6, 7) != month) {
+        return;
+      }
       if (!groupedData[date]) {
         groupedData[date] = [];
       }
       groupedData[date].push(item);
     });
-
     return groupedData;
   };
 
@@ -166,12 +173,16 @@ export default function PaymentDetail() {
           describe={"결제내역 입니다."}
         />
         <PaymentWrap>
-          <PaymentSubTitle>
-            {payment[0].created_at.slice(6, 7)}월 사용내역
-          </PaymentSubTitle>
-          <PaymentTotalPrice>
-            {payment.reduce((acc, item) => acc + item.totalPrice, 0)}원
-          </PaymentTotalPrice>
+          {payment.length > 0 ? (
+            <>
+              <PaymentSubTitle>
+                {month ? month : payment[0].created_at.slice(6, 7)}월 사용내역
+              </PaymentSubTitle>
+              <PaymentTotalPrice>
+                {payment.reduce((acc, item) => acc + item.totalPrice, 0)}원
+              </PaymentTotalPrice>
+            </>
+          ) : null}
           <SubTitle>결제 내역</SubTitle>
           {payment.length > 0 ? (
             Object.entries(groupDataByDate(payment)).map(
