@@ -14,7 +14,7 @@ import { createGlobalStyle } from "styled-components";
 import Home from "./pages/Home";
 import Favorite from "./pages/Favorite/Favorite";
 import Payment from "./pages/Payment/Payment";
-import Setting from "./pages/Setting";
+import Setting from "./pages/SettingPage/Setting";
 import EarningInfomation from "./pages/Payment/EarningInfomation";
 import AddStoreToEarning from "./pages/Payment/AddStoreToEarning";
 import Login from "./pages/Login";
