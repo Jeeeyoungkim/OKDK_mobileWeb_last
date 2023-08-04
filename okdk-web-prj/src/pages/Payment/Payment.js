@@ -36,8 +36,8 @@ export default function Payment() {
   const [user, setUser] = useState(null);
   const [card, setCard] = useState(null);
   const [barcode, setBarcode] = useState([]);
-  const [totalThisMonth, setTotalThisMonth] = useState(null);
-
+  const [monthlyPayment, setMonthlyPayment] = useState(null);
+  const [monthKey, setMonthKey] = useState([]);
   //Randering management--------------------------
   //axios function
   useEffect(() => {
@@ -57,19 +57,18 @@ export default function Payment() {
           "/payment/membership/list/",
           config
         );
-        const totalThisMonthData = await axios.get("/order/month/", config);
-        const monthKey = Object.keys(totalThisMonthData.data)[0];
-        const monthData = totalThisMonthData.data[monthKey];
+        const monthlyData = await axios.get("/order/month/", config);
 
         // console.log(userData.data);
-        console.log(basicCardData.data);
+        // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        // console.log(totalThisMonth.data);
+        console.log(monthlyData.data);
 
         setUser(userData.data);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
-        setTotalThisMonth(monthData);
+        setMonthlyPayment(monthlyData.data);
+        setMonthKey(Object.keys(monthlyData.data).sort()); //object 접근을 위한 key 배열
       } catch (error) {
         console.error("에러 발생:", error);
       }
@@ -147,7 +146,7 @@ export default function Payment() {
           )}
         </ListBox>
         <ListBox listTitle={"이번달 결제 내역"}>
-          {totalThisMonth ? (
+          {monthlyPayment ? (
             <div
               style={{
                 textAlign: "center",
@@ -157,7 +156,7 @@ export default function Payment() {
                 fontFamily: "Pretendard",
               }}
             >
-              총 {totalThisMonth.total}원
+              총 {monthlyPayment[[monthKey[monthKey.length - 1]]].total}원
             </div>
           ) : (
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
@@ -165,8 +164,25 @@ export default function Payment() {
           {/* 총 {payment_main.totalpayment}원 총 {paymentDetail}원 */}
         </ListBox>
         <ListBox listTitle={"월별 결제 내역"}>
+          {/* {monthKey.map((data, index) => {
+            console.log(monthlyPayment[data]);
+          })} */}
+          {/* <MonthlyPayment
+            labels={monthKey}
+            data={monthKey.map((data) => monthlyPayment[data].total)}
+          />
           {/* <MonthlyPayment monthlypayment={payment_main.monthlypayment} /> */}
-          <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
+          {/* <UndefinedText>월별 결제 내역이 없어요.</UndefinedText> */}
+          {monthKey.length > 0 ? (
+            <>
+              <MonthlyPayment
+                labels={monthKey}
+                data={monthKey.map((data) => monthlyPayment[data].total)}
+              />
+            </>
+          ) : (
+            <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
+          )}
         </ListBox>
       </ScrollWrap>
     </Body>
