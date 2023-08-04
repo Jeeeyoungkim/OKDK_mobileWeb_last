@@ -21,7 +21,7 @@ export const ScrollWrap = styled.div`
   align-items: center;
 `;
 
-export default function Payment() {
+export default function EarningInfomation() {
   //variable management---------------------------
   const navigation = useNavigate();
   const accessToken = localStorage.getItem("access"); //access Token
@@ -92,7 +92,11 @@ export default function Payment() {
           <ListBox
             key={index}
             listTitle={data.brand}
-            handleShowMore={() => navigation("/DetailEarningInfomation")}
+            handleShowMore={() =>
+              navigation("/DetailEarningInfomation", {
+                state: { brand: data.brand },
+              })
+            }
           >
             <div
               style={{
