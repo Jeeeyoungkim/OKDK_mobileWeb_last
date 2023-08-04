@@ -201,7 +201,7 @@ export default function PaymentDetail() {
                       }}
                       onClick={() => {
                         navigation("/PaymentHistoryReceipt", {
-                          state: { payment: data },
+                          state: { payment: data, user: user.nickname },
                         });
                       }}
                     >

@@ -89,16 +89,19 @@ export const GoBackButton = styled.button`
 `;
 
 export default function PaymentHistoryReceipt() {
+  //variable management
+
   // navigation management-----------------------------
   const navigation = useNavigate();
   // parameter management------------------------------
   const location = useLocation();
   const payment = location.state && location.state.payment;
+  const user = location.state && location.state.user;
   return (
     <Body>
       <TopNavigation navigation={navigation} />
       <ScrollWrap>
-        <PaymentTitle name={"익명"} describe={"결제내역 입니다."} />
+        <PaymentTitle name={user || "익명"} describe={"결제내역 입니다."} />
         <PaymentWrap>
           <CreatedAtWrap>{payment.created_at.slice(0, 10)}</CreatedAtWrap>
           <TotalPriceWrap>{payment.totalPrice}원</TotalPriceWrap>
