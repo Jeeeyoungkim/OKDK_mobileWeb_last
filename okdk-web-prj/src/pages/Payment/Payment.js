@@ -145,7 +145,12 @@ export default function Payment() {
             <UndefinedText>바코드를 등록해 주세요</UndefinedText>
           )}
         </ListBox>
-        <ListBox listTitle={"이번달 결제 내역"}>
+        <ListBox
+          listTitle={"이번달 결제 내역"}
+          handleShowMore={() => {
+            navigation("/PaymentDetail");
+          }}
+        >
           {monthlyPayment ? (
             <div
               style={{
@@ -176,6 +181,7 @@ export default function Payment() {
           {monthKey.length > 0 ? (
             <>
               <MonthlyPayment
+                navigation={navigation}
                 labels={monthKey}
                 data={monthKey.map((data) => monthlyPayment[data].total)}
               />
