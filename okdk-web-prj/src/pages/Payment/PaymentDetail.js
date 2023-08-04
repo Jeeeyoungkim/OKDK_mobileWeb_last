@@ -25,6 +25,7 @@ export const PaymentWrap = styled.div`
   background: #fff;
   padding: 1.25rem;
   box-sizing: border-box;
+  margin-bottom: 1.56rem;
 `;
 
 export const PaymentSubTitle = styled.p`
@@ -198,19 +199,25 @@ export default function PaymentDetail() {
                         borderBottomStyle: "solid",
                         borderBottomWidth: "1px",
                       }}
+                      onClick={() => {
+                        navigation("/PaymentHistoryReceipt", {
+                          state: { payment: data },
+                        });
+                      }}
                     >
                       <TimeWrap>
                         <p>{data.created_at.slice(11, 19)}</p>
                       </TimeWrap>
-                      {data.options.map((option, index) => (
-                        <MenuWrap key={index}>
-                          <p>
-                            {option.temperature}
-                            {option.menu_name}
-                            {option.size}사이즈
-                          </p>
-                        </MenuWrap>
-                      ))}
+                      <MenuWrap>
+                        <p>
+                          {data.options.length > 1
+                            ? data.options[0].menu_name +
+                              " 외 " +
+                              (data.options.length - 1) +
+                              "건"
+                            : data.options[0].menu_name}
+                        </p>
+                      </MenuWrap>
                       <PriceWrap>- {data.totalPrice}원</PriceWrap>
                     </div>
                   ))}

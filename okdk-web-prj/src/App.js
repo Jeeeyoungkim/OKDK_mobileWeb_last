@@ -28,6 +28,7 @@ import Warning from "./pages/Warning";
 import AddStoreToFavorite from "./pages/Favorite/AddStoreToFavorite";
 import AddFavoriteMenu from "./pages/Favorite/AddFavoriteMenu";
 import AddFavoriteMenuOption from "./pages/Favorite/AddFavoriteMenuOption";
+import PaymentHistoryReceipt from "./pages/Payment/PaymentHistoryReceipt";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
   {
     path: "/PaymentDetail",
     element: <PaymentDetail />,
+  },
+  {
+    path: "/PaymentHistoryReceipt",
+    element: <PaymentHistoryReceipt />,
   },
   {
     path: "/login",
