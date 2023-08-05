@@ -113,10 +113,10 @@ export default function PaymentHistoryReceipt() {
                   textAlign: "start",
                 }}
               >
-                {data.menu_name}
+                {data.menu.name}
               </p>
-              <p>1개</p>
-              <p>5000원</p>
+              <p>{data.quantity}잔</p>
+              <p>{data.menu.price}원</p>
             </MenuItemWrap>
           ))}
         </PaymentWrap>

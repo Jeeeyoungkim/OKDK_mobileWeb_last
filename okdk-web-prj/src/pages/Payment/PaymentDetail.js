@@ -211,11 +211,11 @@ export default function PaymentDetail() {
                       <MenuWrap>
                         <p>
                           {data.options.length > 1
-                            ? data.options[0].menu_name +
+                            ? data.options[0].menu.name +
                               " 외 " +
                               (data.options.length - 1) +
                               "건"
-                            : data.options[0].menu_name}
+                            : data.options[0].menu.name}
                         </p>
                       </MenuWrap>
                       <PriceWrap>- {data.totalPrice}원</PriceWrap>
