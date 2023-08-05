@@ -58,6 +58,7 @@ export default function Modal({
   title,
   basicButtonName,
   basicButtonOnClick,
+  buttonDisable,
 }) {
   return (
     <>
@@ -71,15 +72,20 @@ export default function Modal({
         {basicButtonName && basicButtonOnClick ? (
           <BasicButton
             btnName={basicButtonName}
-            onClick={basicButtonOnClick}
+            onClick={() => {
+              if (!buttonDisable) {
+                basicButtonOnClick();
+              }
+            }}
             width="20rem"
             height="4rem"
-            backgroundColor="#056CF2"
+            backgroundColor={buttonDisable ? "gray" : "#056CF2"}
             borderRadius="30px"
             font-size="1.25rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
+            disabled={buttonDisable}
           />
         ) : null}
       </Overlay>
