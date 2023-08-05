@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 
 import styled from "styled-components";
@@ -7,12 +8,18 @@ import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import CoffeeComponent from "../../components/CoffeeComponent";
 
-import menuListData from "../../mock/menuList";
+//import menuListData from "../../mock/menuList";
 
 export default function AddFavoriteMenu() {
   const navigation = useNavigate();
-  const accessToken = localStorage.getItem("access"); //access Token
+  const location = useLocation();
 
+  //const accessToken = localStorage.getItem("access"); //access Token
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMjQ5OTYyLCJpYXQiOjE2OTEyNDYzNjIsImp0aSI6IjBhYjQ0MmEzMDQ5NjRkZjZhNmJiZjNiOWFjZTk2ZGNjIiwidXNlcl9pZCI6M30.09bNeZkB0-qHMYZTGrFoByviIUYB61rQCA8rkfmzJaU";
+
+  const selectedStore = location.state.selectedStore;
+  const [menuListData, setMenuListData] = useState([]); //전체 아이템
   const [selectedItems, setSelectedItems] = useState([]); //선택한 아이템 배열
 
   const handleSelect = (id) => {
@@ -26,31 +33,27 @@ export default function AddFavoriteMenu() {
     });
   };
 
-  //   useEffect(() => {
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //       params: {
-  //         brand: "OKDK",
-  //       },
-  //     };
-  //     async function fetchData() {
-  //       try {
-  //         const membershipBrandData = await axios.get(
-  //           "/payment/membership/",
-  //           config
-  //         );
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    async function fetchData() {
+      try {
+        const menuListData = await axios.get(
+          `/coffee/brand/${selectedStore}/menu/list/`,
+          config
+        );
 
-  //         console.log(membershipBrandData.data);
-
-  //         setMembershipBrand(membershipBrandData.data);
-  //       } catch (error) {
-  //         console.error("에러 발생:", error);
-  //       }
-  //     }
-  //     fetchData();
-  //   }, []);
+        console.log(menuListData.data);
+        setMenuListData(menuListData.data);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -66,7 +69,7 @@ export default function AddFavoriteMenu() {
                 return (
                   <CoffeeComponent
                     id={index}
-                    imgURI={require("../../assets/images/sampleCoffee.png")}
+                    imgURI={item.image}
                     first_description={item.name}
                     second_description={`${item.price}원`}
                     background={
