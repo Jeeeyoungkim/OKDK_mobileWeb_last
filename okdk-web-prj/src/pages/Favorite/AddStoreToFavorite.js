@@ -5,6 +5,94 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TopNavigation from "../../components/TopNavigation";
 import { FiSearch } from "react-icons/fi";
+import { AiFillCheckCircle } from "react-icons/ai";
+
+export default function AddStoreToEarning() {
+  //variable management---------------------------
+  const navigation = useNavigate();
+  const accessToken = localStorage.getItem("access"); //access Token
+
+  // state management-----------------------------
+  const [nonFavoriteBrandData, setNonFavoriteBrandData] = useState([]);
+  const [user, setUser] = useState(null);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [selectedStoreName, setSelectedStoreName] = useState(null);
+
+  const handleSelect = (id) => {
+    setSelectedStore((prevStore) => {
+      if (prevStore === id) {
+        return null;
+      } else {
+        return id;
+      }
+    });
+  };
+
+  const handleButtonClick = () => {
+    //다음 페이지 넘어감
+    navigation("/AddFavoriteMenu", {
+      state: { selectedStore, selectedStoreName },
+    });
+    localStorage.setItem(
+      "StoreName",
+      `${nonFavoriteBrandData[selectedStore - 1].name}`
+    ); // 브랜드이름 로컬스토리지 등록
+    localStorage.setItem("StoreId", `${selectedStore}`);
+  };
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    async function fetchData() {
+      try {
+        const userData = await axios.get("/account/user/", config);
+        const nonFavoriteBrandData = await axios.get(
+          "/coffee/brand/nonFavorite/list/",
+          config
+        );
+
+        setUser(userData.data);
+        setNonFavoriteBrandData(nonFavoriteBrandData.data);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <TopNavigation />
+      <Modal
+        title={`${
+          user ? user.nickname : "익명"
+        }님이\n 즐겨찾는 매장을 설정해주세요`}
+        basicButtonName="확인"
+        buttonDisable={selectedStore === null}
+        basicButtonOnClick={() => handleButtonClick()}
+      >
+        <SearchInputWrap>
+          <SearchInput />
+          <SearchButton>
+            <FiSearch size={"1.25rem"} />
+          </SearchButton>
+        </SearchInputWrap>
+        <BrandComponentWrap>
+          {nonFavoriteBrandData.map((data, index) => (
+            <BrandComponent key={index} onClick={() => handleSelect(data.id)}>
+              {selectedStore === data.id && <CheckIcon size={"3rem"} />}
+              {selectedStore !== data.id && data.name}
+            </BrandComponent>
+          ))}
+        </BrandComponentWrap>
+      </Modal>
+    </>
+  );
+}
 
 export const SearchInputWrap = styled.div`
   width: 17.5rem;
@@ -45,63 +133,13 @@ export const BrandComponent = styled.div`
   border-radius: 100%;
   border: 1px solid #a4a4a4;
   background-color: #d9d9d9;
-  color: white;
+  color: black;
   width: 5.25em;
   height: 5.25rem;
 `;
 
-export default function AddStoreToEarning() {
-  const navigation = useNavigate();
-  // const accessToken = localStorage.getItem("access"); //access Token
-
-  // const [membershipBrand, setMembershipBrand] = useState([]);
-
-  // useEffect(() => {
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //     params: {
-  //       brand: "OKDK",
-  //     },
-  //   };
-  //   async function fetchData() {
-  //     try {
-  //       const membershipBrandData = await axios.get(
-  //         "/payment/membership/",
-  //         config
-  //       );
-
-  //       console.log(membershipBrandData.data);
-
-  //       setMembershipBrand(membershipBrandData.data);
-  //     } catch (error) {
-  //       console.error("에러 발생:", error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
-
-  return (
-    <>
-      <TopNavigation />
-      <Modal
-        title={"익명님이\n즐겨찾는 매장을 설정해주세요"}
-        basicButtonName="확인"
-        basicButtonOnClick={() => navigation("/AddFavoriteMenu")}
-      >
-        <SearchInputWrap>
-          <SearchInput />
-          <SearchButton>
-            <FiSearch size={"1.25rem"} />
-          </SearchButton>
-        </SearchInputWrap>
-        <BrandComponentWrap>
-          {/* {membershipBrand.map((data, index) => (
-            <BrandComponent key={index}>{data.name}</BrandComponent>
-          ))} */}
-        </BrandComponentWrap>
-      </Modal>
-    </>
-  );
-}
+export const CheckIcon = styled(AiFillCheckCircle)`
+  position: absolute;
+  z-index: 1;
+  color: #056cf2;
+`;

@@ -5,6 +5,83 @@ import { ReactComponent as SelectLadder } from "../assets/images/selectLadder.sv
 import { ReactComponent as ChangeArrow } from "../assets/images/changeArrow.svg";
 import { ReactComponent as SelectedLadder } from "../assets/images/selectedLadder.svg";
 
+function ChangeComponent({ handleParentClick }) {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [easyMode, setEasyMode] = useState(false);
+
+  const handleChangeButton = () => {
+    if (isAnimating) {
+      return; // 애니메이션 진행중일 때는 아무 작업도 수행하지 않고 함수를 종료
+    }
+    setIsAnimating(true);
+    setEasyMode((prevEasyMode) => !prevEasyMode);
+
+    if (handleParentClick) {
+      handleParentClick();
+    }
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 2000);
+  };
+
+  return (
+    <ListBoxContainer>
+      <ChildrenContainer>
+        <BlurEffect>
+          <OverlayText1 $easyMode={easyMode}>
+            {!easyMode
+              ? [
+                  "현재",
+                  <br key="1" />,
+                  "일반 키오스크",
+                  <br key="2" />,
+                  "모드 입니다",
+                ]
+              : [
+                  "일반 키오스크",
+                  <br key="1" />,
+                  "모드로",
+                  <br key="2" />,
+                  "변경하기",
+                ]}
+          </OverlayText1>
+
+          <OverlayText2 $easyMode={easyMode}>
+            {!easyMode
+              ? ["쉬운 모드로", <br key="1" />, "변경하기"]
+              : ["쉬운 모드", <br key="1" />, "입니다"]}
+          </OverlayText2>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <SelectLadder
+              style={{
+                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                opacity: easyMode ? 0 : 1,
+                transition: "opacity 0.5s",
+              }}
+            />
+            <SelectedLadder
+              style={{
+                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                transform: "translateX(-4.5rem)",
+                opacity: easyMode ? 1 : 0,
+                transition: "opacity 0.5s",
+              }}
+            />
+          </div>
+        </BlurEffect>
+
+        <ChangeButton onClick={handleChangeButton}>
+          <ChangeArrowContainer
+            className={isAnimating ? "rotateAnimation" : ""}
+          >
+            <ChangeArrow />
+          </ChangeArrowContainer>
+        </ChangeButton>
+      </ChildrenContainer>
+    </ListBoxContainer>
+  );
+}
+
 const ListBoxContainer = styled.div`
   width: 20rem;
   min-height: 9rem;
@@ -113,79 +190,5 @@ const ChangeArrowContainer = styled.div`
     animation: ${rotateAnimation} 2s ease-out; /* 회전 애니메이션을 2초간 진행 */
   }
 `;
-
-function ChangeComponent() {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [easyMode, setEasyMode] = useState(false);
-
-  const handleChangeButton = () => {
-    if (isAnimating) {
-      return; // 애니메이션 진행중일 때는 아무 작업도 수행하지 않고 함수를 종료
-    }
-    setIsAnimating(true);
-    setEasyMode((prevEasyMode) => !prevEasyMode);
-
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 2000);
-  };
-
-  return (
-    <ListBoxContainer>
-      <ChildrenContainer>
-        <BlurEffect>
-          <OverlayText1 $easyMode={easyMode}>
-            {!easyMode
-              ? [
-                  "현재",
-                  <br key="1" />,
-                  "일반 키오스크",
-                  <br key="2" />,
-                  "모드 입니다",
-                ]
-              : [
-                  "일반 키오스크",
-                  <br key="1" />,
-                  "모드로",
-                  <br key="2" />,
-                  "변경하기",
-                ]}
-          </OverlayText1>
-
-          <OverlayText2 $easyMode={easyMode}>
-            {!easyMode
-              ? ["쉬운 모드로", <br key="1" />, "변경하기"]
-              : ["쉬운 모드", <br key="1" />, "입니다"]}
-          </OverlayText2>
-          <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <SelectLadder
-              style={{
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                opacity: easyMode ? 0 : 1,
-                transition: "opacity 0.5s",
-              }}
-            />
-            <SelectedLadder
-              style={{
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                transform: "translateX(-4.5rem)",
-                opacity: easyMode ? 1 : 0,
-                transition: "opacity 0.5s",
-              }}
-            />
-          </div>
-        </BlurEffect>
-
-        <ChangeButton onClick={handleChangeButton}>
-          <ChangeArrowContainer
-            className={isAnimating ? "rotateAnimation" : ""}
-          >
-            <ChangeArrow />
-          </ChangeArrowContainer>
-        </ChangeButton>
-      </ChildrenContainer>
-    </ListBoxContainer>
-  );
-}
 
 export default ChangeComponent;

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 62,
+    "brand": "OKDK",
+    "options": [
+      {
+        "menu_image": "http://3.37.87.3/media/menu/Americano.jpg",
+        "menu_name": "아메리카노",
+        "temperature": "hot",
+        "size": "tall"
+      },
+      {
+        "menu_image": "http://3.37.87.3/media/menu/Americano.jpg",
+        "menu_name": "아메리카노",
+        "temperature": "ice",
+        "size": "tall"
+      }
+    ],
+    "created_at": "2023.07.29 17:59:27",
+    "totalPrice": 0
+  },
+  {
+    "id": 61,
+    "brand": "OKDK",
+    "options": [
+      {
+        "menu_image": "http://3.37.87.3/media/menu/Americano.jpg",
+        "menu_name": "아메리카노",
+        "temperature": "hot",
+        "size": "tall"
+      },
+      {
+        "menu_image": "http://3.37.87.3/media/menu/Americano.jpg",
+        "menu_name": "아메리카노",
+        "temperature": "ice",
+        "size": "tall"
+      }
+    ],
+    "created_at": "2023.07.29 15:18:23",
+    "totalPrice": 0
+  },
+  {
+    "id": 60,
+    "brand": "OKDK",
+    "options": [
+      {
+        "menu_image": "http://3.37.87.3/media/menu/Americano.jpg",
+        "menu_name": "아메리카노",
+        "temperature": "hot",
+        "size": "tall"
+      },
+      {
+        "menu_image": "http://3.37.87.3/media/menu/Americano.jpg",
+        "menu_name": "아메리카노",
+        "temperature": "ice",
+        "size": "tall"
+      }
+    ],
+    "created_at": "2023.07.29 15:07:55",
+    "totalPrice": 0
+  }
+]
