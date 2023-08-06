@@ -8,28 +8,36 @@ import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import CoffeeComponent from "../../components/CoffeeComponent";
 
-//import menuListData from "../../mock/menuList";
-
 export default function AddFavoriteMenu() {
   const navigation = useNavigate();
   const location = useLocation();
 
-  //const accessToken = localStorage.getItem("access"); //access Token
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMjQ5OTYyLCJpYXQiOjE2OTEyNDYzNjIsImp0aSI6IjBhYjQ0MmEzMDQ5NjRkZjZhNmJiZjNiOWFjZTk2ZGNjIiwidXNlcl9pZCI6M30.09bNeZkB0-qHMYZTGrFoByviIUYB61rQCA8rkfmzJaU";
+  const accessToken = localStorage.getItem("access"); //access Token
 
   const selectedStore = location.state.selectedStore;
+  const selectedStoreName = localStorage.getItem("StoreName");
+
   const [menuListData, setMenuListData] = useState([]); //전체 아이템
   const [selectedItems, setSelectedItems] = useState([]); //선택한 아이템 배열
 
   const handleSelect = (id) => {
-    console.log("Selected : " + id);
     setSelectedItems((prevItems) => {
       if (prevItems.includes(id)) {
         return prevItems.filter((item) => item !== id); // 있으면 해당 항목을 배열에서 제거
       } else {
         return [...prevItems, id]; // 없으면 해당 항목을 배열에 추가
       }
+    });
+  };
+
+  const handleButtonClick = () => {
+    const FavoriteItems = menuListData.filter((item) =>
+      selectedItems.includes(item.id)
+    );
+    console.log("0단계", selectedItems);
+    console.log("1단계", FavoriteItems);
+    navigation("/AddFavoriteMenuOption", {
+      state: { FavoriteItems: FavoriteItems },
     });
   };
 
@@ -46,7 +54,6 @@ export default function AddFavoriteMenu() {
           config
         );
 
-        console.log(menuListData.data);
         setMenuListData(menuListData.data);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -59,9 +66,12 @@ export default function AddFavoriteMenu() {
     <>
       <TopNavigation />
       <Modal
-        title={"스타벅스 상명대점의\n즐겨찾는 메뉴를 선택해주세요"}
+        title={`${
+          selectedStoreName ? selectedStoreName : "undefined"
+        }의\n 즐겨찾는 메뉴를 선택해주세요`}
         basicButtonName="확인"
-        basicButtonOnClick={() => console.log(selectedItems)}
+        basicButtonOnClick={() => handleButtonClick()}
+        buttonDisable={selectedItems.length === 0}
       >
         <MenuContainer>
           {menuListData && menuListData.length > 0
@@ -73,9 +83,9 @@ export default function AddFavoriteMenu() {
                     first_description={item.name}
                     second_description={`${item.price}원`}
                     background={
-                      selectedItems.includes(index) ? "#0583F2" : "#D9D9D9"
+                      selectedItems.includes(item.id) ? "#0583F2" : "#D9D9D9"
                     }
-                    onClick={() => handleSelect(index)}
+                    onClick={() => handleSelect(item.id)}
                   />
                 );
               })
