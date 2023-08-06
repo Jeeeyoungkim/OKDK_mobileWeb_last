@@ -1,0 +1,36 @@
+{
+  "OKDK": [
+    {
+      "menu": {
+        "id": 3,
+        "image": "http://3.37.87.3/media/menu/Cafelatte.jpg",
+        "name": "카페라떼",
+        "price": 0
+      },
+      "temperature": {
+        "id": 1,
+        "name": "hot"
+      },
+      "size": {
+        "id": 1,
+        "name": "tall"
+      }
+    },
+    {
+      "menu": {
+        "id": 4,
+        "image": "http://3.37.87.3/media/menu/Cafemocha.jpg",
+        "name": "카페모카",
+        "price": 0
+      },
+      "temperature": {
+        "id": 1,
+        "name": "hot"
+      },
+      "size": {
+        "id": 2,
+        "name": "grande"
+      }
+    }
+  ]
+}
