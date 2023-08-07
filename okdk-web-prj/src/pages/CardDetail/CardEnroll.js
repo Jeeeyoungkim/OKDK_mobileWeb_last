@@ -1,37 +1,46 @@
-// directInput
-
+//cardaEnroll
 import React from "react";
-import Modal from "../components/Modal";
-import TopNavigation from "../components/TopNavigation";
-import Card from "../components/Card";
+import Modal from "../../components/Modal";
+import TopNavigation from "../../components/TopNavigation";
+import Card from "../../components/Card";
 import styled from "styled-components";
 import Directinput from "./DirectInput";
-import BasicButton from "../components/Button";
-export default function DirectInput({ navigation }) {
+import BasicButton from "../../components/Button";
+import { useNavigate } from "react-router-dom";
+export default function CardEnroll() {
+    const navigation = useNavigate();
   const Container = styled.div`
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
   `;
+
+  const handlePaymentMove = () => {
+    navigation("/Payment");
+  };
   return (
     <div>
       <TopNavigation />
-      <Modal title="직접 입력">
+      <Modal
+        title="카드 등록"
+        basicButtonName="확인"
+        basicButtonOnClick={handlePaymentMove}
+      >
         <Container>
-          <section
+          <div
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "flex-start",
+              height: "100%",
+              justifyContent: "flex-end",
+              marginBottom: "5px",
             }}
           >
-            <p style={{ fontSize: "1.25rem", fontWeight: "600" }}>직접 입력</p>
-          </section>
-
-          <div style={{ display:'flex', flexDirection:'column', height:'100%', justifyContent:'flex-end', marginBottom:'5px'}}>
             <BasicButton
               btnName="직접 입력"
-              onClick={() => navigation.navigate("DirectInput")}
+              onClick={() => navigation("/DirectInput")}
               width="15rem"
               height="3.5rem"
               backgroundColor="#056CF2"
@@ -44,7 +53,7 @@ export default function DirectInput({ navigation }) {
 
             <BasicButton
               btnName="카메라 촬영"
-              onClick={() => navigation.navigate("Camera")}
+              onClick={() => navigation("/Camera")}
               width="15rem"
               height="3.5rem"
               backgroundColor="#056CF2"
@@ -57,20 +66,6 @@ export default function DirectInput({ navigation }) {
           </div>
         </Container>
       </Modal>
-      <div style={{ position: "absolute", top: "87%", left: "3%" }}>
-        <BasicButton
-          btnName="확인"
-          onClick={() => navigation.navigate("Payment")}
-          width="20rem"
-          height="4rem"
-          backgroundColor="#056CF2"
-          borderRadius="30px"
-          font-size="1.25rem"
-          color="white"
-          font-family="Pretendard"
-          font-weight="bold"
-        />
-      </div>
     </div>
   );
 }

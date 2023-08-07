@@ -1,0 +1,13 @@
+{
+    "username": "김연출",
+    "card": [
+      {
+        "cardname": "신한",
+        "cardnumber": "1234",
+        "cardimg": "https://www.shinhancard.com/pconts/images/contents/card/plate/cdCreaditBFBBQ0.png",
+        "expirationperiod": "2025-06-21",
+        "CVC": "000",
+        "PW": "00"
+      }
+    ]
+}

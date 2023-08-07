@@ -18,10 +18,10 @@ import Setting from "./pages/SettingPage/Setting";
 import EarningInfomation from "./pages/Payment/EarningInfomation";
 import AddStoreToEarning from "./pages/Payment/AddStoreToEarning";
 import Login from "./pages/Login";
-import Morecards from "./pages/Morecards";
-import CardEnroll from "./pages/CardEnroll";
-import CardSetting from "./pages/CardSetting";
-import DirectInput from "./pages/DirectInput";
+import Morecards from "./pages/CardDetail/Morecards";
+import CardEnroll from "./pages/CardDetail/CardEnroll";
+import CardSetting from "./pages/CardDetail/CardSetting";
+import DirectInput from "./pages/CardDetail/DirectInput";
 import DetailEarningInfomation from "./pages/Payment/DetailEarningInfomation";
 import PaymentDetail from "./pages/Payment/PaymentDetail";
 import Warning from "./pages/Warning";
@@ -32,7 +32,8 @@ import PaymentHistoryReceipt from "./pages/Payment/PaymentHistoryReceipt";
 import FaceRegistration from "./pages/SettingPage/FaceRegistration";
 import AccountOfficer from "./pages/SettingPage/AccountOfficer";
 import ThemeSetting from "./pages/SettingPage/ThemeSetting";
-
+import Camera from "./pages/CardDetail/Camera";
+import EnrollComplete from "./pages/CardDetail/EnrollComplete";
 const GlobalStyle = createGlobalStyle`
  *{
       margin: 0;
@@ -107,7 +108,8 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  { path: "/Morecards", element: <Morecards /> },
+  { path: "/Morecards", 
+    element: <Morecards /> },
   {
     path: "/CardEnroll",
     element: <CardEnroll />,
@@ -119,6 +121,14 @@ const router = createBrowserRouter([
   {
     path: "/DirectInput",
     element: <DirectInput />,
+  },
+  {
+    path: "/Camera",
+    element: <Camera />,
+  },
+  {
+    path: "/EnrollComplete",
+    element: <EnrollComplete />,
   },
   {
     path: "/Warning",
