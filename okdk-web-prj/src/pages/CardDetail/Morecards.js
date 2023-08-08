@@ -1,14 +1,14 @@
 // Morecards
 
 import React from "react";
-import Modal from "../components/Modal";
-import TopNavigation from "../components/TopNavigation";
-import Card from "../components/Card";
+import Modal from "../../components/Modal";
+import TopNavigation from "../../components/TopNavigation";
+import Card from "../../components/Card";
 import styled from "styled-components";
 import DirectInput from "./DirectInput";
-import BasicButton from "../components/Button";
+import BasicButton from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import cardList from "../mock/CardList.json";
+import cardList from "../../mock/Card_list.json";
 export default function Morecards() {
   const navigation = useNavigate();
   const Container = styled.div`
@@ -18,10 +18,10 @@ export default function Morecards() {
   `;
 
   const handleEnrollMove = () => {
-    navigation.navigate("CardEnroll");
+    navigation("/CardEnroll");
   };
   const handlePaymentMove = () => {
-    navigation.navigate("Payment");
+    navigation("/Payment");
   };
   return (
     <div>
