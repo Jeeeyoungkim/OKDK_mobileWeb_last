@@ -32,6 +32,9 @@ import PaymentHistoryReceipt from "./pages/Payment/PaymentHistoryReceipt";
 import FaceRegistration from "./pages/SettingPage/FaceRegistration";
 import AccountOfficer from "./pages/SettingPage/AccountOfficer";
 import ThemeSetting from "./pages/SettingPage/ThemeSetting";
+import KakaoLogin from "./pages/Login/KakaoLogin";
+import NaverLogin from "./pages/Login/NaverLogin";
+import GoogleLogin from "./pages/Login/GoogleLogin";
 
 const GlobalStyle = createGlobalStyle`
  *{
@@ -135,6 +138,18 @@ const router = createBrowserRouter([
   {
     path: "/AddFavoriteMenuOption",
     element: <AddFavoriteMenuOption />,
+  },
+  {
+    path: "/kakao/callback",
+    element: <KakaoLogin />,
+  },
+  {
+    path: "/naver/callback",
+    element: <NaverLogin />,
+  },
+  {
+    path: "/google/callback",
+    element: <GoogleLogin />,
   },
 ]);
 
