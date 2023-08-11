@@ -17,8 +17,8 @@ export default function Home() {
   const navigation = useNavigate();
   const accessToken = localStorage.getItem("access"); //access Token
   const [user, setUser] = useState(null);
-  //const [favoriteList, setFavoriteList] = useState({});
-  //const [recents, setRecents] = useState([]);
+  const [favoriteList, setFavoriteList] = useState({});
+  const [recents, setRecents] = useState([]);
 
   useEffect(() => {
     const config = {
@@ -29,12 +29,12 @@ export default function Home() {
     async function fetchData() {
       try {
         const userData = await axios.get("/account/user/", config);
-        //const recentData = await axios.get("/order/recents/", config);
-        //const favoriteList = await axios.get("/order/favorite/", config);
+        const recentData = await axios.get("/order/recents/", config);
+        const favoriteList = await axios.get("/order/favorite/", config);
 
         setUser(userData.data);
-        //setRecents(recentData.data);
-        //setFavoriteList(favoriteList.data);
+        setRecents(recentData.data);
+        setFavoriteList(favoriteList.data);
       } catch (error) {
         console.error("에러 발생:", error);
       }

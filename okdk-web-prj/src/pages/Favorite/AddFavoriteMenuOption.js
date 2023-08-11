@@ -60,10 +60,11 @@ export default function AddFavoriteMenuOption() {
       brand: `${localStorage.getItem("StoreName")}`,
       favorites: FavoriteItemsOption,
     };
+    console.log(data);
 
     try {
       const response = await axios.post("/order/favorite/", data, config);
-      console.log(response.data);
+      console.log(response);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -95,10 +96,11 @@ export default function AddFavoriteMenuOption() {
   };
 
   const handleModalButton = () => {
+    navigation("/Favorite");
+    sendData(FavoriteItemsOption); //post 요청
+
     localStorage.removeItem("StoreId"); // 로컬스토리지에 스토어 정보 삭제
     localStorage.removeItem("StoreName");
-    navigation("/Favorite");
-    sendData(); //post 요청
   };
 
   return (

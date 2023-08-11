@@ -7,7 +7,7 @@ import PaymentTitle from "../../components/PaymentTitle";
 import ListBox from "../../components/ListBox";
 import CoffeeComponent from "../../components/CoffeeComponent";
 
-import favoriteList from "../../mock/favoriteList.json"; //mock
+//import favoriteList from "../../mock/favoriteList.json"; //mock
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ export default function Favorite() {
   const navigation = useNavigate();
   const accessToken = localStorage.getItem("access"); //access Token
   const [user, setUser] = useState(null);
-  //const [favoriteList, setFavoriteList] = useState({});
+  const [favoriteList, setFavoriteList] = useState({});
 
   const handleOK = () => {
     console.log("hi");
@@ -30,10 +30,10 @@ export default function Favorite() {
     async function fetchData() {
       try {
         const userData = await axios.get("/account/user/", config);
-        //const favoriteList = await axios.get("/order/favorite/", config);
+        const favoriteList = await axios.get("/order/favorite/", config);
 
         setUser(userData.data);
-        //setFavoriteList(favoriteList.data);
+        setFavoriteList(favoriteList.data);
       } catch (error) {
         console.error("에러 발생:", error);
       }
