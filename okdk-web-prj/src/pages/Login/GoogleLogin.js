@@ -6,16 +6,17 @@ import axios from "axios";
 const GoogleLogin = (props) => {
   const navigate = useNavigate();
 
-  const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
+  const parsedHash = new URLSearchParams(window.location.hash.substring(1));
+  const accessToken = parsedHash.get("access_token");
 
-  //인가코드 백으로 보내는 코드
+  //어세스토큰 백으로 보내는 코드
   useEffect(() => {
+    console.log(accessToken);
     const googleLogin = async () => {
       try {
         const res = await axios({
           method: "GET",
-          url: `/account/google/callback/?code=${code}`,
+          url: `/account/google/callback/?access_token=${accessToken}`,
           headers: {
             "Content-Type": "application/json;charset=utf-8",
             "Access-Control-Allow-Origin": "*",

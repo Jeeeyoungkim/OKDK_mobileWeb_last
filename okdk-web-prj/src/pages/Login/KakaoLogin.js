@@ -22,8 +22,9 @@ const KakaoLogin = (props) => {
         });
         console.log("받았따~");
         console.log(res);
-        // const access_token = res.headers["Access-Token"];
-        // localStorage.setItem("access_token", access_token);
+
+        const access_token = res.data["access"];
+        localStorage.setItem("access", access_token);
 
         navigate("/");
       } catch (error) {

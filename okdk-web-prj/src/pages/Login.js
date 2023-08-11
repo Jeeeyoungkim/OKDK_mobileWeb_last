@@ -33,13 +33,23 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const app_key =
+      const client_id =
         "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com";
-      const scope = "email profile";
+      const client_secret = "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";
+      const grant_type = "authorization_code";
+      const redirection_uri = "http://127.0.0.1:3000/google/callback/";
+      const state = "random_string";
 
-      const redirect_uri = "http://127.0.0.1:3000/google/callback/";
+      // const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${app_key}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
 
-      const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${app_key}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
+      const googleURL =
+        "https://accounts.google.com/o/oauth2/auth?client_id=" +
+        client_id +
+        "&redirect_uri=" +
+        redirection_uri +
+        "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" +
+        "&response_type=token" +
+        "&include_granted_scopes=true";
 
       window.location.replace(googleURL);
     } catch (error) {
