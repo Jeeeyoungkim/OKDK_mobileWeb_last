@@ -1,25 +1,70 @@
 import React from "react";
+import axios from "axios";
 import Logo from "../assets/images/OKDKLogo.png";
 import styled from "styled-components";
 
 import BasicButton from "../components/Button";
-import ListBox from "../components/ListBox";
-
-const LogoContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10rem;
-`;
-
-const LoginLogo = styled.img`
-  width: 11.4375rem;
-  height: 5.875rem;
-`;
 
 export default function Login() {
   const handleOK = () => {
     console.log("hi");
+  };
+
+  // const handleKakaoLogin = () => {
+  //   window.location.replace("http://3.38.180.187/account/kakao/");
+  // };
+
+  const handleKakaoLogin = async () => {
+    try {
+      const Rest_api_key = "1def2aa86fd42c81904840220886ac54"; //REST API KEY
+      const redirect_uri = "http://127.0.0.1:3000/kakao/callback/"; //Redirect URI
+      // oauth 요청 URL
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+
+      window.location.replace(kakaoURL);
+
+      //const tokenData = await axios.get("/account/kakao/");
+
+      //console.log("tokenData: " + tokenData.data);
+    } catch (error) {
+      console.error("에러 발생:", error);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const app_key =
+        "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com";
+      const scope = "email profile";
+
+      const redirect_uri = "http://127.0.0.1:3000/google/callback/";
+
+      const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${app_key}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
+
+      window.location.replace(googleURL);
+    } catch (error) {
+      console.error("에러 발생:", error);
+    }
+  };
+
+  const handleNaverLogin = async () => {
+    try {
+      const client_id = "oRQ7F4q_jX8AvonjIVNf";
+      const response_type = "code";
+      const uri = "http://127.0.0.1:3000/naver/callback/";
+      const state = "false";
+      // oauth 요청 URL
+
+      const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=${response_type}&client_id=${client_id}&redirect_uri=${uri}&state=${state}'
+       `;
+      window.open(naverURL);
+
+      //const tokenData = await axios.get("/account/kakao/");
+
+      //console.log("tokenData: " + tokenData.data);
+    } catch (error) {
+      console.error("에러 발생:", error);
+    }
   };
 
   return (
@@ -31,7 +76,7 @@ export default function Login() {
       </LogoContainer>
       <BasicButton
         btnName="카카오로 시작하기"
-        onClick={handleOK}
+        onClick={() => handleKakaoLogin()}
         width="16.8rem"
         height="3rem"
         backgroundColor="#FBE300"
@@ -44,7 +89,7 @@ export default function Login() {
       />
       <BasicButton
         btnName="네이버로 시작하기"
-        onClick={handleOK}
+        onClick={() => handleNaverLogin()}
         width="16.8rem"
         height="3rem"
         backgroundColor="#00C300"
@@ -57,7 +102,7 @@ export default function Login() {
       />
       <BasicButton
         btnName="구글로 시작하기"
-        onClick={handleOK}
+        onClick={() => handleGoogleLogin()}
         width="16.8rem"
         height="3rem"
         backgroundColor="#FFF"
@@ -71,3 +116,15 @@ export default function Login() {
     </div>
   );
 }
+
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
+`;
+
+const LoginLogo = styled.img`
+  width: 11.4375rem;
+  height: 5.875rem;
+`;
