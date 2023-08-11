@@ -34,7 +34,7 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       const app_key =
-        "435546094465-nkivfk3cju2jg1jp1katfsu5ttbfkgti.apps.googleusercontent.com";
+        "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com";
       const scope = "email profile";
 
       const redirect_uri = "http://127.0.0.1:3000/google/callback/";
