@@ -1,14 +1,30 @@
-{
-    "card": [
-    {
-      "cardname": "신한",
-      "cardnumber": "1234",
-      "cardimg": "../assets/images/Shinhan.jpg"
-    },
-    {
-        "cardname": "국민",
-        "cardnumber": "1234",
-        "cardimg": "../assets/images/KBKookmin.png"
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "국민 (1111)",
+    "default": false,
+    "serial_num": "5021 2311 1111 1111",
+    "cardimg" :"https://www.shinhancard.com/pconts/images/contents/card/plate/cdCreaditBFBBQ0.png"
+  },
+  {
+    "id": 2,
+    "name": "국민 (1111)",
+    "default": false,
+    "serial_num": "5021 2311 1111 1111",
+    "cardimg" :"https://www.shinhancard.com/pconts/images/contents/card/plate/cdCreaditBFBBQ0.png"
+  },
+  {
+    "id": 3,
+    "name": "국민 (1111)",
+    "default": false,
+    "serial_num": "5021 2311 1111 1111",
+    "cardimg" :"https://www.shinhancard.com/pconts/images/contents/card/plate/cdCreaditBFBBQ0.png"
+  },
+  {
+    "id": 4,
+    "name": "국민 (1111)",
+    "default": false,
+    "serial_num": "5021 2311 1111 1111",
+    "cardimg" :"https://www.shinhancard.com/pconts/images/contents/card/plate/cdCreaditBFBBQ0.png"
+  }
+]
