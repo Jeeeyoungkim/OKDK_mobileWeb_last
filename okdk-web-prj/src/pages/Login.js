@@ -6,26 +6,13 @@ import styled from "styled-components";
 import BasicButton from "../components/Button";
 
 export default function Login() {
-  const handleOK = () => {
-    console.log("hi");
-  };
-
-  // const handleKakaoLogin = () => {
-  //   window.location.replace("http://3.38.180.187/account/kakao/");
-  // };
-
   const handleKakaoLogin = async () => {
     try {
       const Rest_api_key = "1def2aa86fd42c81904840220886ac54"; //REST API KEY
       const redirect_uri = "http://127.0.0.1:3000/kakao/callback/"; //Redirect URI
-      // oauth 요청 URL
       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
-
-      //const tokenData = await axios.get("/account/kakao/");
-
-      //console.log("tokenData: " + tokenData.data);
     } catch (error) {
       console.error("에러 발생:", error);
     }
@@ -33,13 +20,23 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const app_key =
+      const client_id =
         "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com";
-      const scope = "email profile";
+      const client_secret = "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";
+      const grant_type = "authorization_code";
+      const redirection_uri = "http://127.0.0.1:3000/google/callback/";
+      const state = "random_string";
 
-      const redirect_uri = "http://127.0.0.1:3000/google/callback/";
+      // const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${app_key}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
 
-      const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${app_key}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
+      const googleURL =
+        "https://accounts.google.com/o/oauth2/auth?client_id=" +
+        client_id +
+        "&redirect_uri=" +
+        redirection_uri +
+        "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" +
+        "&response_type=token" +
+        "&include_granted_scopes=true";
 
       window.location.replace(googleURL);
     } catch (error) {
