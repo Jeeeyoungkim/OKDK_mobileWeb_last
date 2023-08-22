@@ -6,26 +6,13 @@ import styled from "styled-components";
 import BasicButton from "../components/Button";
 
 export default function Login() {
-  const handleOK = () => {
-    console.log("hi");
-  };
-
-  // const handleKakaoLogin = () => {
-  //   window.location.replace("http://3.38.180.187/account/kakao/");
-  // };
-
   const handleKakaoLogin = async () => {
     try {
       const Rest_api_key = "1def2aa86fd42c81904840220886ac54"; //REST API KEY
       const redirect_uri = "http://127.0.0.1:3000/kakao/callback/"; //Redirect URI
-      // oauth 요청 URL
       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
-
-      //const tokenData = await axios.get("/account/kakao/");
-
-      //console.log("tokenData: " + tokenData.data);
     } catch (error) {
       console.error("에러 발생:", error);
     }

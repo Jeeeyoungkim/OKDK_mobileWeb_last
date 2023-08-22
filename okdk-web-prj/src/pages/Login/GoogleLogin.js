@@ -24,7 +24,13 @@ const GoogleLogin = (props) => {
         });
 
         console.log("받았따~");
-        console.log(res);
+
+        const access_token = res.data["access"];
+        const refresh_token = res.data["refresh"];
+
+        localStorage.setItem("access", access_token);
+        localStorage.setItem("refresh", refresh_token);
+
         navigate("/");
       } catch (error) {
         console.log("Error:", error);

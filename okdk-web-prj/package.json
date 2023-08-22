@@ -2,7 +2,7 @@
   "name": "okdk-web-prj",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://3.38.180.187",
+  "proxy": "http://43.202.59.85",
   "dependencies": {
     "@react-navigation/native": "^6.1.7",
     "@testing-library/jest-dom": "^5.17.0",

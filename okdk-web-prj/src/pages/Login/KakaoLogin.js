@@ -7,7 +7,6 @@ const KakaoLogin = (props) => {
   const navigate = useNavigate();
 
   const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
 
   //인가코드 백으로 보내는 코드
   useEffect(() => {
@@ -20,13 +19,17 @@ const KakaoLogin = (props) => {
             "Content-Type": "application/json;charset=utf-8",
           },
         });
-        console.log("받았따~");
+
         console.log(res);
 
         const access_token = res.data["access"];
+        const refresh_token = res.data["refresh"];
+
         localStorage.setItem("access", access_token);
+        localStorage.setItem("refresh", refresh_token);
 
         navigate("/");
+        return;
       } catch (error) {
         console.error("로그인 실패:", error);
       }
