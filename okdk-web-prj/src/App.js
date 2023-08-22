@@ -38,6 +38,7 @@ import GoogleLogin from "./pages/Login/GoogleLogin";
 
 import Camera from "./pages/CardDetail/Camera";
 import EnrollComplete from "./pages/CardDetail/EnrollComplete";
+import CardModify from "./pages/CardDetail/CardModify";
 const GlobalStyle = createGlobalStyle`
  *{
       margin: 0;
@@ -112,7 +113,13 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  { path: "/Morecards", element: <Morecards /> },
+  { path: "/Morecards", 
+    element: <Morecards />,
+  },
+  {
+    path: "/CardModify",
+    element: <CardModify />,
+  },
   {
     path: "/CardEnroll",
     element: <CardEnroll />,

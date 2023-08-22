@@ -1,14 +1,15 @@
 // directInput
-
 import React, { useEffect, useState } from "react";
 import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import BasicButton from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { DatasetController } from "chart.js";
+
+import cardDetails from "../../mock/cardDetail.json"
+import { AiFillPropertySafety } from "react-icons/ai";
 
 const Container = styled.div`
   display: flex;
@@ -17,21 +18,21 @@ const Container = styled.div`
   margin-top: 1rem;
 `;
 const BigInput = styled.input`
-  padding-left: 0.625rem;
   width: 17.53125rem;
   height: 2.25rem;
   border-radius: 0.625rem;
   background-color: #d9d9d9;
   border: none;
+  padding-left: 0.625rem;
 `;
 
 const SmallInput = styled.input`
-  padding-left: 0.625rem;
   width: 8.0625rem;
   height: 2.25rem;
   border-radius: 0.625rem;
   background-color: #d9d9d9;
   border: none;
+  padding-left: 0.625rem;
 `;
 
 const Text = styled.p`
@@ -51,7 +52,6 @@ const ImageFicker = styled.div`
   align-items: center;
   justify-content: center;
   width: 11.875rem;
-  border-radius: 20px;
   height: 7.5rem;
   flex-shrink: 0;
   border: 2px solid #ccc;
@@ -67,7 +67,8 @@ const ImagePreview = styled.div`
   position: relative;
 `;
 
-export default function DirectInput() {
+export default function CardModify() {
+  const [cardDetail, setCardDetail] = useState(null);
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCVC] = useState("");
@@ -76,38 +77,75 @@ export default function DirectInput() {
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
 
+  const {state} = useLocation();
+  console.log(state);
+  const selected = state;
+  if(!state){
+    alert("수정할 카드를 다시 선택해주세요");
+  }
+
+
   // const accessToken = localStorage.getItem("access");
-  // console.log(accessToken);
   const accessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxOTkxNDEyLCJpYXQiOjE2OTE5ODc4MTIsImp0aSI6Ijg3ZmFlMDI5ZmFjZTQ4NmY5MDlmYjQ4NGFjYTU1ZWVmIiwidXNlcl9pZCI6Nn0.loGzGDjELszS6opKIFq_NDzpqXArksNPJbss_TseN1w";
 
-  const navigation = useNavigate();
+  // 카드 선택후 수정하기눌러서 여기오면 route.param에 담긴 값으로 get요청 서버에
+  // 그럼 값들이 미리 input에 value로써 들어가있음. 그걸 이용해서 put 수정 할 수 있도록.
+  // 위가 get 아래가 put 요청.
 
-  const handleCompleteMove = () => {
-    navigation("/EnrollComplete");
-  };
-  const handlePaymentMove = () => {
-    navigation("/Payment");
-  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    setSelectedImage(file);
+  
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        console.log(reader);
-        setCardImg(reader.result);
+        setCardImg(reader.result); // This should be the Base64 data
       };
       reader.readAsDataURL(file);
-
+      setSelectedImage(file);
     }
   };
+
   useEffect(() => {
-    console.log(expiration);
-  }, [expiration]);
-  // 월/년 유효기간 검증
+    console.log(isdefault);
+    console.log(selected);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+  
+    async function fetchData() {
+      try {
+        const requestData = {
+          "id": selected,
+        };
+  
+        const response = await axios.post(
+          "/payment/card/",
+          requestData,
+          config
+        );
+  
+        return response.data; // Return the data instead of updating state here
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    }
+  
+    fetchData().then((data) => {
+      // Use the data to update state outside of useEffect
+      setCardNumber(data.serial_num.replace(/\s/g, ""));
+      setExpiration(data.expiry_date);
+      setCVC(data.cvc);
+      setPassword(data.password);
+      setIsDefault(data.is_default);
+      setSelectedImage(data.image);
+    });
+  
+  }, [selected]);
+  
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
     const currentMonth = new Date().getMonth() + 1;
@@ -119,8 +157,12 @@ export default function DirectInput() {
       alert("유효기간이 지났습니다.");
     }
   };
-  const handleSubmit = () => {
+
+
+  const handlecardModify = () => {
     const formData = new FormData();
+
+    formData.append("id", selected);
     formData.append("image", selectedImage);
     formData.append("serial_num", cardNumber);
     formData.append("expiry_date", expiration);
@@ -133,18 +175,26 @@ export default function DirectInput() {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    console.log(config);
+
     // FormData 객체를 사용하여 PUT 요청을 보냅니다.
     axios
-      .post("/payment/card/create/", formData, config)
+      .put("/payment/card/create/", formData, config)
       .then((response) => {
         console.log(response.data);
-        console.log("성공");
-        handleCompleteMove();
+        navigation("/Morecards")
       })
       .catch((error) => {
         console.error("에러 발생:", error);
       });
+  };
+
+  const navigation = useNavigate();
+
+  const handleEnrollMove = () => {
+    navigation("/CardEnroll");
+  };
+  const handlePaymentMove = () => {
+    navigation("/Payment");
   };
   return (
     <div>
@@ -152,11 +202,11 @@ export default function DirectInput() {
       <Modal
         title="직접 입력"
         basicButtonName="확인"
-        basicButtonOnClick={handleSubmit}
+        basicButtonOnClick={handlecardModify}
       >
         <Container>
           <ImageFicker>
-          <label
+            <label
               htmlFor="imageInput"
               style={{ cursor: "pointer", width: "12.5rem", height: "11.5rem" }}
             >
@@ -186,7 +236,7 @@ export default function DirectInput() {
             </label>
           </ImageFicker>
           <section>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handlecardModify}>
               <div style={{ marginTop: "3rem" }}>
                 <Text>카드번호</Text>
                 <BigInput
