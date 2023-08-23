@@ -62,8 +62,7 @@ export default function Payment() {
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        console.log(monthlyData.data);
-
+        console.log(monthlyPayment);
         setUser(userData.data);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
@@ -151,7 +150,7 @@ export default function Payment() {
             navigation("/PaymentDetail");
           }}
         >
-          {monthlyPayment ? (
+          {monthKey.length > 0 ? (
             <div
               style={{
                 textAlign: "center",
@@ -166,7 +165,6 @@ export default function Payment() {
           ) : (
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
           )}
-          {/* 총 {payment_main.totalpayment}원 총 {paymentDetail}원 */}
         </ListBox>
         <ListBox listTitle={"월별 결제 내역"}>
           {/* {monthKey.map((data, index) => {
