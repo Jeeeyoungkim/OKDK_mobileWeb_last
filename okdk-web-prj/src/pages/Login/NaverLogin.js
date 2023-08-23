@@ -22,17 +22,35 @@ const NaverLogin = (props) => {
           },
         });
 
-        console.log("받았따~");
-
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({ data: "성공" })
+          );
+        }
         const access_token = res.data["access"];
         const refresh_token = res.data["refresh"];
 
+        //react-native에 메세지 전송
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({
+              status: "success",
+              access_token: access_token,
+              refresh_token: refresh_token,
+            })
+          );
+        }
+
         localStorage.setItem("access", access_token);
         localStorage.setItem("refresh", refresh_token);
-
-        navigate("/");
       } catch (error) {
-        console.log("Error:", error);
+        console.error("로그인 실패:", error);
+
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({ status: "failed" })
+          );
+        }
       }
     };
 
