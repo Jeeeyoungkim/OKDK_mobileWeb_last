@@ -12,18 +12,18 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigation = useNavigate();
-  const accessToken = localStorage.getItem("access"); //access Token
   const [user, setUser] = useState(null);
   const [favoriteList, setFavoriteList] = useState({});
   const [recents, setRecents] = useState([]);
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    };
-    async function fetchData(retry = true) {
+    async function fetchData() {
+      const accessToken = localStorage.getItem("access");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
       try {
         const userData = await axios.get("/account/user/", config);
         const recentData = await axios.get("/order/recents/", config);
@@ -32,9 +32,6 @@ export default function Home() {
         setUser(userData.data);
         setRecents(recentData.data);
         setFavoriteList(favoriteList.data);
-
-        console.log(userData.data);
-        console.log(user);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
 
@@ -42,10 +39,10 @@ export default function Home() {
           try {
             await refreshAccessToken();
             console.log("fetchData 재시도");
-            await fetchData(false);
+            await fetchData();
           } catch (refreshError) {
             console.error("토큰 갱신 중 오류:", refreshError);
-            // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
+            navigation("/login");
           }
         }
       }
@@ -78,11 +75,11 @@ export default function Home() {
       console.log("success : refresh Access Token");
     } catch (error) {
       console.error("Error refreshing access token:", error);
-      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
+      throw error;
     }
   };
 
-  //현재 날짜에 맞춰서 인삿말 바꿔주기
+  //현재 시간에 맞춰서 인삿말 바꿔주기
   const getTimeOfDay = () => {
     const currentHour = new Date().getHours();
 
@@ -98,9 +95,10 @@ export default function Home() {
   };
 
   const changeMode = async () => {
+    const accessToken = localStorage.getItem("access"); //access Token
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
 
@@ -121,12 +119,11 @@ export default function Home() {
 
       if (error.response && error.response.status === 401) {
         try {
-          // refreshAccessToken 함수를 이용하여 토큰 갱신
           await refreshAccessToken();
           await changeMode();
         } catch (refreshError) {
           console.error("토큰 갱신 중 오류:", refreshError);
-          // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
+          navigation("/login");
         }
       }
     }

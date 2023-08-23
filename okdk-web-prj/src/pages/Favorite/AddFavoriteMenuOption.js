@@ -24,7 +24,7 @@ export default function AddFavoriteMenuOption() {
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
     };
     async function fetchData() {

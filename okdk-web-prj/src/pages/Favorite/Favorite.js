@@ -17,14 +17,10 @@ export default function Favorite() {
   const [user, setUser] = useState(null);
   const [favoriteList, setFavoriteList] = useState({});
 
-  const handleOK = () => {
-    console.log("hi");
-  };
-
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
     };
     async function fetchData() {
@@ -39,7 +35,7 @@ export default function Favorite() {
       }
     }
     fetchData();
-    console.log(favoriteList);
+    console.log("하잉 : ", favoriteList);
   }, []);
 
   return (
