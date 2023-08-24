@@ -18,7 +18,7 @@ export default function EnrollComplete() {
   `;
 
   const handlePaymentMove = () => {
-    navigation("/Payment");
+    navigation("/Morecards");
   };
   return (
     <div>

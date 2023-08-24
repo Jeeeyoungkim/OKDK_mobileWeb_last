@@ -84,11 +84,7 @@ export default function CardModify() {
     alert("수정할 카드를 다시 선택해주세요");
   }
 
-
-  // const accessToken = localStorage.getItem("access");
-  const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxOTkxNDEyLCJpYXQiOjE2OTE5ODc4MTIsImp0aSI6Ijg3ZmFlMDI5ZmFjZTQ4NmY5MDlmYjQ4NGFjYTU1ZWVmIiwidXNlcl9pZCI6Nn0.loGzGDjELszS6opKIFq_NDzpqXArksNPJbss_TseN1w";
-
+ 
   // 카드 선택후 수정하기눌러서 여기오면 route.param에 담긴 값으로 get요청 서버에
   // 그럼 값들이 미리 input에 value로써 들어가있음. 그걸 이용해서 put 수정 할 수 있도록.
   // 위가 get 아래가 put 요청.
@@ -110,13 +106,15 @@ export default function CardModify() {
   useEffect(() => {
     console.log(isdefault);
     console.log(selected);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+   
   
     async function fetchData() {
+      const accessToken = localStorage.getItem('access');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
       try {
         const requestData = {
           "id": selected,
@@ -131,10 +129,21 @@ export default function CardModify() {
         return response.data; // Return the data instead of updating state here
       } catch (error) {
         console.error("에러 발생:", error);
+        if (error.response && error.response.status === 401) {
+          try {
+            await refreshAccessToken();
+            console.log("fetchData 재시도");
+            await fetchData();
+          } catch (refreshError) {
+            console.error("토큰 갱신 중 오류:", refreshError);
+            // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
+          }
+        }
       }
     }
   
     fetchData().then((data) => {
+      console.log(data);
       // Use the data to update state outside of useEffect
       setCardNumber(data.serial_num.replace(/\s/g, ""));
       setExpiration(data.expiry_date);
@@ -145,7 +154,35 @@ export default function CardModify() {
     });
   
   }, [selected]);
-  
+
+  const refreshAccessToken = async () => {
+    const body = {
+      refresh: localStorage.getItem("refresh"),
+    };
+
+    try {
+      const response = await axios.post(
+        "/account/refresh/access_token/",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const access = response.data.access;
+      const refresh = response.data.refresh;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+      console.log("success : refresh Access Token");
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
+    }
+  };
+
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
     const currentMonth = new Date().getMonth() + 1;
@@ -159,9 +196,15 @@ export default function CardModify() {
   };
 
 
-  const handlecardModify = () => {
+  const handlecardModify = async () => {
+    const accessToken = localStorage.getItem('access');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     const formData = new FormData();
-
+  
     formData.append("id", selected);
     formData.append("image", selectedImage);
     formData.append("serial_num", cardNumber);
@@ -170,24 +213,27 @@ export default function CardModify() {
     formData.append("password", password);
     formData.append("is_default", isdefault);
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-
-    // FormData 객체를 사용하여 PUT 요청을 보냅니다.
-    axios
-      .put("/payment/card/create/", formData, config)
-      .then((response) => {
-        console.log(response.data);
-        navigation("/Morecards")
-      })
-      .catch((error) => {
-        console.error("에러 발생:", error);
-      });
+  
+    try {
+      // FormData 객체를 사용하여 PUT 요청을 보냅니다.
+      const response = await axios.put("/payment/card/create/", formData, config);
+      console.log(response.data);
+      navigation("/Morecards");
+    } catch (error) {
+      console.error("에러 발생:", error);
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshAccessToken();
+          console.log("fetchData 재시도");
+          await handlecardModify();
+        } catch (refreshError) {
+          console.error("토큰 갱신 중 오류:", refreshError);
+          // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
+        }
+      }
+    }
   };
-
+  
   const navigation = useNavigate();
 
   const handleEnrollMove = () => {
@@ -214,7 +260,7 @@ export default function CardModify() {
               <ImagePreview>
                 {selectedImage ? (
                   <img
-                    src={cardImg}
+                    src={selectedImage}
                     alt="Selected"
                     style={{
                       maxWidth: "100%",
@@ -348,6 +394,7 @@ export default function CardModify() {
               </div>
             </form>
           </section>
+          
         </Container>
       </Modal>
     </div>
