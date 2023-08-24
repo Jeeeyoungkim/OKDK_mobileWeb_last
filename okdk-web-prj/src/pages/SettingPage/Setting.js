@@ -61,6 +61,7 @@ export default function Setting() {
   const navigation = useNavigate();
   //state management------------------------------
   const [user, setUser] = useState(null);
+  const [social, setSocial] = useState(null);
   useEffect(() => {
     async function fetchData() {
       const accessToken = localStorage.getItem("access"); //access Token
@@ -71,7 +72,8 @@ export default function Setting() {
       };
       try {
         const userData = await axios.get("/account/user/", config);
-        setUser(userData.data);
+        setUser(userData.data.user);
+        setSocial(userData.data.social);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
 
@@ -142,8 +144,10 @@ export default function Setting() {
         </ListBoxContainer>
         <ListBoxContainer
           onClick={() => {
+            console.log(social);
+
             navigation("/AccountOfficer", {
-              state: { user: user },
+              state: { user: user, social: social },
             });
           }}
         >
@@ -151,7 +155,7 @@ export default function Setting() {
             <ItemContainer>계정 관리</ItemContainer>
           </BlurEffect>
         </ListBoxContainer>
-        <ListBoxContainer
+        {/* <ListBoxContainer
           onClick={() => {
             navigation("/ThemeSetting", {
               state: { user: user },
@@ -161,7 +165,7 @@ export default function Setting() {
           <BlurEffect>
             <ItemContainer>테마 설정</ItemContainer>
           </BlurEffect>
-        </ListBoxContainer>
+        </ListBoxContainer> */}
       </ScrollWrap>
     </Body>
   );
