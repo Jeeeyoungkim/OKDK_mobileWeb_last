@@ -121,7 +121,11 @@ export default function Payment() {
           name={user ? user.nickname : "익명"}
           describe={"적립 관리 화면입니다."}
         />
-        <ListBox listTitle={"결제 카드"}>
+        <ListBox 
+        listTitle={"결제 카드"}
+        handleShowMore={() => {
+          navigation("/morecards");
+        }}>
           <div
             style={{
               width: "100%",

@@ -6,7 +6,7 @@ import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import BasicButton from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DatasetController } from "chart.js";
 
@@ -67,7 +67,7 @@ const ImagePreview = styled.div`
   position: relative;
 `;
 
-export default function DirectInput() {
+export default function DirectInput({}) {
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCVC] = useState("");
@@ -76,13 +76,17 @@ export default function DirectInput() {
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
 
-  // const accessToken = localStorage.getItem("access");
+
   // console.log(accessToken);
-  const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxOTkxNDEyLCJpYXQiOjE2OTE5ODc4MTIsImp0aSI6Ijg3ZmFlMDI5ZmFjZTQ4NmY5MDlmYjQ4NGFjYTU1ZWVmIiwidXNlcl9pZCI6Nn0.loGzGDjELszS6opKIFq_NDzpqXArksNPJbss_TseN1w";
-
+  
   const navigation = useNavigate();
+  const location = useLocation();
+  const CameraCardInfo = location.state;
+  console.log(CameraCardInfo);
 
+  if(CameraCardInfo.length !== 0){
+    //나는 setCardNumber setCVC setExpiration 해줄거임
+  }
   const handleCompleteMove = () => {
     navigation("/EnrollComplete");
   };
@@ -105,7 +109,13 @@ export default function DirectInput() {
     }
   };
   useEffect(() => {
-    console.log(expiration);
+    if(CameraCardInfo.length !== 0){
+      const data = CameraCardInfo.datas;
+      setCardNumber(data.card_number);
+      setCVC(data.cvc_number);
+      setExpiration(data.expiration_date);
+      //나는 setCardNumber setCVC setExpiration 해줄거임
+    }
   }, [expiration]);
   // 월/년 유효기간 검증
   const checkExpiry = (month, year) => {
@@ -119,7 +129,8 @@ export default function DirectInput() {
       alert("유효기간이 지났습니다.");
     }
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const accessToken = localStorage.getItem("access");
     const formData = new FormData();
     formData.append("image", selectedImage);
     formData.append("serial_num", cardNumber);
@@ -127,25 +138,61 @@ export default function DirectInput() {
     formData.append("cvc", cvc);
     formData.append("password", password);
     formData.append("is_default", isdefault);
-
+  
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    console.log(config);
-    // FormData 객체를 사용하여 PUT 요청을 보냅니다.
-    axios
-      .post("/payment/card/create/", formData, config)
-      .then((response) => {
-        console.log(response.data);
-        console.log("성공");
-        handleCompleteMove();
-      })
-      .catch((error) => {
-        console.error("에러 발생:", error);
-      });
+  
+    try {
+      console.log(config);
+      // FormData 객체를 사용하여 POST 요청을 보냅니다.
+      const response = await axios.post("/payment/card/create/", formData, config);
+      console.log(response.data);
+      console.log("성공");
+      handleCompleteMove();
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshAccessToken();
+          console.log("fetchData 재시도");
+          await handleSubmit();
+        } catch (refreshError) {
+          console.error("토큰 갱신 중 오류:", refreshError);
+          // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
+        }
+      }
+      console.error("에러 발생:", error);
+    }
   };
+  const refreshAccessToken = async () => {
+    const body = {
+      refresh: localStorage.getItem("refresh"),
+    };
+
+    try {
+      const response = await axios.post(
+        "/account/refresh/access_token/",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const access = response.data.access;
+      const refresh = response.data.refresh;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+      console.log("success : refresh Access Token");
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
+    }
+  };
+
   return (
     <div>
       <TopNavigation />
