@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TopNavigation from "../../components/TopNavigation";
 import PaymentTitle from "../../components/PaymentTitle";
 import { useNavigate, useLocation } from "react-router-dom";
+import BasicButton from "../../components/Button";
 
 export const Body = styled.div`
   width: 100%;
@@ -25,6 +26,17 @@ export const PaymentWrap = styled.div`
   padding: 1.25rem;
   box-sizing: border-box;
   margin-bottom: 1.56rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FaceImage = styled.img`
+  border-radius: 10%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 export default function FaceRegistration() {
   // navigation management-----------------------------
@@ -32,7 +44,7 @@ export default function FaceRegistration() {
   // parameter management------------------------------
   const location = useLocation();
   const user = location.state && location.state.user;
-
+  console.log(user);
   return (
     <Body>
       <TopNavigation navigation={navigation} />
@@ -41,7 +53,23 @@ export default function FaceRegistration() {
           name={user ? user.nickname : "익명"}
           describe={"얼굴데이터를 관리합니다."}
         />
-        <PaymentWrap></PaymentWrap>
+        <PaymentWrap>
+          <div
+            style={{
+              width: "15rem",
+              height: "20rem",
+              marginBottom: "2rem",
+            }}
+          >
+            <FaceImage src={user.image} width={"50%"} />
+          </div>
+          <BasicButton
+            width={"15rem"}
+            height={"3rem"}
+            btnName="갱생하기"
+            // onClick={() => navigation("/AddStoreToEarning")}
+          />
+        </PaymentWrap>
       </ScrollWrap>
     </Body>
   );
