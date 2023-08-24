@@ -17,39 +17,48 @@ export default function Home() {
   const [recents, setRecents] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      try {
-        const userData = await axios.get("/account/user/", config);
-        const recentData = await axios.get("/order/recents/", config);
-        const favoriteList = await axios.get("/order/favorite/", config);
+    window.fetchData = fetchData;
+    //리액트 네이티브에서 JS를 주입하기 위해 window 객체에 할당. -> 전역 범위에 정의
 
-        setUser(userData.data);
-        setRecents(recentData.data);
-        setFavoriteList(favoriteList.data);
-      } catch (error) {
-        console.error("fetchData 함수 에러 발생:", error);
+    fetchData();
+    return () => {
+      // cleanup: 컴포넌트가 unmount 될 때 함수를 제거합니다.
+      delete window.fetchData;
+    };
+  }, []);
 
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData();
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            navigation("/login");
-          }
+  async function fetchData() {
+    const accessToken = localStorage.getItem("access");
+    console.log(accessToken);
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    try {
+      const userData = await axios.get("/account/user/", config);
+      const recentData = await axios.get("/order/recents/", config);
+      const favoriteList = await axios.get("/order/favorite/", config);
+
+      setUser(userData.data.user);
+      setRecents(recentData.data);
+      setFavoriteList(favoriteList.data);
+    } catch (error) {
+      console.error("fetchData 함수 에러 발생:", error);
+
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshAccessToken();
+          console.log("fetchData 재시도");
+          await fetchData();
+        } catch (refreshError) {
+          console.error("토큰 갱신 중 오류:", refreshError);
+          navigation("/login");
         }
       }
     }
-    fetchData();
-    //console.log(favoriteList);
-  }, []);
+  }
 
   const refreshAccessToken = async () => {
     const body = {
