@@ -44,10 +44,10 @@ export default function EarningInfomation() {
           config
         );
 
-        console.log(userData.data);
+        console.log(userData.data.user);
         console.log(barcodeData.data);
 
-        setUser(userData.data);
+        setUser(userData.data.user);
         setBarcode(barcodeData.data);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);

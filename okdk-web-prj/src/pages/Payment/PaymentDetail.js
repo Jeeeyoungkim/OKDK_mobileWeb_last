@@ -138,7 +138,7 @@ export default function PaymentDetail() {
         // console.log(userData.data);
         console.log(paymentData.data);
 
-        setUser(userData.data);
+        setUser(userData.data.user);
         SetPayment(paymentData.data);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);

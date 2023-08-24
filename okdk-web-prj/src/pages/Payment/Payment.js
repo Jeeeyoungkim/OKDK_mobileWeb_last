@@ -62,8 +62,8 @@ export default function Payment() {
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        console.log(monthlyPayment);
-        setUser(userData.data);
+        console.log(basicCardData.data);
+        setUser(userData.data.user);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
         setMonthlyPayment(monthlyData.data);
@@ -121,11 +121,12 @@ export default function Payment() {
           name={user ? user.nickname : "익명"}
           describe={"적립 관리 화면입니다."}
         />
-        <ListBox 
-        listTitle={"결제 카드"}
-        handleShowMore={() => {
-          navigation("/morecards");
-        }}>
+        <ListBox
+          listTitle={"결제 카드"}
+          handleShowMore={() => {
+            navigation("/morecards");
+          }}
+        >
           <div
             style={{
               width: "100%",
