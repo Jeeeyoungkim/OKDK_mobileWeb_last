@@ -13,30 +13,80 @@ import { useNavigate } from "react-router-dom";
 
 export default function Favorite() {
   const navigation = useNavigate();
-  const accessToken = localStorage.getItem("access"); //access Token
   const [user, setUser] = useState(null);
   const [favoriteList, setFavoriteList] = useState({});
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    };
     async function fetchData() {
+      const accessToken = localStorage.getItem("access"); //access Token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
       try {
         const userData = await axios.get("/account/user/", config);
         const favoriteList = await axios.get("/order/favorite/", config);
 
-        setUser(userData.data);
+        setUser(userData.data.user);
         setFavoriteList(favoriteList.data);
       } catch (error) {
         console.error("에러 발생:", error);
+
+        if (error.response && error.response.status === 401) {
+          try {
+            await refreshAccessToken();
+            console.log("fetchData 재시도");
+            await fetchData();
+          } catch (refreshError) {
+            console.error("토큰 갱신 중 오류:", refreshError);
+            navigation("/login");
+          }
+        }
       }
     }
     fetchData();
-    console.log("하잉 : ", favoriteList);
   }, []);
+
+  const refreshAccessToken = async () => {
+    const body = {
+      refresh: localStorage.getItem("refresh"),
+    };
+
+    try {
+      const response = await axios.post(
+        "/account/refresh/access_token/",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const access = response.data.access;
+      const refresh = response.data.refresh;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+      console.log("success : refresh Access Token");
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+      throw error;
+    }
+  };
+
+  const handleEditButtonClick = (selectedStore, selectedStoreName) => {
+    //수정하기 버튼
+
+    const selectedStoreId = selectedStore + 1; //임시로 매장아이디 키값에서 가져옴
+
+    navigation("/AddFavoriteMenu", {
+      state: { selectedStoreId, selectedStoreName },
+    });
+    localStorage.setItem("StoreName", `${selectedStoreName}`); // 브랜드이름 로컬스토리지 등록
+    localStorage.setItem("StoreId", `${selectedStoreId}`);
+  };
 
   return (
     <Body>
@@ -51,20 +101,16 @@ export default function Favorite() {
               const value = favoriteList[item];
               return (
                 <ListBox
+                  key={index}
                   listTitle={item}
                   btnName={"수정하기"}
-                  handleShowMore={() => console.log("click")}
+                  handleShowMore={() => handleEditButtonClick(index, item)}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      marginLeft: "0.5rem",
-                    }}
-                  >
+                  <FavoriteMenuWarp>
                     {value.map((valueItem, valueIndex) => {
                       return (
                         <CoffeeComponent
+                          key={valueIndex}
                           imgURI={valueItem?.menu?.image}
                           first_description={valueItem?.menu?.name}
                           second_description={`${valueItem?.menu?.price}원`}
@@ -72,7 +118,7 @@ export default function Favorite() {
                         ></CoffeeComponent>
                       );
                     })}
-                  </div>
+                  </FavoriteMenuWarp>
                 </ListBox>
               );
             })
@@ -112,4 +158,12 @@ export const ScrollWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const FavoriteMenuWarp = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 0.5rem;
+  overflow: auto;
+  white-space: nowrap;
 `;
