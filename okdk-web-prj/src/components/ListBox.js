@@ -21,6 +21,7 @@ const BlurEffect = styled.div`
   backdrop-filter: blur(3px);
   width: calc(100% + 5px);
   height: fit-content;
+  min-height: 9rem;
   border-radius: 1.25rem;
   position: relative;
   top: 3px;

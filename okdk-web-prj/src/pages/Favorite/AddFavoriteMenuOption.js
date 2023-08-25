@@ -12,9 +12,10 @@ import BasicButton from "../../components/Button";
 export default function AddFavoriteMenuOption() {
   const navigation = useNavigate();
   const location = useLocation();
-  const accessToken = localStorage.getItem("access"); //access Token
 
+  const prevSelectedItems = location.state.prevSelectedItems;
   const FavoriteItems = location.state.FavoriteItems;
+
   const storeId = localStorage.getItem("StoreId");
 
   const [temperatureList, setTemperatureList] = useState([]);
@@ -22,12 +23,13 @@ export default function AddFavoriteMenuOption() {
   const [FavoriteItemsOption, setFavoriteItemsOption] = useState([]); //최종 즐겨찾는 아이템 with 옵션
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
     async function fetchData() {
+      const accessToken = localStorage.getItem("access"); //access Token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
       try {
         const temperatureListData = await axios.get(
           `/coffee/brand/${storeId}/temperature/list/`,
@@ -44,13 +46,25 @@ export default function AddFavoriteMenuOption() {
         setSizeList(sizeListData.data);
       } catch (error) {
         console.error("에러 발생:", error);
+
+        if (error.response && error.response.status === 401) {
+          try {
+            await refreshAccessToken();
+            console.log("fetchData 재시도");
+            await fetchData();
+          } catch (refreshError) {
+            console.error("토큰 갱신 중 오류:", refreshError);
+            navigation("/login");
+          }
+        }
       }
     }
     fetchData(); //get 요청
-    setFavoriteItemsOption(initFavoriteArray(FavoriteItems)); // 즐겨찾는 아이템들 초기화
+    setFavoriteItemsOption(initFavoriteArray(FavoriteItems, prevSelectedItems)); // 즐겨찾는 아이템들 초기화
   }, []);
 
   const sendData = async (FavoriteItemsOption) => {
+    const accessToken = localStorage.getItem("access"); //access Token
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -70,10 +84,24 @@ export default function AddFavoriteMenuOption() {
     }
   };
 
-  //즐겨찾는 아이템들 기본 온도와 사이즈로 설정하여 초기값 설정
-  const initFavoriteArray = (array) => {
-    return array.map((item, index) => {
-      return { menu: item.id, temperature: 1, size: 1 };
+  //즐겨찾는 아이템들 -> 온도 사이즈 기존선택한 값 있으면 불러오기, 없으면 초기값 1로
+  const initFavoriteArray = (array, prevSelectedItems) => {
+    const prevItemsMap = {};
+
+    prevSelectedItems.forEach((item) => {
+      prevItemsMap[item.menu.id] = {
+        temperature: item.temperature.id,
+        size: item.size.id,
+      };
+    });
+
+    return array.map((item) => {
+      const prevItem = prevItemsMap[item.id];
+      return {
+        menu: item.id,
+        temperature: prevItem ? prevItem.temperature : 1,
+        size: prevItem ? prevItem.size : 1,
+      };
     });
   };
 
@@ -101,6 +129,34 @@ export default function AddFavoriteMenuOption() {
 
     localStorage.removeItem("StoreId"); // 로컬스토리지에 스토어 정보 삭제
     localStorage.removeItem("StoreName");
+  };
+
+  const refreshAccessToken = async () => {
+    const body = {
+      refresh: localStorage.getItem("refresh"),
+    };
+
+    try {
+      const response = await axios.post(
+        "/account/refresh/access_token/",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const access = response.data.access;
+      const refresh = response.data.refresh;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+      console.log("success : refresh Access Token");
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+      throw error;
+    }
   };
 
   return (

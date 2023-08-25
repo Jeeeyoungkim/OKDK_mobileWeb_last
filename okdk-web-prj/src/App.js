@@ -24,7 +24,6 @@ import CardSetting from "./pages/CardDetail/CardSetting";
 import DirectInput from "./pages/CardDetail/DirectInput";
 import DetailEarningInfomation from "./pages/Payment/DetailEarningInfomation";
 import PaymentDetail from "./pages/Payment/PaymentDetail";
-import Warning from "./pages/Warning";
 import AddStoreToFavorite from "./pages/Favorite/AddStoreToFavorite";
 import AddFavoriteMenu from "./pages/Favorite/AddFavoriteMenu";
 import AddFavoriteMenuOption from "./pages/Favorite/AddFavoriteMenuOption";
@@ -113,9 +112,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  { path: "/Morecards", 
-    element: <Morecards />,
-  },
+  { path: "/Morecards", element: <Morecards /> },
   {
     path: "/CardModify",
     element: <CardModify />,
@@ -140,10 +137,7 @@ const router = createBrowserRouter([
     path: "/EnrollComplete",
     element: <EnrollComplete />,
   },
-  {
-    path: "/Warning",
-    element: <Warning />,
-  },
+
   {
     path: "/AddStoreToFavorite",
     element: <AddStoreToFavorite />,

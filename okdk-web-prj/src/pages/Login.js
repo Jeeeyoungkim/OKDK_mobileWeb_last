@@ -9,7 +9,7 @@ export default function Login() {
   const handleKakaoLogin = async () => {
     try {
       const Rest_api_key = "1def2aa86fd42c81904840220886ac54"; //REST API KEY
-      const redirect_uri = "http://127.0.0.1:3000/kakao/callback/"; //Redirect URI
+      const redirect_uri = "http://192.168.0.15:3000/kakao/callback/"; //Redirect URI
       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
@@ -22,12 +22,7 @@ export default function Login() {
     try {
       const client_id =
         "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com";
-      const client_secret = "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";
-      const grant_type = "authorization_code";
       const redirection_uri = "http://127.0.0.1:3000/google/callback/";
-      const state = "random_string";
-
-      // const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${app_key}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
 
       const googleURL =
         "https://accounts.google.com/o/oauth2/auth?client_id=" +
@@ -54,11 +49,7 @@ export default function Login() {
 
       const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=${response_type}&client_id=${client_id}&redirect_uri=${uri}&state=${state}'
        `;
-      window.open(naverURL);
-
-      //const tokenData = await axios.get("/account/kakao/");
-
-      //console.log("tokenData: " + tokenData.data);
+      window.location.replace(naverURL);
     } catch (error) {
       console.error("에러 발생:", error);
     }

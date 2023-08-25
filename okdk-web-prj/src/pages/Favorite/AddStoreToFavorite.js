@@ -55,7 +55,7 @@ export default function AddStoreToEarning() {
           config
         );
 
-        setUser(userData.data);
+        setUser(userData.data.user);
         setNonFavoriteBrandData(nonFavoriteBrandData.data);
       } catch (error) {
         console.error("에러 발생:", error);
