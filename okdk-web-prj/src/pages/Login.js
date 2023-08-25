@@ -56,9 +56,7 @@ export default function Login() {
   };
 
   return (
-    <div
-      style={{ width: "360px", height: "800px", backgroundColor: "#F5F7FB" }}
-    >
+    <Body>
       <LogoContainer>
         <LoginLogo src={Logo} alt="로고" />
       </LogoContainer>
@@ -101,7 +99,7 @@ export default function Login() {
         fontWeight="bold"
         imguri="https://freesvg.org/img/1534129544.png"
       />
-    </div>
+    </Body>
   );
 }
 
@@ -110,6 +108,13 @@ const LogoContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding-top: 10rem;
+`;
+
+export const Body = styled.div`
+  width: 100%;
+  height: fit-content;
+  min-height: 100vh;
+  background-color: #f5f7fb;
 `;
 
 const LoginLogo = styled.img`

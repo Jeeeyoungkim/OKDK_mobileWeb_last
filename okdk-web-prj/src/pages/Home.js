@@ -208,14 +208,10 @@ export default function Home() {
     </Body>
   );
 }
-
 export const Body = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
+  height: fit-content;
+  min-height: 100vh;
   background-color: #f5f7fb;
 `;
 
