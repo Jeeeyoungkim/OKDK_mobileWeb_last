@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
-import Logo from "../assets/images/OKDKLogo.png";
+import Logo from "../../assets/images/OKDKLogo.png";
 import styled from "styled-components";
 
-import BasicButton from "../components/Button";
+import BasicButton from "../../components/Button";
 
 export default function Login() {
   const handleKakaoLogin = async () => {

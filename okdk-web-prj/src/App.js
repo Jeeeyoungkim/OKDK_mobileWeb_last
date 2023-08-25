@@ -17,7 +17,7 @@ import Payment from "./pages/Payment/Payment";
 import Setting from "./pages/SettingPage/Setting";
 import EarningInfomation from "./pages/Payment/EarningInfomation";
 import AddStoreToEarning from "./pages/Payment/AddStoreToEarning";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
 import Morecards from "./pages/CardDetail/Morecards";
 import CardEnroll from "./pages/CardDetail/CardEnroll";
 import CardSetting from "./pages/CardDetail/CardSetting";
