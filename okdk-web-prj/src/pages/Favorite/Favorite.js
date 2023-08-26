@@ -15,38 +15,42 @@ export default function Favorite() {
   const navigation = useNavigate();
   const [user, setUser] = useState(null);
   const [favoriteList, setFavoriteList] = useState({});
+  const [brandList, setBrandList] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const accessToken = localStorage.getItem("access"); //access Token
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      try {
-        const userData = await axios.get("/account/user/", config);
-        const favoriteList = await axios.get("/order/favorite/", config);
+    fetchData();
+  }, []);
 
-        setUser(userData.data.user);
-        setFavoriteList(favoriteList.data);
-      } catch (error) {
-        console.error("에러 발생:", error);
+  async function fetchData() {
+    const accessToken = localStorage.getItem("access"); //access Token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    try {
+      const userData = await axios.get("/account/user/", config);
+      const brandList = await axios.get("/coffee/brand/list/", config);
+      const favoriteList = await axios.get("/order/favorite/", config);
 
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData();
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            navigation("/login");
-          }
+      setUser(userData.data.user);
+      setFavoriteList(favoriteList.data);
+      setBrandList(brandList.data);
+    } catch (error) {
+      console.error("에러 발생:", error);
+
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshAccessToken();
+          console.log("fetchData 재시도");
+          await fetchData();
+        } catch (refreshError) {
+          console.error("토큰 갱신 중 오류:", refreshError);
+          navigation("/login");
         }
       }
     }
-    fetchData();
-  }, []);
+  }
 
   const refreshAccessToken = async () => {
     const body = {
@@ -76,16 +80,56 @@ export default function Favorite() {
     }
   };
 
-  const handleEditButtonClick = (selectedStore, selectedStoreName) => {
+  const handleEditButtonClick = (selectedStoreName) => {
     //수정하기 버튼
 
-    const selectedStoreId = selectedStore + 1; //임시로 매장아이디 키값에서 가져옴
+    const [selectedStoreId] = brandList
+      .filter((item) => item.name === selectedStoreName)
+      .map((item) => item.id);
 
     navigation("/AddFavoriteMenu", {
       state: { selectedStoreId, selectedStoreName },
     });
+
     localStorage.setItem("StoreName", `${selectedStoreName}`); // 브랜드이름 로컬스토리지 등록
     localStorage.setItem("StoreId", `${selectedStoreId}`);
+  };
+
+  const handleDeleteButtonClick = async (selectedStoreName) => {
+    const accessToken = localStorage.getItem("access");
+    const [selectedStoreId] = brandList
+      .filter((item) => item.name === selectedStoreName)
+      .map((item) => item.id);
+    const data = {
+      id: selectedStoreId,
+    };
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: data,
+    };
+
+    console.log(data);
+
+    try {
+      await axios.delete("/order/favorite/", config);
+      await fetchData();
+    } catch (error) {
+      console.error("삭제 중 에러 발생:", error);
+
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshAccessToken();
+          console.log("재시도");
+          await handleDeleteButtonClick(selectedStoreName);
+        } catch (refreshError) {
+          console.error("토큰 갱신 중 오류:", refreshError);
+          navigation("/login");
+        }
+      }
+    }
   };
 
   return (
@@ -104,7 +148,8 @@ export default function Favorite() {
                   key={index}
                   listTitle={item}
                   btnName={"수정하기"}
-                  handleShowMore={() => handleEditButtonClick(index, item)}
+                  handleShowMore={() => handleEditButtonClick(item)}
+                  handleDelete={() => handleDeleteButtonClick(item)}
                 >
                   <FavoriteMenuWarp>
                     {value.map((valueItem, valueIndex) => {
@@ -145,7 +190,7 @@ export default function Favorite() {
 
 export const Body = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
