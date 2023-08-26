@@ -29,8 +29,6 @@ export default function Home() {
 
   async function fetchData() {
     const accessToken = localStorage.getItem("access");
-    console.log(accessToken);
-
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
