@@ -16,7 +16,7 @@ const CoffeeComponentContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 3.42806rem;
-  height: 6.101rem;
+  height: fit-content;
   margin: 0 5px 10px 10px;
 `;
 
