@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 
+import LoadingSpinner from "../../assets/loading-spinner.gif";
+
 const GoogleLogin = (props) => {
   const navigate = useNavigate();
 
@@ -58,7 +60,25 @@ const GoogleLogin = (props) => {
     googleLogin();
   }, []);
 
-  return <div>GoogleLogin중입니다</div>;
+  return (
+    <div
+      style={{
+        marginTop: "35vh",
+      }}
+    >
+      <div>
+        <img
+          style={{ width: "50px", height: "50px" }}
+          src={LoadingSpinner}
+          alt="Loading spinner"
+        />
+      </div>
+      <div style={{ marginTop: "2rem" }}>
+        구글 로그인 중입니다. <br />
+        조금만 기다려주세요!
+      </div>
+    </div>
+  );
 };
 
 export default GoogleLogin;

@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 
+import LoadingSpinner from "../../assets/loading-spinner.gif";
+
 const KakaoLogin = (props) => {
   const navigate = useNavigate();
-
   const code = new URL(window.location.href).searchParams.get("code");
 
   //인가코드 백으로 보내는 코드
@@ -51,7 +52,26 @@ const KakaoLogin = (props) => {
     kakaoLogin();
   }, []);
 
-  return <div>KakaoLogin중입니다</div>;
+  return (
+    <div
+      style={{
+        height: "100vh",
+        marginTop: "35vh",
+      }}
+    >
+      <div>
+        <img
+          style={{ width: "50px", height: "50px" }}
+          src={LoadingSpinner}
+          alt="Loading spinner"
+        />
+      </div>
+      <div style={{ marginTop: "2rem" }}>
+        카카오 로그인 중입니다. <br />
+        조금만 기다려주세요!
+      </div>
+    </div>
+  );
 };
 
 export default KakaoLogin;

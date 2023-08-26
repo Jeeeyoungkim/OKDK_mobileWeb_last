@@ -43,7 +43,7 @@ export default function Login() {
     try {
       const client_id = "oRQ7F4q_jX8AvonjIVNf";
       const response_type = "code";
-      const uri = "http://127.0.0.1:3000/naver/callback/";
+      const uri = "http://192.168.0.15:3000/naver/callback/";
       const state = "false";
       // oauth 요청 URL
 
