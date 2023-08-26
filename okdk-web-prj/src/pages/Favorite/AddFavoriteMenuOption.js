@@ -196,7 +196,7 @@ export default function AddFavoriteMenuOption() {
                                 <BasicButton
                                   btnName={
                                     tempItem.name === "hot"
-                                      ? "뜨겁게"
+                                      ? "따뜻하게"
                                       : tempItem.name === "ice"
                                       ? "차갑게"
                                       : tempItem.name
@@ -224,12 +224,16 @@ export default function AddFavoriteMenuOption() {
                                       : "white"
                                   }
                                   fontFamily="Pretendard"
-                                  fontWeight="normal"
+                                  fontWeight={
+                                    tempItem.id === currentTempId
+                                      ? "bold"
+                                      : "normal"
+                                  }
                                   margin="0.2rem"
                                 />
                               );
                             })
-                          : "데이터 불러오기 실패"}
+                          : "데이터 불러오는 중 !"}
                       </div>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <OptionName>사이즈</OptionName>
@@ -272,12 +276,16 @@ export default function AddFavoriteMenuOption() {
                                       : "white"
                                   }
                                   fontFamily="Pretendard"
-                                  fontWeight="normal"
+                                  fontWeight={
+                                    sizeItem.id === currentSizeId
+                                      ? "bold"
+                                      : "normal"
+                                  }
                                   margin="0.2rem"
                                 />
                               );
                             })
-                          : "데이터 불러오기 실패"}
+                          : "데이터 불러오는 중!"}
                       </div>
                     </MenuDescription>
                   </Menu>

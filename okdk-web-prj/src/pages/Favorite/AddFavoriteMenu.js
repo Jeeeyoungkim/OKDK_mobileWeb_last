@@ -153,7 +153,7 @@ export default function AddFavoriteMenu() {
                   />
                 );
               })
-            : "메뉴 데이터를 읽어올 수 없습니다"}
+            : "데이터 읽어오는 중!"}
         </MenuContainer>
       </Modal>
     </>
