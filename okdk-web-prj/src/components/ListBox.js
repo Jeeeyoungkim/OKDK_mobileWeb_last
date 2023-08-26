@@ -47,33 +47,63 @@ const TitleContainer = styled.div`
   background-color: transparent;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 0px;
+  align-items: center;
+  background-color: transparent;
+`;
+
 const ChildrenContainer = styled.div`
   padding: 0px 10px 10px 5px;
   box-sizing: border-box;
   background-color: transparent;
 `;
 
-const ListBox = ({ listTitle, children, handleShowMore, btnName }) => {
+const ListBox = ({
+  listTitle,
+  children,
+  handleShowMore,
+  handleDelete,
+  btnName,
+}) => {
   return (
     <ListBoxContainer>
       <BlurEffect>
         <TitleContainer>
           <TitleText>{listTitle}</TitleText>
-          {handleShowMore && (
-            <BasicButton
-              btnName={btnName ? btnName : "더보기"}
-              onClick={handleShowMore}
-              width={btnName ? "5rem" : "4.1rem"}
-              gi
-              height={"1.8rem"}
-              backgroundColor="#056CF2"
-              borderRadius="1.25rem"
-              fontSize="1rem"
-              color="#FFF"
-              fontFamily="Pretendard"
-              fontWeight="bold"
-            />
-          )}
+          <ButtonContainer>
+            {handleDelete && (
+              <BasicButton
+                btnName={"삭제하기"}
+                onClick={handleDelete}
+                width={"5rem"}
+                gi
+                height={"1.8rem"}
+                backgroundColor="#ef4444"
+                borderRadius="1.25rem"
+                fontSize="1rem"
+                color="#FFF"
+                fontFamily="Pretendard"
+                fontWeight="bold"
+              />
+            )}
+            {handleShowMore && (
+              <BasicButton
+                btnName={btnName ? btnName : "더보기"}
+                onClick={handleShowMore}
+                width={btnName ? "5rem" : "4.1rem"}
+                gi
+                height={"1.8rem"}
+                backgroundColor="#056CF2"
+                borderRadius="1.25rem"
+                fontSize="1rem"
+                color="#FFF"
+                fontFamily="Pretendard"
+                fontWeight="bold"
+              />
+            )}
+          </ButtonContainer>
         </TitleContainer>
         <ChildrenContainer>{children}</ChildrenContainer>
       </BlurEffect>
