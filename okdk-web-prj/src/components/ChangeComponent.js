@@ -51,7 +51,12 @@ function ChangeComponent({ handleParentClick }) {
               ? ["쉬운 모드로", <br key="1" />, "변경하기"]
               : ["쉬운 모드", <br key="1" />, "입니다"]}
           </OverlayText2>
-          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
             <SelectLadder
               style={{
                 filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",

@@ -14,6 +14,7 @@ const CoffeeComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 3.42806rem;
   height: 6.101rem;
   margin: 0 5px 10px 10px;
