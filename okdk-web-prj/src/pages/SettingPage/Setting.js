@@ -120,6 +120,60 @@ export default function Setting() {
     }
   };
 
+  //로그아웃 함수들
+  const KakaoLogout = async () => {
+    console.log("카카오 로그아웃");
+    const accessToken = localStorage.getItem("access"); //access Token
+    try {
+      const response = await axios.post(
+        "https://kapi.kakao.com/v1/user/logout",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response);
+      localStorage.clear();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const NaverLogout = () => {
+    console.log("네이버 로그아웃");
+    localStorage.clear();
+  };
+
+  const GoogleLogout = () => {
+    console.log("구글 로그아웃");
+    localStorage.clear();
+  };
+
+  const handleLogout = async (social) => {
+    if (social === "카카오톡") {
+      await KakaoLogout();
+    }
+    if (social === "구글") {
+      GoogleLogout();
+    }
+    if (social === "네이버") {
+      NaverLogout();
+    }
+
+    console.log("native asyncStorage 없애기");
+    //react-native에 메세지 전송
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          status: "logout",
+        })
+      );
+    }
+  };
+
   return (
     <Body>
       <TopNavigation navigation={navigation} />
@@ -155,6 +209,12 @@ export default function Setting() {
             <ItemContainer>계정 관리</ItemContainer>
           </BlurEffect>
         </ListBoxContainer>
+        <ListBoxContainer onClick={() => handleLogout(social)}>
+          <BlurEffect>
+            <ItemContainer>로그아웃</ItemContainer>
+          </BlurEffect>
+        </ListBoxContainer>
+
         {/* <ListBoxContainer
           onClick={() => {
             navigation("/ThemeSetting", {

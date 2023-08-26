@@ -46,6 +46,8 @@ const GoogleLogin = (props) => {
 
         localStorage.setItem("access", access_token);
         localStorage.setItem("refresh", refresh_token);
+
+        navigate("/");
       } catch (error) {
         console.error("로그인 실패:", error);
 
