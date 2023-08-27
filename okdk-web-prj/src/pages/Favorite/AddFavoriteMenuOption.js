@@ -88,12 +88,14 @@ export default function AddFavoriteMenuOption() {
   const initFavoriteArray = (array, prevSelectedItems) => {
     const prevItemsMap = {};
 
-    prevSelectedItems.forEach((item) => {
-      prevItemsMap[item.menu.id] = {
-        temperature: item.temperature.id,
-        size: item.size.id,
-      };
-    });
+    if (prevSelectedItems && prevSelectedItems.length > 0) {
+      prevSelectedItems.forEach((item) => {
+        prevItemsMap[item.menu.id] = {
+          temperature: item.temperature.id,
+          size: item.size.id,
+        };
+      });
+    }
 
     return array.map((item) => {
       const prevItem = prevItemsMap[item.id];
