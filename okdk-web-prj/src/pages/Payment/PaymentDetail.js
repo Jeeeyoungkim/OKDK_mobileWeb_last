@@ -192,6 +192,8 @@ export default function PaymentDetail() {
 
     data.forEach((item) => {
       const date = item.created_at.slice(0, 10); // "YYYY-MM-DD" 형식의 날짜 추출
+      console.log(date.slice(6, 7));
+      console.log(month);
       if (month && date.slice(6, 7) != month) {
         return;
       }
@@ -200,6 +202,7 @@ export default function PaymentDetail() {
       }
       groupedData[date].push(item);
     });
+    console.log(groupedData);
     return groupedData;
   };
 
@@ -218,7 +221,12 @@ export default function PaymentDetail() {
                 {month ? month : payment[0].created_at.slice(6, 7)}월 사용내역
               </PaymentSubTitle>
               <PaymentTotalPrice>
-                {payment.reduce((acc, item) => acc + item.totalPrice, 0)}원
+                {Object.entries(groupDataByDate(payment)).reduce(
+                  (acc, [date, data]) =>
+                    acc + data.reduce((sum, item) => sum + item.totalPrice, 0),
+                  0
+                )}
+                원
               </PaymentTotalPrice>
             </>
           ) : null}
