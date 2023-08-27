@@ -190,7 +190,13 @@ export default function Payment() {
         <ListBox
           listTitle={"이번달 결제 내역"}
           handleShowMore={() => {
-            navigation("/PaymentDetail");
+            navigation("/PaymentDetail", {
+              state: {
+                month: monthKey
+                  ? monthKey[monthKey.length - 1].slice(1, 2)
+                  : null,
+              },
+            });
           }}
         >
           {monthKey.length > 0 ? (
