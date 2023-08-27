@@ -198,8 +198,6 @@ export default function Setting() {
         </ListBoxContainer>
         <ListBoxContainer
           onClick={() => {
-            console.log(social);
-
             navigation("/AccountOfficer", {
               state: { user: user, social: social },
             });

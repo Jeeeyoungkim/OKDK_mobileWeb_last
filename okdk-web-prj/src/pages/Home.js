@@ -17,7 +17,7 @@ export default function Home() {
   const [recents, setRecents] = useState([]);
 
   useEffect(() => {
-    window.fetchData = fetchData;
+    window.fetchData = fetchData();
     //리액트 네이티브에서 JS를 주입하기 위해 window 객체에 할당. -> 전역 범위에 정의
 
     fetchData();

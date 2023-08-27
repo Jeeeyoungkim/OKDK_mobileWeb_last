@@ -45,6 +45,17 @@ export default function FaceRegistration() {
   const location = useLocation();
   const user = location.state && location.state.user;
   console.log(user);
+
+  const handleUpdateFace = () => {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          status: "updateFace",
+        })
+      );
+    }
+  };
+
   return (
     <Body>
       <TopNavigation navigation={navigation} />
@@ -67,7 +78,7 @@ export default function FaceRegistration() {
             width={"15rem"}
             height={"3rem"}
             btnName="갱생하기"
-            // onClick={() => navigation("/AddStoreToEarning")}
+            onClick={() => handleUpdateFace()}
           />
         </PaymentWrap>
       </ScrollWrap>
