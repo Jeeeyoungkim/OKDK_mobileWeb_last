@@ -38,6 +38,11 @@ export const FaceImage = styled.img`
   height: 100%;
   object-fit: cover;
 `;
+
+export const UndefinedText = styled.p`
+  color: #aaaaaa;
+`;
+
 export default function FaceRegistration() {
   // navigation management-----------------------------
   const navigation = useNavigate();
@@ -65,21 +70,27 @@ export default function FaceRegistration() {
           describe={"얼굴데이터를 관리합니다."}
         />
         <PaymentWrap>
-          <div
-            style={{
-              width: "15rem",
-              height: "20rem",
-              marginBottom: "2rem",
-            }}
-          >
-            <FaceImage src={user.image} width={"50%"} />
-          </div>
-          <BasicButton
-            width={"15rem"}
-            height={"3rem"}
-            btnName="갱생하기"
-            onClick={() => handleUpdateFace()}
-          />
+          {user ? (
+            <>
+              <div
+                style={{
+                  width: "15rem",
+                  height: "20rem",
+                  marginBottom: "2rem",
+                }}
+              >
+                <FaceImage src={user.image} width={"50%"} />
+              </div>
+              <BasicButton
+                width={"15rem"}
+                height={"3rem"}
+                btnName="갱생하기"
+                onClick={() => handleUpdateFace()}
+              />
+            </>
+          ) : (
+            <UndefinedText>얼굴 데이터를 등록하세요</UndefinedText>
+          )}
         </PaymentWrap>
       </ScrollWrap>
     </Body>

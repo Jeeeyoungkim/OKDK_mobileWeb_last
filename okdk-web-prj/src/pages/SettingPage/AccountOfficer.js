@@ -40,6 +40,11 @@ export const Title = styled.div`
   line-height: normal;
   padding-bottom: 0.5rem;
 `;
+
+export const UndefinedText = styled.p`
+  color: #aaaaaa;
+  width: 100%;
+`;
 export default function AccountOfficer() {
   // navigation management-----------------------------
   const navigation = useNavigate();
@@ -110,37 +115,43 @@ export default function AccountOfficer() {
           describe={"계정을 관리합니다."}
         />
         <PaymentWrap>
-          <Title>로그인 정보</Title>
-          <p
-            style={{
-              width: "100%",
-              color: "#595959",
-              fontWeight: "600",
-              paddingBottom: 5,
-              textAlign: "start",
-              borderBottom: "1px solid #A4A4A4",
-            }}
-          >
-            {social}
-          </p>
-          <Title
-            style={{
-              marginTop: 10,
-            }}
-          >
-            OKDK 서비스 이용
-          </Title>
-          <div
-            style={{
-              textDecoration: "underline",
-              color: "#595959",
-            }}
-            onClick={() => {
-              fetchData();
-            }}
-          >
-            계정 탈퇴하기
-          </div>
+          {user && social ? (
+            <>
+              <Title>로그인 정보</Title>
+              <p
+                style={{
+                  width: "100%",
+                  color: "#595959",
+                  fontWeight: "600",
+                  paddingBottom: 5,
+                  textAlign: "start",
+                  borderBottom: "1px solid #A4A4A4",
+                }}
+              >
+                {social}
+              </p>
+              <Title
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                OKDK 서비스 이용
+              </Title>
+              <div
+                style={{
+                  textDecoration: "underline",
+                  color: "#595959",
+                }}
+                onClick={() => {
+                  fetchData();
+                }}
+              >
+                계정 탈퇴하기
+              </div>
+            </>
+          ) : (
+            <UndefinedText>로그인을 먼저 하세요</UndefinedText>
+          )}
         </PaymentWrap>
       </ScrollWrap>
     </Body>
