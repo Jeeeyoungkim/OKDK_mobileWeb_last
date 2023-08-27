@@ -9,6 +9,7 @@ import PaymentTitle from "../../components/PaymentTitle";
 import payment_main from "../../mock/payment_main.json";
 import Barcode from "../../components/Barcode";
 import MonthlyPayment from "../../components/MonthlyPayment";
+import { authInstance } from "../../API/utils";
 
 export const Body = styled.div`
   width: 100%;
@@ -40,29 +41,19 @@ export default function Payment() {
   //Randering management--------------------------
   //axios function
   useEffect(() => {
-    async function fetchData(retry = true) {
-      const accessToken = localStorage.getItem("access"); //access Token
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
+    async function fetchData() {
       try {
-        const userData = await axios.get("/account/user/", config);
-        const basicCardData = await axios.get(
-          "/account/user/default/card/",
-          config
+        const userData = await authInstance.get("/account/user/");
+        const basicCardData = await authInstance.get(
+          "/account/user/default/card/"
         );
-        const barcodeData = await axios.get(
-          "/payment/membership/list/",
-          config
-        );
-        const monthlyData = await axios.get("/order/month/", config);
+        const barcodeData = await authInstance.get("/payment/membership/list/");
+        const monthlyData = await authInstance.get("/order/month/");
 
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        console.log(basicCardData.data);
+        // console.log(basicCardData.data);
         setUser(userData.data.user);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
@@ -70,48 +61,10 @@ export default function Payment() {
         setMonthKey(Object.keys(monthlyData.data).sort()); //object 접근을 위한 key 배열
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData(false);
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-          }
-        }
       }
     }
     fetchData();
   }, []);
-
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
-    }
-  };
 
   return (
     <Body>

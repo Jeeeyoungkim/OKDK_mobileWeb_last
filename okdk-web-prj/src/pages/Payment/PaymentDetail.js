@@ -4,6 +4,7 @@ import TopNavigation from "../../components/TopNavigation";
 import { useNavigate, useLocation } from "react-router-dom";
 import PaymentTitle from "../../components/PaymentTitle";
 import axios from "axios";
+import { authInstance } from "../../API/utils";
 
 export const Body = styled.div`
   width: 100%;
@@ -124,67 +125,19 @@ export default function PaymentDetail() {
 
   useEffect(() => {
     async function fetchData() {
-      const accessToken = localStorage.getItem("access"); //access Token
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
-        const userData = await axios.get("/account/user/", config);
-
-        const paymentData = await axios.get("/order/recents/", config);
-
+        const userData = await authInstance.get("/account/user/");
+        const paymentData = await authInstance.get("/order/recents/");
         // console.log(userData.data);
-        console.log(paymentData.data);
-
+        // console.log(paymentData.data);
         setUser(userData.data.user);
         SetPayment(paymentData.data);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
-
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData(false);
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-          }
-        }
       }
     }
     fetchData();
   }, []);
-
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
-    }
-  };
 
   // 날짜별로 history 분할하는 함수------------------------
   const groupDataByDate = (data) => {
