@@ -8,9 +8,9 @@ import BasicButton from "../../components/Button";
 export default function Login() {
   const handleKakaoLogin = async () => {
     try {
-      const Rest_api_key = "1def2aa86fd42c81904840220886ac54"; //REST API KEY
+      const api_key = process.env.REACT_APP_KAKAO_API_KEY; //REST API KEY
       const redirect_uri = "http://192.168.0.15:3000/kakao/callback/"; //Redirect URI
-      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${api_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
     } catch (error) {
@@ -20,8 +20,7 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const client_id =
-        "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com";
+      const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
       const redirection_uri = "http://127.0.0.1:3000/google/callback/";
 
       const googleURL =
@@ -41,7 +40,7 @@ export default function Login() {
 
   const handleNaverLogin = async () => {
     try {
-      const client_id = "oRQ7F4q_jX8AvonjIVNf";
+      const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
       const response_type = "code";
       const uri = "http://192.168.0.15:3000/naver/callback/";
       const state = "false";
