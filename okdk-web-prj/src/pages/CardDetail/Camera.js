@@ -24,29 +24,12 @@ export default function Camera() {
   };
   useEffect(() => {
     // 웹뷰 페이지가 로드되면 메시지 전송
-    const message = { type: 'sendToApp', data: { message: "hellow" } };
+    const message = { type: 'WebViewCamera', data: { message: "hellow" } };
     window.ReactNativeWebView.postMessage(JSON.stringify(message));
     
   
   }, []);
 
-//   window.addEventListener('message', (event) => {
-//     const data = event.nativedata;
-//     console.log(data); // 확인용으로 전체 data 출력
-
-// try {
-//     const parsedData = JSON.parse(data);
-//     console.log('Parsed data:', parsedData);
-
-//     if (parsedData && parsedData.card) { // data.card가 존재하는지만 확인
-//         console.log('Received data in WebView:', parsedData.card);
-//         navigation('/payment', { state: { enroll: true , datas: {data: parsedData}} });
-//     }
-// } catch (error) {
-//     console.error('Error parsing JSON:', error);
-// }
-
-//   });
 
 document.addEventListener('message',(e) => {
   console.log(e.data);

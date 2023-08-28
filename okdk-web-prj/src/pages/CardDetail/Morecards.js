@@ -1,26 +1,22 @@
 // Morecards
 
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import BasicButton from "../../components/Button";
 import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
-import styled from "styled-components";
 import DirectInput from "./DirectInput";
-import BasicButton from "../../components/Button";
-import { useNavigate } from "react-router-dom";
 
-import cardlists from "../../mock/Card_list.json";
-import axios from "axios";
+import { authInstance } from "../../API/utils";
+
 export default function Morecards() {
   const [cards, setcards] = useState([]);
   const [selectedcard, setSelectedcard] = useState(null);
 
-  // const accessToken = localStorage.getItem('access');
-  // const accessToken =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzk1OTQwLCJpYXQiOjE2OTI3ODg0OTcsImp0aSI6IjMxYmY2YjE4NzY0YjQyNmE4ZmNmNTVjYWQ0NDAyMDZkIiwidXNlcl9pZCI6M30.hweFoac7emAl0ScIKbeE4IidnVAReDBmtroj0-RMOuM";
-  const refreshToken = 
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5Mjg3NDg5NywiaWF0IjoxNjkyNzg4NDk3LCJqdGkiOiIxY2ZhY2JlODdmMmQ0Y2M1OGVhYmU2ZmQyMTlmNTE3NyIsInVzZXJfaWQiOjN9.N65kqMb4zJrIOc3pBBULmYLi0NUQdRjKosKJ3Jpn4_M";
-  localStorage.setItem("refresh", refreshToken);
   useEffect(() => {
 
     async function fetchData() {
@@ -31,23 +27,13 @@ export default function Morecards() {
         },
       };
       try {
-        const cardlist = await axios.get("/payment/card/list/", config);
+        const cardlist = await authInstance.get("/payment/card/list/", config);
 
         console.log(cardlist.data);
 
         setcards(cardlist.data);
       } catch (error) {
         console.error("에러 발생:", error);
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData();
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-          }
-        }
       }
     }
     fetchData();
@@ -79,50 +65,13 @@ export default function Morecards() {
         data: requestData, // DELETE 요청에서는 data를 사용하여 body를 명시합니다.
       };
 
-      const response = await axios.delete("/payment/card/create/", config);
+      const response = await authInstance.delete("/payment/card/create/", config);
       console.log(response);
     } catch (error) {
       console.error("에러 발생:", error);
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          console.log("fetchData 재시도");
-          await handlecardDelete();
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-        }
-      }
     }
   };
 
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
-    }
-  };
   const handleEnrollMove = () => {
     navigation("/CardEnroll");
   };
