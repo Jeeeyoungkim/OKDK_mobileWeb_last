@@ -26,13 +26,6 @@ yarn-error.log*
 .env
 
 #BASE URL
-src/API/
-
-!api.js
-
-src/API/api/api.js
-
-src/setupProxy.js
 
 
 
