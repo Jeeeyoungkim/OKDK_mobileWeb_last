@@ -35,7 +35,6 @@ export default function AddFavoriteMenuOption() {
           `/coffee/brand/${storeId}/size/list/`
         );
 
-        console.log(FavoriteItems);
         setTemperatureList(temperatureListData.data);
         setSizeList(sizeListData.data);
       } catch (error) {

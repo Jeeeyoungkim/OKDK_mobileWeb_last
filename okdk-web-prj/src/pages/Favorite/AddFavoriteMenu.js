@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import CoffeeComponent from "../../components/CoffeeComponent";
+import { authInstance } from "../../API/utils";
 
 export default function AddFavoriteMenu() {
   const navigation = useNavigate();
@@ -46,19 +47,11 @@ export default function AddFavoriteMenu() {
 
   useEffect(() => {
     async function fetchData() {
-      const accessToken = localStorage.getItem("access"); //access Token
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
-        const menuListData = await axios.get(
-          `/coffee/brand/${selectedStore}/menu/list/`,
-          config
+        const menuListData = await authInstance.get(
+          `/coffee/brand/${selectedStore}/menu/list/`
         );
-        const favoriteList = await axios.get("/order/favorite/", config);
+        const favoriteList = await authInstance.get("/order/favorite/");
 
         setMenuListData(menuListData.data);
         setPrevSelectedItems(favoriteList.data[selectedStoreName]);
@@ -68,17 +61,6 @@ export default function AddFavoriteMenu() {
         );
       } catch (error) {
         console.error("에러 발생:", error);
-
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData();
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            navigation("/login");
-          }
-        }
       }
     }
     fetchData();
@@ -95,34 +77,6 @@ export default function AddFavoriteMenu() {
         .map((menuItem) => menuItem.id);
 
       setSelectedItems((prevItems) => [...prevItems, ...newSelectedItems]);
-    }
-  };
-
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error;
     }
   };
 

@@ -35,11 +35,17 @@ export default function Home() {
       const recentData = await authInstance.get("/order/recents/");
       const favoriteList = await authInstance.get("/order/favorite/");
 
+      const sortedRecents = recentData.data.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
+      const topFive = sortedRecents.slice(0, 4);
+
       setUser(userData.data.user);
-      setRecents(recentData.data);
       setFavoriteList(favoriteList.data);
+      setRecents(topFive);
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
+      navigation("/login");
     }
   }
 
