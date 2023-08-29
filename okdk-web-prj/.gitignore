@@ -27,3 +27,5 @@ yarn-error.log*
 
 #BASE URL
 src/API/
+
+!api.js
