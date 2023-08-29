@@ -30,8 +30,6 @@ const KakaoLogin = (props) => {
         const accessToken = res.data["access"];
         const refreshToken = res.data["refresh"];
 
-        console.log("2", accessToken, refreshToken);
-
         //react-native에 메세지 전송
         if (window.ReactNativeWebView) {
           window.ReactNativeWebView.postMessage(
