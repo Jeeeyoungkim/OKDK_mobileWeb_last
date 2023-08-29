@@ -31,3 +31,7 @@ src/API/
 !api.js
 
 src/API/api/api.js
+
+src/setupProxy.js
+
+!setupProxy.js
