@@ -15,34 +15,36 @@ const KakaoLogin = (props) => {
   useEffect(() => {
     const kakaoLogin = async () => {
       try {
-        const res = await authInstance.get(
-          `/account/kakao/callback/?code=${code}`
-        );
+        // const res = await authInstance.get(
+        //   `/account/kakao/callback/?code=${code}`
+        // );
 
-        // const res = await axios({
-        //   method: "GET",
-        //   url: `/account/kakao/callback/?code=${code}`,
-        //   headers: {
-        //     "Content-Type": "application/json;charset=utf-8",
-        //   },
-        // });
+        const res = await axios({
+          method: "GET",
+          url: `http://3.36.95.105/account/kakao/callback/?code=${code}`,
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+        });
 
-        const access_token = res.data["access"];
-        const refresh_token = res.data["refresh"];
+        const accessToken = res.data["access"];
+        const refreshToken = res.data["refresh"];
+
+        console.log("2", accessToken, refreshToken);
 
         //react-native에 메세지 전송
         if (window.ReactNativeWebView) {
           window.ReactNativeWebView.postMessage(
             JSON.stringify({
               status: "success",
-              access_token: access_token,
-              refresh_token: refresh_token,
+              access_token: accessToken,
+              refresh_token: refreshToken,
             })
           );
         }
 
-        localStorage.setItem("access", access_token);
-        localStorage.setItem("refresh", refresh_token);
+        localStorage.setItem("access", accessToken);
+        localStorage.setItem("refresh", refreshToken);
 
         navigate("/");
       } catch (error) {
