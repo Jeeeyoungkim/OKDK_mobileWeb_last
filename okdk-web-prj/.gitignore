@@ -29,3 +29,5 @@ yarn-error.log*
 src/API/
 
 !api.js
+
+src/API/api/api.js
