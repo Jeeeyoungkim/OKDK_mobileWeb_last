@@ -7,6 +7,8 @@ import TopNavigation from "../../components/TopNavigation";
 import { FiSearch } from "react-icons/fi";
 import { AiFillCheckCircle } from "react-icons/ai";
 
+import { authInstance } from "../../API/utils";
+
 export default function AddStoreToEarning() {
   //variable management---------------------------
   const navigation = useNavigate();
@@ -41,18 +43,11 @@ export default function AddStoreToEarning() {
   };
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-
     async function fetchData() {
       try {
-        const userData = await axios.get("/account/user/", config);
-        const nonFavoriteBrandData = await axios.get(
-          "/coffee/brand/nonFavorite/list/",
-          config
+        const userData = await authInstance.get("/account/user/");
+        const nonFavoriteBrandData = await authInstance.get(
+          "/coffee/brand/nonFavorite/list/"
         );
 
         setUser(userData.data.user);

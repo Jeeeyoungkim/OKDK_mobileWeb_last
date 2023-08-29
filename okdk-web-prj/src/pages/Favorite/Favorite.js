@@ -11,6 +11,8 @@ import CoffeeComponent from "../../components/CoffeeComponent";
 
 import { useNavigate } from "react-router-dom";
 
+import { authInstance, defaultInstance } from "../../API/utils";
+
 export default function Favorite() {
   const navigation = useNavigate();
   const [user, setUser] = useState(null);
@@ -22,63 +24,18 @@ export default function Favorite() {
   }, []);
 
   async function fetchData() {
-    const accessToken = localStorage.getItem("access"); //access Token
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
     try {
-      const userData = await axios.get("/account/user/", config);
-      const brandList = await axios.get("/coffee/brand/list/", config);
-      const favoriteList = await axios.get("/order/favorite/", config);
+      const userData = await authInstance.get("/account/user/");
+      const brandList = await authInstance.get("/coffee/brand/list/");
+      const favoriteList = await authInstance.get("/order/favorite/");
 
       setUser(userData.data.user);
       setFavoriteList(favoriteList.data);
       setBrandList(brandList.data);
     } catch (error) {
       console.error("에러 발생:", error);
-
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          console.log("fetchData 재시도");
-          await fetchData();
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          navigation("/login");
-        }
-      }
     }
   }
-
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error;
-    }
-  };
 
   const handleEditButtonClick = (selectedStoreName) => {
     //수정하기 버튼
@@ -96,7 +53,6 @@ export default function Favorite() {
   };
 
   const handleDeleteButtonClick = async (selectedStoreName) => {
-    const accessToken = localStorage.getItem("access");
     const [selectedStoreId] = brandList
       .filter((item) => item.name === selectedStoreName)
       .map((item) => item.id);
@@ -106,29 +62,28 @@ export default function Favorite() {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
       data: data,
     };
 
-    console.log(data);
-
     try {
-      await axios.delete("/order/favorite/", config);
+      await defaultInstance.delete("/order/favorite/", config);
+      //await axios.delete("/order/favorite/", config);
       await fetchData();
     } catch (error) {
       console.error("삭제 중 에러 발생:", error);
 
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          console.log("재시도");
-          await handleDeleteButtonClick(selectedStoreName);
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          navigation("/login");
-        }
-      }
+      // if (error.response && error.response.status === 401) {
+      //   try {
+      //     await refreshAccessToken();
+      //     console.log("재시도");
+      //     await handleDeleteButtonClick(selectedStoreName);
+      //   } catch (refreshError) {
+      //     console.error("토큰 갱신 중 오류:", refreshError);
+      //     navigation("/login");
+      //   }
+      // }
     }
   };
 

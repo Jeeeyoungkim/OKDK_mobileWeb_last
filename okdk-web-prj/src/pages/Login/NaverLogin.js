@@ -5,6 +5,8 @@ import axios from "axios";
 
 import LoadingSpinner from "../../assets/loading-spinner.gif";
 
+import { authInstance } from "../../API/utils";
+
 const NaverLogin = (props) => {
   const navigate = useNavigate();
 
@@ -15,14 +17,18 @@ const NaverLogin = (props) => {
   useEffect(() => {
     const naverLogin = async () => {
       try {
-        const res = await axios({
-          method: "GET",
-          url: `/account/naver/callback/?code=${code}`,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-            "Access-Control-Allow-Origin": "*",
-          },
-        });
+        const res = await authInstance.get(
+          `/account/naver/callback/?code=${code}`
+        );
+
+        // const res = await axios({
+        //   method: "GET",
+        //   url: `/account/naver/callback/?code=${code}`,
+        //   headers: {
+        //     "Content-Type": "application/json;charset=utf-8",
+        //     "Access-Control-Allow-Origin": "*",
+        //   },
+        // });
 
         if (window.ReactNativeWebView) {
           window.ReactNativeWebView.postMessage(

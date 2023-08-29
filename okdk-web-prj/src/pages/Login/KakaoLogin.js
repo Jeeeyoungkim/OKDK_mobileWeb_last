@@ -5,6 +5,8 @@ import axios from "axios";
 
 import LoadingSpinner from "../../assets/loading-spinner.gif";
 
+import { authInstance } from "../../API/utils";
+
 const KakaoLogin = (props) => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
@@ -13,13 +15,17 @@ const KakaoLogin = (props) => {
   useEffect(() => {
     const kakaoLogin = async () => {
       try {
-        const res = await axios({
-          method: "GET",
-          url: `/account/kakao/callback/?code=${code}`,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-        });
+        const res = await authInstance.get(
+          `/account/kakao/callback/?code=${code}`
+        );
+
+        // const res = await axios({
+        //   method: "GET",
+        //   url: `/account/kakao/callback/?code=${code}`,
+        //   headers: {
+        //     "Content-Type": "application/json;charset=utf-8",
+        //   },
+        // });
 
         const access_token = res.data["access"];
         const refresh_token = res.data["refresh"];

@@ -5,6 +5,8 @@ import axios from "axios";
 
 import LoadingSpinner from "../../assets/loading-spinner.gif";
 
+import { authInstance } from "../../API/utils";
+
 const GoogleLogin = (props) => {
   const navigate = useNavigate();
 
@@ -16,14 +18,18 @@ const GoogleLogin = (props) => {
     console.log(accessToken);
     const googleLogin = async () => {
       try {
-        const res = await axios({
-          method: "GET",
-          url: `/account/google/callback/?access_token=${accessToken}`,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-            "Access-Control-Allow-Origin": "*",
-          },
-        });
+        const res = await authInstance.get(
+          `/account/google/callback/?access_token=${accessToken}`
+        );
+
+        // const res = await axios({
+        //   method: "GET",
+        //   url: `/account/google/callback/?access_token=${accessToken}`,
+        //   headers: {
+        //     "Content-Type": "application/json;charset=utf-8",
+        //     "Access-Control-Allow-Origin": "*",
+        //   },
+        // });
 
         if (window.ReactNativeWebView) {
           window.ReactNativeWebView.postMessage(

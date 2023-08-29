@@ -9,6 +9,8 @@ import TopNavigation from "../../components/TopNavigation";
 import CoffeeComponent from "../../components/CoffeeComponent";
 import BasicButton from "../../components/Button";
 
+import { authInstance } from "../../API/utils";
+
 export default function AddFavoriteMenuOption() {
   const navigation = useNavigate();
   const location = useLocation();
@@ -24,21 +26,13 @@ export default function AddFavoriteMenuOption() {
 
   useEffect(() => {
     async function fetchData() {
-      const accessToken = localStorage.getItem("access"); //access Token
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
-        const temperatureListData = await axios.get(
-          `/coffee/brand/${storeId}/temperature/list/`,
-          config
+        const temperatureListData = await authInstance.get(
+          `/coffee/brand/${storeId}/temperature/list/`
         );
 
-        const sizeListData = await axios.get(
-          `/coffee/brand/${storeId}/size/list/`,
-          config
+        const sizeListData = await authInstance.get(
+          `/coffee/brand/${storeId}/size/list/`
         );
 
         console.log(FavoriteItems);
@@ -46,17 +40,6 @@ export default function AddFavoriteMenuOption() {
         setSizeList(sizeListData.data);
       } catch (error) {
         console.error("에러 발생:", error);
-
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData();
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            navigation("/login");
-          }
-        }
       }
     }
     fetchData(); //get 요청
@@ -64,12 +47,6 @@ export default function AddFavoriteMenuOption() {
   }, []);
 
   const sendData = async (FavoriteItemsOption) => {
-    const accessToken = localStorage.getItem("access"); //access Token
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
     const data = {
       brand: `${localStorage.getItem("StoreName")}`,
       favorites: FavoriteItemsOption,
@@ -77,7 +54,7 @@ export default function AddFavoriteMenuOption() {
     console.log(data);
 
     try {
-      const response = await axios.post("/order/favorite/", data, config);
+      const response = await authInstance.post("/order/favorite/", data);
       console.log(response);
     } catch (error) {
       console.error("Error:", error);
@@ -131,34 +108,6 @@ export default function AddFavoriteMenuOption() {
 
     localStorage.removeItem("StoreId"); // 로컬스토리지에 스토어 정보 삭제
     localStorage.removeItem("StoreName");
-  };
-
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error;
-    }
   };
 
   return (

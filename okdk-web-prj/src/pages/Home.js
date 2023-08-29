@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import BasicButton from "../components/Button";
+
 import TopNavigation from "../components/TopNavigation";
 import styled from "styled-components";
 import PaymentTitle from "../components/PaymentTitle";
@@ -10,8 +9,11 @@ import CoffeeComponent from "../components/CoffeeComponent";
 
 import { useNavigate } from "react-router-dom";
 
+import { authInstance } from "../API/utils";
+
 export default function Home() {
   const navigation = useNavigate();
+
   const [user, setUser] = useState(null);
   const [favoriteList, setFavoriteList] = useState({});
   const [recents, setRecents] = useState([]);
@@ -28,63 +30,18 @@ export default function Home() {
   }, []);
 
   async function fetchData() {
-    const accessToken = localStorage.getItem("access");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
     try {
-      const userData = await axios.get("/account/user/", config);
-      const recentData = await axios.get("/order/recents/", config);
-      const favoriteList = await axios.get("/order/favorite/", config);
+      const userData = await authInstance.get("/account/user/");
+      const recentData = await authInstance.get("/order/recents/");
+      const favoriteList = await authInstance.get("/order/favorite/");
 
       setUser(userData.data.user);
       setRecents(recentData.data);
       setFavoriteList(favoriteList.data);
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
-
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          console.log("fetchData 재시도");
-          await fetchData();
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          navigation("/login");
-        }
-      }
     }
   }
-
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
-
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error;
-    }
-  };
 
   //현재 시간에 맞춰서 인삿말 바꿔주기
   const getTimeOfDay = () => {
@@ -102,37 +59,19 @@ export default function Home() {
   };
 
   const changeMode = async () => {
-    const accessToken = localStorage.getItem("access"); //access Token
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-
     const body = {
       username: user.username,
     };
     try {
       console.log(user.username);
 
-      const response = await axios.put(
+      const response = await authInstance.put(
         "/account/user/mode/update/",
-        body,
-        config
+        body
       );
       console.log(response.data);
     } catch (error) {
       console.error("Error changing mode:", error);
-
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          await changeMode();
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          navigation("/login");
-        }
-      }
     }
   };
 
