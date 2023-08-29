@@ -6,10 +6,11 @@ import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import BasicButton from "../../components/Button";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DatasetController } from "chart.js";
-
+import { authInstance } from "../../API/utils";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,15 +77,12 @@ export default function DirectInput({}) {
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
 
-
-  // console.log(accessToken);
-  
   const navigation = useNavigate();
   const location = useLocation();
   const CameraCardInfo = location.state;
   console.log(CameraCardInfo);
 
-  if(CameraCardInfo.length !== 0){
+  if (CameraCardInfo !== undefined) {
     //나는 setCardNumber setCVC setExpiration 해줄거임
   }
   const handleCompleteMove = () => {
@@ -105,18 +103,16 @@ export default function DirectInput({}) {
         setCardImg(reader.result);
       };
       reader.readAsDataURL(file);
-
     }
   };
   useEffect(() => {
-    if(CameraCardInfo.length !== 0){
+    if (CameraCardInfo !== null) {
       const data = CameraCardInfo.datas;
       setCardNumber(data.card_number);
       setCVC(data.cvc_number);
       setExpiration(data.expiration_date);
-      //나는 setCardNumber setCVC setExpiration 해줄거임
     }
-  }, [expiration]);
+  }, []);
   // 월/년 유효기간 검증
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
@@ -138,60 +134,30 @@ export default function DirectInput({}) {
     formData.append("cvc", cvc);
     formData.append("password", password);
     formData.append("is_default", isdefault);
-  
+
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-  
+
     try {
       console.log(config);
       // FormData 객체를 사용하여 POST 요청을 보냅니다.
-      const response = await axios.post("/payment/card/create/", formData, config);
+      const response = await authInstance.post(
+        "/payment/card/create/",
+        formData,
+        config
+      );
       console.log(response.data);
       console.log("성공");
       handleCompleteMove();
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          console.log("fetchData 재시도");
-          await handleSubmit();
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-        }
-      }
+    
       console.error("에러 발생:", error);
     }
   };
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
 
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
-    }
-  };
 
   return (
     <div>
@@ -203,7 +169,7 @@ export default function DirectInput({}) {
       >
         <Container>
           <ImageFicker>
-          <label
+            <label
               htmlFor="imageInput"
               style={{ cursor: "pointer", width: "12.5rem", height: "11.5rem" }}
             >

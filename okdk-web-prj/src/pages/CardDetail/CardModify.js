@@ -1,5 +1,5 @@
 // directInput
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
@@ -8,7 +8,8 @@ import BasicButton from "../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import cardDetails from "../../mock/cardDetail.json"
+// API base URl 관리
+import { authInstance } from "../../API/utils";
 import { AiFillPropertySafety } from "react-icons/ai";
 
 const Container = styled.div`
@@ -56,6 +57,7 @@ const ImageFicker = styled.div`
   flex-shrink: 0;
   border: 2px solid #ccc;
   overflow: hidden;
+  border-radius: 1.25rem;
 `;
 const ImagePreview = styled.div`
   width: 100%;
@@ -84,7 +86,7 @@ export default function CardModify() {
     alert("수정할 카드를 다시 선택해주세요");
   }
 
- 
+ const inputRef = useRef(null);
   // 카드 선택후 수정하기눌러서 여기오면 route.param에 담긴 값으로 get요청 서버에
   // 그럼 값들이 미리 input에 value로써 들어가있음. 그걸 이용해서 put 수정 할 수 있도록.
   // 위가 get 아래가 put 요청.
@@ -100,9 +102,10 @@ export default function CardModify() {
       };
       reader.readAsDataURL(file);
       setSelectedImage(file);
+      console.log(cardImg,selectedImage);
     }
   };
-
+  
   useEffect(() => {
     console.log(isdefault);
     console.log(selected);
@@ -120,7 +123,7 @@ export default function CardModify() {
           "id": selected,
         };
   
-        const response = await axios.post(
+        const response = await authInstance.post(
           "/payment/card/",
           requestData,
           config
@@ -129,59 +132,33 @@ export default function CardModify() {
         return response.data; // Return the data instead of updating state here
       } catch (error) {
         console.error("에러 발생:", error);
-        if (error.response && error.response.status === 401) {
-          try {
-            await refreshAccessToken();
-            console.log("fetchData 재시도");
-            await fetchData();
-          } catch (refreshError) {
-            console.error("토큰 갱신 중 오류:", refreshError);
-            // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-          }
-        }
+      
       }
     }
   
     fetchData().then((data) => {
       console.log(data);
       // Use the data to update state outside of useEffect
-      setCardNumber(data.serial_num.replace(/\s/g, ""));
+      setCardNumber(data.serial_num);
       setExpiration(data.expiry_date);
       setCVC(data.cvc);
       setPassword(data.password);
       setIsDefault(data.is_default);
-      setSelectedImage(data.image);
+      setCardImg(data.image);
+
+      
+       setSelectedImage(data.image);
+
     });
   
   }, [selected]);
 
-  const refreshAccessToken = async () => {
-    const body = {
-      refresh: localStorage.getItem("refresh"),
-    };
+  useEffect(() => {
+    if(typeof selectedImage !== 'object'){
+console.log(typeof selectedImage);
+}
+  },[selectedImage])
 
-    try {
-      const response = await axios.post(
-        "/account/refresh/access_token/",
-        body,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const access = response.data.access;
-      const refresh = response.data.refresh;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-      console.log("success : refresh Access Token");
-    } catch (error) {
-      console.error("Error refreshing access token:", error);
-      throw error; // 함수를 호출하는 곳에서 오류를 처리할 수 있도록 오류를 다시 던집니다.
-    }
-  };
 
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
@@ -206,7 +183,15 @@ export default function CardModify() {
     const formData = new FormData();
   
     formData.append("id", selected);
-    formData.append("image", selectedImage);
+    if(typeof selectedImage !== "object"){
+      const newBlob = new Blob([new Uint8Array(selectedImage)]);
+      const fileName = selectedImage.match(/\/([^/]+)\.png$/)[1];
+      const newFile = new File([newBlob], `${fileName}.png`, {type: 'image/jpeg'});
+      formData.append("image", newFile);
+    } else {
+      formData.append("image", selectedImage);
+    }
+    
     formData.append("serial_num", cardNumber);
     formData.append("expiry_date", expiration);
     formData.append("cvc", cvc);
@@ -216,21 +201,12 @@ export default function CardModify() {
   
     try {
       // FormData 객체를 사용하여 PUT 요청을 보냅니다.
-      const response = await axios.put("/payment/card/create/", formData, config);
+      const response = await authInstance.put("/payment/card/create/", formData, config);
       console.log(response.data);
       navigation("/Morecards");
     } catch (error) {
       console.error("에러 발생:", error);
-      if (error.response && error.response.status === 401) {
-        try {
-          await refreshAccessToken();
-          console.log("fetchData 재시도");
-          await handlecardModify();
-        } catch (refreshError) {
-          console.error("토큰 갱신 중 오류:", refreshError);
-          // 추가적인 오류 처리 로직 필요 (예: 사용자를 로그인 페이지로 리다이렉트)
-        }
-      }
+      
     }
   };
   
@@ -258,9 +234,9 @@ export default function CardModify() {
             >
               {/* 파일 입력 대신 네모칸 역할을 하는 label */}
               <ImagePreview>
-                {selectedImage ? (
+                {cardImg ? (
                   <img
-                    src={selectedImage}
+                    src={cardImg}
                     alt="Selected"
                     style={{
                       maxWidth: "100%",
@@ -273,6 +249,7 @@ export default function CardModify() {
                 )}
               </ImagePreview>
               <input
+                ref={inputRef}
                 type="file"
                 id="imageInput"
                 accept="image/*"

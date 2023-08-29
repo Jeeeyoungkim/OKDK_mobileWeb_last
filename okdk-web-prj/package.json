@@ -2,7 +2,7 @@
   "name": "okdk-web-prj",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://3.36.95.105/",
+  "proxy": "http://3.36.95.105",
   "dependencies": {
     "@react-navigation/native": "^6.1.7",
     "@testing-library/jest-dom": "^5.17.0",
@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "chart.js": "^4.3.3",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
