@@ -34,7 +34,7 @@ export default function Home() {
       const userData = await authInstance.get("/account/user/");
       const recentData = await authInstance.get("/order/recents/");
       const favoriteList = await authInstance.get("/order/favorite/");
-      console.log(recentData);
+
       const sortedRecents = recentData.data.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
@@ -48,6 +48,15 @@ export default function Home() {
       navigation("/login");
     }
   }
+
+  const navigateWebView = (destination) => {
+    console.log(destination);
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ status: `${destination}` })
+      );
+    }
+  };
 
   //현재 시간에 맞춰서 인삿말 바꿔주기
   const getTimeOfDay = () => {
@@ -92,7 +101,7 @@ export default function Home() {
         <ChangeComponent handleParentClick={changeMode} />
         <ListBox
           listTitle={"즐겨찾는 메뉴"}
-          handleShowMore={() => navigation("/Favorite")}
+          handleShowMore={() => navigateWebView("Favorite")}
         >
           <div
             style={{
@@ -124,7 +133,7 @@ export default function Home() {
         </ListBox>
         <ListBox
           listTitle={"최근 이용 내역"}
-          handleShowMore={() => navigation("/PaymentDetail")}
+          handleShowMore={() => navigateWebView("Payment")}
         >
           <div
             style={{
@@ -135,7 +144,6 @@ export default function Home() {
           >
             {recents && recents.length > 0
               ? recents.map((item, index) => {
-                  console.log(item);
                   const firstOption = item?.options?.[0];
                   const menuImage = firstOption?.menu?.image;
                   const menuName = firstOption?.menu?.name;

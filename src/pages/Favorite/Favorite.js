@@ -69,21 +69,9 @@ export default function Favorite() {
 
     try {
       await defaultInstance.delete("/order/favorite/", config);
-      //await axios.delete("/order/favorite/", config);
       await fetchData();
     } catch (error) {
       console.error("삭제 중 에러 발생:", error);
-
-      // if (error.response && error.response.status === 401) {
-      //   try {
-      //     await refreshAccessToken();
-      //     console.log("재시도");
-      //     await handleDeleteButtonClick(selectedStoreName);
-      //   } catch (refreshError) {
-      //     console.error("토큰 갱신 중 오류:", refreshError);
-      //     navigation("/login");
-      //   }
-      // }
     }
   };
 
