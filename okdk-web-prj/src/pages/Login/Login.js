@@ -9,8 +9,7 @@ export default function Login() {
   const handleKakaoLogin = async () => {
     try {
       const api_key = process.env.REACT_APP_KAKAO_API_KEY; //REST API KEY
-      const redirect_uri =
-        "https://voluble-basbousa-74cfc0.netlify.app//kakao/callback/"; //Redirect URI
+      const redirect_uri = "http://43.201.113.143/kakao/callback/"; //Redirect URI
       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${api_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
@@ -22,8 +21,7 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-      const redirection_uri =
-        "https://voluble-basbousa-74cfc0.netlify.app/google/callback/";
+      const redirection_uri = "http://43.201.113.143/google/callback/";
 
       const googleURL =
         "https://accounts.google.com/o/oauth2/auth?client_id=" +
@@ -44,7 +42,7 @@ export default function Login() {
     try {
       const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
       const response_type = "code";
-      const uri = "https://voluble-basbousa-74cfc0.netlify.app/naver/callback/";
+      const uri = "http://43.201.113.143/naver/callback/";
       const state = "false";
       // oauth 요청 URL
 
