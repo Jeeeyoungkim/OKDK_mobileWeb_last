@@ -34,7 +34,7 @@ export default function Home() {
       const userData = await authInstance.get("/account/user/");
       const recentData = await authInstance.get("/order/recents/");
       const favoriteList = await authInstance.get("/order/favorite/");
-
+      console.log(recentData);
       const sortedRecents = recentData.data.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
