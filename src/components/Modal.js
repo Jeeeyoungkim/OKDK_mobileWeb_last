@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import BasicButton from "./Button";
 
-export const Overlay = styled.section`
+const Overlay = styled.section`
   z-index: 1;
   width: 100%;
   height: 100%;
@@ -18,7 +18,7 @@ export const Overlay = styled.section`
   bottom: 0;
 `;
 
-export const ModalWrap = styled.div`
+const ModalWrap = styled.div`
   width: 20rem;
   height: 35rem;
   background-color: white;
@@ -30,7 +30,7 @@ export const ModalWrap = styled.div`
   align-items: center;
 `;
 
-export const ModalTitle = styled.span`
+const ModalTitle = styled.span`
   color: black;
   width: 100%;
   height: fit-content;
@@ -44,12 +44,11 @@ export const ModalTitle = styled.span`
   text-align: left;
 `;
 
-export const ModalDocument = styled.div`
+const ModalDocument = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 `;
 
@@ -59,36 +58,63 @@ export default function Modal({
   basicButtonName,
   basicButtonOnClick,
   buttonDisable,
+  // 석현 추가함
+  backbasicButtonName,
+  backbasicButtonOnClick,
 }) {
   return (
-    <>
-      <Overlay>
-        <ModalWrap onClick={(e) => e.stopPropagation()}>
-          <ModalDocument>
-            <ModalTitle>{title}</ModalTitle>
-            {children}
-          </ModalDocument>
-        </ModalWrap>
-        {basicButtonName && basicButtonOnClick ? (
-          <BasicButton
-            btnName={basicButtonName}
-            onClick={() => {
-              if (!buttonDisable) {
-                basicButtonOnClick();
-              }
-            }}
-            width="20rem"
-            height="4rem"
-            backgroundColor={buttonDisable ? "gray" : "#056CF2"}
-            borderRadius="30px"
-            font-size="1.25rem"
-            color="white"
-            font-family="Pretendard"
-            font-weight="bold"
-            disabled={buttonDisable}
-          />
-        ) : null}
-      </Overlay>
-    </>
+    <Overlay>
+      <ModalWrap onClick={(e) => e.stopPropagation()}>
+        <ModalDocument>
+          <ModalTitle>{title}</ModalTitle>
+          {children}
+        </ModalDocument>
+      </ModalWrap>
+      {(basicButtonName && basicButtonOnClick) ? (
+        <div style={{flexDirection:'row'}}>
+          {backbasicButtonName && backbasicButtonOnClick && (
+            <BasicButton
+              btnName={backbasicButtonName}
+              onClick={() => {
+                if (!buttonDisable) {
+                  backbasicButtonOnClick();
+                }
+              }}
+              width="9rem"
+              height="4rem"
+              backgroundColor={buttonDisable ? "gray" : "#056CF2"}
+              borderRadius="30px"
+              fontSize="1.25rem"
+              color="white"
+              fontFamily="Pretendard"
+              fontWeight="bold"
+              disabled={buttonDisable}
+            />
+          )}
+          {basicButtonName && basicButtonOnClick && (
+            <BasicButton
+              btnName={basicButtonName}
+              onClick={() => {
+                if (!buttonDisable) {
+                  basicButtonOnClick();
+                }
+              }}
+              width="9rem"
+              height="4rem"
+              backgroundColor={buttonDisable ? "gray" : "#056CF2"}
+              borderRadius="30px"
+              fontSize="1.25rem"
+              color="white"
+              fontFamily="Pretendard"
+              fontWeight="bold"
+              disabled={buttonDisable}
+            />
+          )}
+          
+        </div>
+      ) : (
+       null
+      )}
+    </Overlay>
   );
 }

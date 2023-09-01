@@ -39,15 +39,19 @@ console.log(parsedData.card);
   // alert(e.data);
   navigation('/DirectInput', { state: { enroll: true , datas: parsedData.card} }); 
 });
-
+const handleBackPage = () => {
+  navigation(-1);
+}
 
   return (
     <div>
-      <TopNavigation />
+      <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title="카메라 촬영"
         basicButtonName="확인"
         basicButtonOnClick={handlePaymentMove}
+        backbasicButtonName="뒤로가기"
+        backbasicButtonOnClick={handleBackPage}
       >
         <div>안녕</div>
       </Modal>

@@ -1,13 +1,13 @@
 // directInput
-import React, { useEffect, useState , useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Modal from "../../components/Modal";
-import TopNavigation from "../../components/TopNavigation";
+import TopNavigation, { ArrowBackImage } from "../../components/TopNavigation";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import BasicButton from "../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import ArrowBack from "../../assets/images/arrowBack.svg";
 // API base URl 관리
 import { authInstance } from "../../API/utils";
 import { AiFillPropertySafety } from "react-icons/ai";
@@ -79,40 +79,26 @@ export default function CardModify() {
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
 
-  const {state} = useLocation();
+  const { state } = useLocation();
+  const navigation = useNavigate();
   console.log(state);
   const selected = state;
-  if(!state){
+  if (!state) {
     alert("수정할 카드를 다시 선택해주세요");
+    navigation("/Morecards");
   }
 
- const inputRef = useRef(null);
+  const inputRef = useRef(null);
   // 카드 선택후 수정하기눌러서 여기오면 route.param에 담긴 값으로 get요청 서버에
   // 그럼 값들이 미리 input에 value로써 들어가있음. 그걸 이용해서 put 수정 할 수 있도록.
   // 위가 get 아래가 put 요청.
 
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-  
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setCardImg(reader.result); // This should be the Base64 data
-      };
-      reader.readAsDataURL(file);
-      setSelectedImage(file);
-      console.log(cardImg,selectedImage);
-    }
-  };
-  
   useEffect(() => {
     console.log(isdefault);
     console.log(selected);
-   
-  
+
     async function fetchData() {
-      const accessToken = localStorage.getItem('access');
+      const accessToken = localStorage.getItem("access");
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -120,22 +106,21 @@ export default function CardModify() {
       };
       try {
         const requestData = {
-          "id": selected,
+          id: selected,
         };
-  
+
         const response = await authInstance.post(
           "/payment/card/",
           requestData,
           config
         );
-  
+
         return response.data; // Return the data instead of updating state here
       } catch (error) {
         console.error("에러 발생:", error);
-      
       }
     }
-  
+
     fetchData().then((data) => {
       console.log(data);
       // Use the data to update state outside of useEffect
@@ -144,21 +129,15 @@ export default function CardModify() {
       setCVC(data.cvc);
       setPassword(data.password);
       setIsDefault(data.is_default);
-      setCardImg(data.image);
-
-      
-       setSelectedImage(data.image);
-
+      setSelectedImage(data.image);
     });
-  
   }, [selected]);
 
   useEffect(() => {
-    if(typeof selectedImage !== 'object'){
-console.log(typeof selectedImage);
-}
-  },[selectedImage])
-
+    if (typeof selectedImage !== "object") {
+      console.log(typeof selectedImage);
+    }
+  }, [selectedImage]);
 
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
@@ -171,60 +150,86 @@ console.log(typeof selectedImage);
       alert("유효기간이 지났습니다.");
     }
   };
-
+  const getImageFileFromUrl = async (url) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], "image.jpg", { type: "image/jpeg" });
+  };
 
   const handlecardModify = async () => {
-    const accessToken = localStorage.getItem('access');
+    const accessToken = localStorage.getItem("access");
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const formData = new FormData();
-  
+
     formData.append("id", selected);
-    if(typeof selectedImage !== "object"){
-      const newBlob = new Blob([new Uint8Array(selectedImage)]);
-      const fileName = selectedImage.match(/\/([^/]+)\.png$/)[1];
-      const newFile = new File([newBlob], `${fileName}.png`, {type: 'image/jpeg'});
-      formData.append("image", newFile);
-    } else {
-      formData.append("image", selectedImage);
-    }
-    
+    formData.append("image", {
+      name: "test.jpg",
+      type: "image/jpeg",
+      uri: "file://" + selectedImage,
+    });
+    // if (typeof selectedImage !== "object") {
+    //   const newBlob = new Blob([new Uint8Array(selectedImage)]);
+    //   const fileName = selectedImage.match(/\/([^/]+)\.png$/)[1];
+    //   const newFile = new File([newBlob], `${fileName}.png`, {
+    //     type: "image/jpeg",
+    //   });
+    //   formData.append("image", newFile);
+    // } else {
+    //   formData.append("image", selectedImage);
+    // }
+
     formData.append("serial_num", cardNumber);
     formData.append("expiry_date", expiration);
     formData.append("cvc", cvc);
     formData.append("password", password);
     formData.append("is_default", isdefault);
+    const imageFile = await getImageFileFromUrl(selectedImage);
 
-  
+    // 이미지 파일을 FormData에 추가
+    formData.append("image", imageFile);
+    for (const [key, value] of formData.entries()) {
+      console.log(`Field: ${key}, Value: ${value}`);
+    }
+
     try {
       // FormData 객체를 사용하여 PUT 요청을 보냅니다.
-      const response = await authInstance.put("/payment/card/create/", formData, config);
+      const response = await authInstance.put(
+        "/payment/card/create/",
+        formData,
+        config
+      );
       console.log(response.data);
       navigation("/Morecards");
     } catch (error) {
       console.error("에러 발생:", error);
-      
     }
   };
-  
-  const navigation = useNavigate();
+
+
 
   const handleEnrollMove = () => {
     navigation("/CardEnroll");
   };
+
+  const handleBackPage = () => {
+    navigation(-1);
+  }
   const handlePaymentMove = () => {
     navigation("/Payment");
   };
   return (
     <div>
-      <TopNavigation />
+      <TopNavigation destination={"Home"} />
       <Modal
         title="직접 입력"
         basicButtonName="확인"
         basicButtonOnClick={handlecardModify}
+        backbasicButtonName="뒤로가기"
+        backbasicButtonOnClick={handleBackPage}
       >
         <Container>
           <ImageFicker>
@@ -234,28 +239,16 @@ console.log(typeof selectedImage);
             >
               {/* 파일 입력 대신 네모칸 역할을 하는 label */}
               <ImagePreview>
-                {cardImg ? (
-                  <img
-                    src={cardImg}
-                    alt="Selected"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                ) : (
-                  <div>사진을 입력해주세요</div>
-                )}
+                <img
+                  src={selectedImage}
+                  alt="Selected"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "cover",
+                  }}
+                />
               </ImagePreview>
-              <input
-                ref={inputRef}
-                type="file"
-                id="imageInput"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
             </label>
           </ImageFicker>
           <section>
@@ -371,7 +364,6 @@ console.log(typeof selectedImage);
               </div>
             </form>
           </section>
-          
         </Container>
       </Modal>
     </div>
