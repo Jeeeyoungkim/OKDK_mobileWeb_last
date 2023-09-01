@@ -135,6 +135,7 @@ export default function Home() {
           >
             {recents && recents.length > 0
               ? recents.map((item, index) => {
+                  console.log(item);
                   const firstOption = item?.options?.[0];
                   const menuImage = firstOption?.menu?.image;
                   const menuName = firstOption?.menu?.name;
