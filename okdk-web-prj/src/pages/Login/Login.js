@@ -8,9 +8,9 @@ import BasicButton from "../../components/Button";
 export default function Login() {
   const handleKakaoLogin = async () => {
     try {
-      const api_key = process.env.REACT_APP_KAKAO_API_KEY; //REST API KEY
+      // const api_key = process.env.REACT_APP_KAKAO_API_KEY; //REST API KEY
       const redirect_uri = "http://43.201.113.143/kakao/callback/"; //Redirect URI
-      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=1def2aa86fd42c81904840220886ac54&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
     } catch (error) {
@@ -20,12 +20,12 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+      // const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
       const redirection_uri = "http://43.201.113.143/google/callback/";
 
       const googleURL =
         "https://accounts.google.com/o/oauth2/auth?client_id=" +
-        client_id +
+        "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com" +
         "&redirect_uri=" +
         redirection_uri +
         "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" +
@@ -40,13 +40,13 @@ export default function Login() {
 
   const handleNaverLogin = async () => {
     try {
-      const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
+      // const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
       const response_type = "code";
       const uri = "http://43.201.113.143/naver/callback/";
       const state = "false";
       // oauth 요청 URL
 
-      const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=${response_type}&client_id=${client_id}&redirect_uri=${uri}&state=${state}'
+      const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=${response_type}&client_id=oRQ7F4q_jX8AvonjIVNf&redirect_uri=${uri}&state=${state}'
        `;
       window.location.replace(naverURL);
     } catch (error) {
