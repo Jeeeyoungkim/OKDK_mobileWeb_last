@@ -86,10 +86,12 @@ export default function DirectInput() {
   const [isdefault, setIsDefault] = useState(false);
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
+  const [cardLength, setCardLength] = useState(null);
+  const [cardFirstId, setCardFirstId] = useState(null);
 
   const navigation = useNavigate();
   const location = useLocation();
-  const CameraCardInfo = location.state;
+  const CameraCardInfo = location?.state;
   console.log(CameraCardInfo);
 
    // 이미지 경로 배열
@@ -107,22 +109,49 @@ const cardImages = {
   blackcard,
 };
 const imagePaths = Object.keys(cardImages);
+useEffect(() => {
+  async function fetchData() {
+    const accessToken = localStorage.getItem("access");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    try {
+      const cardlist = await authInstance.get("/payment/card/list/", config);
 
+      console.log(cardlist.data);
+      setCardLength(cardlist.data[0].length);
+      setCardFirstId(cardlist.data[0].id);
+    } catch (error) {
+      console.error("에러 발생:", error);
+    }
+  }
+  fetchData();
+}, []);
 useEffect(() => {
   // 컴포넌트가 마운트될 때 랜덤 이미지 선택
-  const randomIndex = Math.floor(Math.random() * imagePaths.length);
-  const selectedImagePath = cardImages[imagePaths[randomIndex]];
-
-  // 선택된 이미지의 상대 경로를 상태에 설정합니다.
+  console.log(cardLength);
+  if(cardLength !== 0){
+  let orderIndex = (cardFirstId-38)%9;
+  console.log(orderIndex);
+  const selectedImagePath = cardImages[imagePaths[orderIndex]];
   setSelectedImage(selectedImagePath);
-}, []);
-
-  if (CameraCardInfo !== undefined) {
-    //나는 setCardNumber setCVC setExpiration 해줄거임
-    setCardNumber(CameraCardInfo.card_number);
-    setExpiration(CameraCardInfo.expiration_date);
-    setCVC(CameraCardInfo.cvc_number);
   }
+  else{
+    let orderIndex = (cardLength)%9;
+    const selectedImagePath = cardImages[imagePaths[orderIndex]];
+    setSelectedImage(selectedImagePath);
+  }
+  // 선택된 이미지의 상대 경로를 상태에 설정합니다.
+}, [cardLength]);
+
+  // if (CameraCardInfo !== null && CameraCardInfo !== undefined) {
+  //   //나는 setCardNumber setCVC setExpiration 해줄거임
+  //   setCardNumber(CameraCardInfo.card_number);
+  //   setExpiration(CameraCardInfo.expiration_date);
+  //   setCVC(CameraCardInfo.cvc_number);
+  // }
   const handleCompleteMove = () => {
     navigation("/EnrollComplete");
   };
@@ -145,10 +174,10 @@ useEffect(() => {
   // };
   useEffect(() => {
     if (CameraCardInfo !== null) {
-      const data = CameraCardInfo.datas;
-      setCardNumber(data.card_number);
-      setCVC(data.cvc_number);
-      setExpiration(data.expiration_date);
+      const data = CameraCardInfo?.datas;
+      setCardNumber(data?.card_number);
+      setCVC(data?.cvc_number);
+      setExpiration(data?.expiration_date);
     }
   }, []);
   // 월/년 유효기간 검증
