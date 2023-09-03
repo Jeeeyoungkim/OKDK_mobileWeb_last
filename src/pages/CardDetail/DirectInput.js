@@ -87,91 +87,67 @@ export default function DirectInput() {
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const [cardLength, setCardLength] = useState(null);
-  const [cardFirstId, setCardFirstId] = useState(null);
+  const [cardLastId, setCardLastId] = useState(null);
+  const [cardListData, setCardListData] = useState(null);
 
   const navigation = useNavigate();
   const location = useLocation();
   const CameraCardInfo = location?.state;
   console.log(CameraCardInfo);
 
-   // 이미지 경로 배열
+  // 이미지 경로 배열
 
-// 이미지 객체를 만듦
-const cardImages = {
-  yellowcard,
-  skybluecard,
-  redcard,
-  pupplecard,
-  pinkcard,
-  orangecard,
-  greencard,
-  bluecard,
-  blackcard,
-};
-const imagePaths = Object.keys(cardImages);
-useEffect(() => {
-  async function fetchData() {
-    const accessToken = localStorage.getItem("access");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    try {
-      const cardlist = await authInstance.get("/payment/card/list/", config);
-
-      console.log(cardlist.data);
-      setCardLength(cardlist.data[0].length);
-      setCardFirstId(cardlist.data[0].id);
-    } catch (error) {
-      console.error("에러 발생:", error);
+  // 이미지 객체를 만듦
+  const cardImages = {
+    yellowcard,
+    skybluecard,
+    redcard,
+    pupplecard,
+    pinkcard,
+    orangecard,
+    greencard,
+    bluecard,
+    blackcard,
+  };
+  const imagePaths = Object.keys(cardImages);
+  useEffect(() => {
+    async function fetchData() {
+      const accessToken = localStorage.getItem("access");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      try {
+        const cardlist = await authInstance.get("/payment/card/list/", config);
+        setCardListData(cardlist.data);
+        setCardLength(cardlist.data.length);
+        setCardLastId(cardlist.data[cardlist.data.length - 1].id);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
     }
-  }
-  fetchData();
-}, []);
-useEffect(() => {
-  // 컴포넌트가 마운트될 때 랜덤 이미지 선택
-  console.log(cardLength);
-  if(cardLength !== 0){
-  let orderIndex = (cardFirstId-38)%9;
-  console.log(orderIndex);
-  const selectedImagePath = cardImages[imagePaths[orderIndex]];
-  setSelectedImage(selectedImagePath);
-  }
-  else{
-    let orderIndex = (cardLength)%9;
-    const selectedImagePath = cardImages[imagePaths[orderIndex]];
-    setSelectedImage(selectedImagePath);
-  }
-  // 선택된 이미지의 상대 경로를 상태에 설정합니다.
-}, [cardLength]);
+    fetchData();
+  }, []);
+  useEffect(() => {
+    console.log(`directInput 카드 개수 ${cardLength}`);
+    console.log(`directInput 첫번째 카드 id ${cardLastId}`);
+    if (cardLastId !== 0 && cardLastId > 38) {
+      let orderIndex = (cardLastId - 40) % 9;
+      console.log(orderIndex);
+      const selectedImagePath = cardImages[imagePaths[orderIndex]];
+      setSelectedImage(selectedImagePath);
+    } else {
+      let orderIndex = cardLastId % 9;
+      const selectedImagePath = cardImages[imagePaths[orderIndex]];
+      setSelectedImage(selectedImagePath);
+    }
+  }, [cardLength]);
 
-  // if (CameraCardInfo !== null && CameraCardInfo !== undefined) {
-  //   //나는 setCardNumber setCVC setExpiration 해줄거임
-  //   setCardNumber(CameraCardInfo.card_number);
-  //   setExpiration(CameraCardInfo.expiration_date);
-  //   setCVC(CameraCardInfo.cvc_number);
-  // }
   const handleCompleteMove = () => {
     navigation("/EnrollComplete");
   };
-  const handlePaymentMove = () => {
-    navigation("/Payment");
-  };
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   console.log(file);
-  //   setSelectedImage(file);
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       console.log(reader);
-  //       setCardImg(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
   useEffect(() => {
     if (CameraCardInfo !== null) {
       const data = CameraCardInfo?.datas;
@@ -192,24 +168,60 @@ useEffect(() => {
       alert("유효기간이 지났습니다.");
     }
   };
-  
+
   function dataURItoBlob(dataURI) {
     // Base64 데이터를 분리하여 가져옵니다
-    const parts = dataURI.split(';base64,');
-    const contentType = parts[0].split(':')[1];
+    const parts = dataURI.split(";base64,");
+    const contentType = parts[0].split(":")[1];
     const raw = window.atob(parts[1]);
     const rawLength = raw.length;
     const uint8Array = new Uint8Array(rawLength);
-  
+
     // Uint8Array에 이미지 데이터를 쓰기
     for (let i = 0; i < rawLength; ++i) {
       uint8Array[i] = raw.charCodeAt(i);
     }
-  
+
     // Blob을 생성하여 반환
     return new Blob([uint8Array], { type: contentType });
   }
   const handleSubmit = async () => {
+    if (cardListData && cardListData.length > 0) {
+      for (const element of cardListData) {
+        console.log(cardNumber);
+        console.log(element);
+        if (element.serial_num === cardNumber) {
+          alert("이미 결제카드에 존재하는 카드번호입니다.");
+          return;
+        }
+      }
+    }
+    // 카드 번호 자릿수 검증
+    if (
+      cardNumber.replace(/\s+/g, "").length !== 16 ||
+      !/^\d+$/.test(cardNumber.replace(/\s+/g, ""))
+    ) {
+      alert("카드 번호는 16자리 숫자로 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+
+    // 유효기간 자릿수 검증
+    if (expiration.length !== 4 || !/^\d+$/.test(expiration)) {
+      alert("유효기간은 MMYY 형식의 4자리 숫자로 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+
+    // CVC 자릿수 검증
+    if (cvc.length !== 3) {
+      alert("CVC는 3자리를 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+
+    // 비밀번호 자릿수 검증
+    if (password.length !== 2) {
+      alert("비밀번호는 2자리를 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
     if (
       selectedImage &&
       cardNumber &&
@@ -220,12 +232,13 @@ useEffect(() => {
     ) {
       const accessToken = localStorage.getItem("access");
 
-      
       // FormData 생성 및 파일 추가
       const formData = new FormData();
       const blobImage = dataURItoBlob(selectedImage);
       // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
-      const imageFile = new File([blobImage], "image.png", { type: "image/png" });
+      const imageFile = new File([blobImage], "image.png", {
+        type: "image/png",
+      });
       formData.append("image", imageFile);
       formData.append("serial_num", cardNumber);
       formData.append("expiry_date", expiration);
@@ -259,7 +272,7 @@ useEffect(() => {
   };
   const handleBackPage = () => {
     navigation(-1);
-  }
+  };
 
   return (
     <div>

@@ -12,7 +12,6 @@ import ArrowBack from "../../assets/images/arrowBack.svg";
 import { authInstance } from "../../API/utils";
 import { AiFillPropertySafety } from "react-icons/ai";
 
-
 import yellowcard from "../../assets/images/yellowcard.png";
 import skybluecard from "../../assets/images/skybluecard.png";
 import redcard from "../../assets/images/redcard.png";
@@ -22,7 +21,6 @@ import orangecard from "../../assets/images/orangecard.png";
 import greencard from "../../assets/images/greencard.png";
 import bluecard from "../../assets/images/bluecard.png";
 import blackcard from "../../assets/images/blackcard.png";
-
 
 const Container = styled.div`
   display: flex;
@@ -90,6 +88,7 @@ export default function CardModify() {
   const [isdefault, setIsDefault] = useState(false);
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
+  const [cardListData, setCardListData] = useState(null);
 
   const { state } = useLocation();
   const navigation = useNavigate();
@@ -122,21 +121,38 @@ export default function CardModify() {
   useEffect(() => {
     // 컴포넌트가 마운트될 때 랜덤 이미지 선택
     let orderIndex = state;
-    //카드 백엔드 날려야하는데 알아서 하래서 알아서 합니다.
     // 백엔드 날리면 그냥 orderIndex%9 로 바꾸면댐.
-    if(state !== 0){
-      orderIndex = (orderIndex-40)%9;
-    const selectedImagePath = cardImages[imagePaths[orderIndex]];
-  
-    // 선택된 이미지의 상대 경로를 상태에 설정합니다.
-    setSelectedImage(selectedImagePath); 
-    } else{
-    orderIndex = (orderIndex)%9;
-    const selectedImagePath = cardImages[imagePaths[orderIndex]];
-  
-    // 선택된 이미지의 상대 경로를 상태에 설정합니다.
-    setSelectedImage(selectedImagePath); 
-  }
+    if (state !== 0) {
+      orderIndex = (orderIndex - 41) % 9;
+      const selectedImagePath = cardImages[imagePaths[orderIndex]];
+      console.log(imagePaths[orderIndex]);
+      // 선택된 이미지의 상대 경로를 상태에 설정합니다.
+      setSelectedImage(selectedImagePath);
+    } else {
+      orderIndex = orderIndex % 9;
+      const selectedImagePath = cardImages[imagePaths[orderIndex]];
+
+      // 선택된 이미지의 상대 경로를 상태에 설정합니다.
+      setSelectedImage(selectedImagePath);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function GetfetchData() {
+      const accessToken = localStorage.getItem("access");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      try {
+        const cardlist = await authInstance.get("/payment/card/list/", config);
+        setCardListData(cardlist.data);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    }
+    GetfetchData();
   }, []);
 
   useEffect(() => {
@@ -178,14 +194,6 @@ export default function CardModify() {
     });
   }, [selected]);
 
-
-
-
-
-
-
-
-
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
     const currentMonth = new Date().getMonth() + 1;
@@ -199,64 +207,108 @@ export default function CardModify() {
   };
   function dataURItoBlob(dataURI) {
     // Base64 데이터를 분리하여 가져옵니다
-    const parts = dataURI.split(';base64,');
-    const contentType = parts[0].split(':')[1];
+    const parts = dataURI.split(";base64,");
+    const contentType = parts[0].split(":")[1];
     const raw = window.atob(parts[1]);
     const rawLength = raw.length;
     const uint8Array = new Uint8Array(rawLength);
-  
+
     // Uint8Array에 이미지 데이터를 쓰기
     for (let i = 0; i < rawLength; ++i) {
       uint8Array[i] = raw.charCodeAt(i);
     }
-  
+
     // Blob을 생성하여 반환
     return new Blob([uint8Array], { type: contentType });
   }
 
-  
   const handlecardModify = async () => {
-    const accessToken = localStorage.getItem("access");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const formData = new FormData();
-
-    formData.append("id", selected);
-    const blobImage = dataURItoBlob(selectedImage);
-    // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
-    const imageFile = new File([blobImage], "image.png", { type: "image/png" });
-    formData.append("image", imageFile);
-
-    formData.append("serial_num", cardNumber);
-    formData.append("expiry_date", expiration);
-    formData.append("cvc", cvc);
-    formData.append("password", password);
-    formData.append("is_default", isdefault);
-    console.log(cardImg);
-
-    
-    for (const [key, value] of formData.entries()) {
-      console.log(`Field: ${key}, Value: ${value}`);
+    if (cardListData && cardListData.length > 0) {
+      for (const element of cardListData) {
+        console.log(cardNumber);
+        console.log(element);
+        if (element.serial_num === cardNumber) {
+          alert("이미 결제카드에 존재하는 카드번호입니다.");
+          return;
+        }
+      }
+    }
+    if (
+      cardNumber.replace(/\s+/g, "").length !== 16 ||
+      !/^\d+$/.test(cardNumber.replace(/\s+/g, ""))
+    ) {
+      alert("카드 번호는 16자리 숫자로 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
     }
 
-    try {
-      // FormData 객체를 사용하여 PUT 요청을 보냅니다.
-      const response = await authInstance.put(
-        "/payment/card/create/",
-        formData,
-        config
-      );
-      console.log(response.data);
-      navigation("/Morecards");
-    } catch (error) {
-      console.error("에러 발생:", error);
+    // 유효기간 자릿수 검증
+    if (expiration.length !== 4 || !/^\d+$/.test(expiration)) {
+      alert("유효기간은 MMYY 형식의 4자리 숫자로 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+
+    // CVC 자릿수 검증
+    if (cvc.length !== 3) {
+      alert("CVC는 3자리를 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+
+    // 비밀번호 자릿수 검증
+    if (password.length !== 2) {
+      alert("비밀번호는 2자리를 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+    if (
+      selectedImage &&
+      cardNumber &&
+      expiration &&
+      cvc &&
+      password &&
+      isdefault !== null
+    ) {
+      const accessToken = localStorage.getItem("access");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const formData = new FormData();
+
+      formData.append("id", selected);
+      const blobImage = dataURItoBlob(selectedImage);
+      // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
+      const imageFile = new File([blobImage], "image.png", {
+        type: "image/png",
+      });
+      formData.append("image", imageFile);
+
+      formData.append("serial_num", cardNumber);
+      formData.append("expiry_date", expiration);
+      formData.append("cvc", cvc);
+      formData.append("password", password);
+      formData.append("is_default", isdefault);
+      console.log(cardImg);
+
+      for (const [key, value] of formData.entries()) {
+        console.log(`Field: ${key}, Value: ${value}`);
+      }
+
+      try {
+        // FormData 객체를 사용하여 PUT 요청을 보냅니다.
+        const response = await authInstance.put(
+          "/payment/card/create/",
+          formData,
+          config
+        );
+        console.log(response.data);
+        navigation("/Morecards");
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    } else {
+      alert("값을 입력해주세요");
     }
   };
-
-
 
   const handleEnrollMove = () => {
     navigation("/CardEnroll");
@@ -264,7 +316,7 @@ export default function CardModify() {
 
   const handleBackPage = () => {
     navigation(-1);
-  }
+  };
   const handlePaymentMove = () => {
     navigation("/Payment");
   };
