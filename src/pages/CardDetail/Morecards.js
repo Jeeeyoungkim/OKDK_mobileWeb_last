@@ -59,6 +59,9 @@ export default function Morecards() {
   };
 
   const handlecardDelete = async () => {
+    if(!selectedcard){
+      alert("삭제할 카드를 선택해주세요")
+    }
     try {
       const accessToken = localStorage.getItem("access");
       const requestData = {
@@ -89,11 +92,15 @@ export default function Morecards() {
 
   const handleModfiyMove = () => {
     if(!selectedcard){
+      alert("수정할 카드를 선택해주세요")
       window.location.reload();
-    }
+    } else {
+
+    
     console.log(selectedcard);
     // 여기서 navigation을 이용하여 CardModify 컴포넌트로 이동하면서 선택한 카드 정보도 함께 전달합니다.
     navigation("/CardModify", { state: selectedcard });
+  }
   };
   const handlePaymentMove = () => {
     navigation("/Payment");
