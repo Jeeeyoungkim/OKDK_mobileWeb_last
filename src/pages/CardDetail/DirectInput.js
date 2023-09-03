@@ -130,18 +130,11 @@ export default function DirectInput() {
     fetchData();
   }, []);
   useEffect(() => {
-    console.log(`directInput 카드 개수 ${cardLength}`);
-    console.log(`directInput 첫번째 카드 id ${cardLastId}`);
-    if (cardLastId !== 0 && cardLastId > 38) {
-      let orderIndex = (cardLastId - 40) % 9;
-      console.log(orderIndex);
-      const selectedImagePath = cardImages[imagePaths[orderIndex]];
-      setSelectedImage(selectedImagePath);
-    } else {
-      let orderIndex = cardLastId % 9;
-      const selectedImagePath = cardImages[imagePaths[orderIndex]];
-      setSelectedImage(selectedImagePath);
-    }
+    let orderIndex = (cardLength)%9;
+    const selectedImagePath = cardImages[imagePaths[orderIndex]];
+    console.log(imagePaths[orderIndex]);
+
+    setSelectedImage(selectedImagePath);
   }, [cardLength]);
 
   const handleCompleteMove = () => {
@@ -206,7 +199,9 @@ export default function DirectInput() {
     }
 
     // 유효기간 자릿수 검증
-    if (expiration.length !== 4 || !/^\d+$/.test(expiration)) {
+    console.log(expiration.length);
+    console.log(expiration);
+    if (expiration.length !== 5) {
       alert("유효기간은 MMYY 형식의 4자리 숫자로 입력해주세요.");
       return; // 요청 보내지 않고 함수 종료
     }

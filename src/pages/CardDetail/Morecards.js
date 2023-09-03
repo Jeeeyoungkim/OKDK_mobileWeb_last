@@ -107,7 +107,7 @@ export default function Morecards() {
   };
   
   const handleBackPage = () => {
-    navigation(-1);
+    navigation("/Payment");
   }
   return (
     <div>

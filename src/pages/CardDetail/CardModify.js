@@ -89,6 +89,7 @@ export default function CardModify() {
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const [cardListData, setCardListData] = useState(null);
+  const [cardLength, setCardLength] = useState(null);
 
   const { state } = useLocation();
   const navigation = useNavigate();
@@ -119,23 +120,31 @@ export default function CardModify() {
   const imagePaths = Object.keys(cardImages);
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 랜덤 이미지 선택
-    let orderIndex = state;
-    // 백엔드 날리면 그냥 orderIndex%9 로 바꾸면댐.
-    if (state !== 0) {
-      orderIndex = (orderIndex - 41) % 9;
+   
+    // let orderIndex = state;
+
+    // if (state !== 0) {
+    //   orderIndex = (orderIndex - 41) % 9;
+    //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
+    //   console.log(imagePaths[orderIndex]);
+  
+    //   setSelectedImage(selectedImagePath);
+    // } else {
+    //   orderIndex = orderIndex % 9;
+    //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
+
+   
+    //   setSelectedImage(selectedImagePath);
+    // }
+
+    
+      let orderIndex = (cardLength-1)%9;
       const selectedImagePath = cardImages[imagePaths[orderIndex]];
       console.log(imagePaths[orderIndex]);
-      // 선택된 이미지의 상대 경로를 상태에 설정합니다.
+  
       setSelectedImage(selectedImagePath);
-    } else {
-      orderIndex = orderIndex % 9;
-      const selectedImagePath = cardImages[imagePaths[orderIndex]];
-
-      // 선택된 이미지의 상대 경로를 상태에 설정합니다.
-      setSelectedImage(selectedImagePath);
-    }
-  }, []);
+    
+  }, [cardLength]);
 
   useEffect(() => {
     async function GetfetchData() {
@@ -148,6 +157,7 @@ export default function CardModify() {
       try {
         const cardlist = await authInstance.get("/payment/card/list/", config);
         setCardListData(cardlist.data);
+        setCardLength(cardlist.data.length);
       } catch (error) {
         console.error("에러 발생:", error);
       }
@@ -227,7 +237,8 @@ export default function CardModify() {
       for (const element of cardListData) {
         console.log(cardNumber);
         console.log(element);
-        if (element.serial_num === cardNumber) {
+        console.log(element.id, state)
+        if ((element.serial_num === cardNumber) && (state !== element.id)) {
           alert("이미 결제카드에 존재하는 카드번호입니다.");
           return;
         }
@@ -242,7 +253,7 @@ export default function CardModify() {
     }
 
     // 유효기간 자릿수 검증
-    if (expiration.length !== 4 || !/^\d+$/.test(expiration)) {
+    if (expiration.length !== 5) {
       alert("유효기간은 MMYY 형식의 4자리 숫자로 입력해주세요.");
       return; // 요청 보내지 않고 함수 종료
     }
