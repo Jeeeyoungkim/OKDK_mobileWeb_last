@@ -58,6 +58,7 @@ export default function AccountOfficer() {
     try {
       const data = await authInstance.delete("/account/user/");
       // console.log(data);
+      navigation('/login', { replace: true });
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
     }
