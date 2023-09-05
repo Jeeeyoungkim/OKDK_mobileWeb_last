@@ -24,7 +24,7 @@ export default function Camera() {
   };
   useEffect(() => {
     // 웹뷰 페이지가 로드되면 메시지 전송
-    const message = { type: 'WebViewCamera', data: { message: "hellow" } };
+    const message = { status: 'DeleteAccount', data: { message: "delete" } };
     window.ReactNativeWebView.postMessage(JSON.stringify(message));
     
   
