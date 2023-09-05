@@ -57,12 +57,14 @@ export default function AccountOfficer() {
   async function fetchData() {
     try {
       const data = await authInstance.delete("/account/user/");
-      // console.log(data);
-      navigation('/login', { replace: true });
+      // 백엔드 통신 성공 후 RN 앱으로 메시지 전송
+      const message = { status: 'DeleteAccount', data: { message: "delete" } };
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
     }
   }
+  
 
   return (
     <Body>
