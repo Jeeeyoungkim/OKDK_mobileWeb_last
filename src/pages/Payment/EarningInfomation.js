@@ -46,7 +46,7 @@ export default function EarningInfomation() {
   const handleDeleteBrand = (brand) => {
     async function fetchAccumulateData() {
       const requestData = {
-        brand: brand,
+        brand: "lion's ambition",
       };
       try {
         const response = await authInstance.delete(
