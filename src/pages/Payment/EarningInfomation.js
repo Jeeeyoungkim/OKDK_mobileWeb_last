@@ -54,7 +54,7 @@ export default function EarningInfomation() {
           requestData
         );
         console.log(brand);
-        console.log(response.message);
+        console.log(response);
         // navigation("/Payment");
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
