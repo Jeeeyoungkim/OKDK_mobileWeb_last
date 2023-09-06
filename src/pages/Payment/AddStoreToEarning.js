@@ -74,26 +74,6 @@ export default function AddStoreToEarning() {
     }
     fetchData();
   }, []);
-
-  const handleAddBrand = () => {
-    async function fetchAccumulateData() {
-      const requestData = {
-        brand: "OKDK",
-        serial_num: "1234567890",
-      };
-      try {
-        const accumulateData = await authInstance.post(
-          "/payment/membership/create/",
-          requestData
-        );
-        navigation("/EarningInfomation");
-      } catch (error) {
-        console.error("fetchData 함수 에러 발생:", error);
-      }
-    }
-    fetchAccumulateData();
-  };
-
   return (
     <>
       <TopNavigation navigation={navigation} destination={"Home"} />
@@ -110,7 +90,14 @@ export default function AddStoreToEarning() {
         </SearchInputWrap>
         <BrandComponentWrap>
           {membershipBrand.map((data, index) => (
-            <BrandComponent onClick={() => handleAddBrand()} key={index}>
+            <BrandComponent
+              onClick={() => {
+                navigation("/EarningInfomation", {
+                  state: { brand: e.target.value },
+                });
+              }}
+              key={index}
+            >
               {data.name}
             </BrandComponent>
           ))}
