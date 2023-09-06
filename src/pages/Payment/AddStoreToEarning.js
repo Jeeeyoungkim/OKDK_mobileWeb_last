@@ -91,7 +91,8 @@ export default function AddStoreToEarning() {
         <BrandComponentWrap>
           {membershipBrand.map((data, index) => (
             <BrandComponent
-              onClick={() => {
+              valeu={data.name}
+              onClick={(e) => {
                 navigation("/EarningInfomation", {
                   state: { brand: e.target.value },
                 });
