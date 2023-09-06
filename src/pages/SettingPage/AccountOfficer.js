@@ -54,17 +54,17 @@ export default function AccountOfficer() {
   const user = location.state && location.state.user;
   const social = location.state && location.state.social;
 
-  async function fetchData() {
+  async function handleDelete() {
     try {
       const data = await authInstance.delete("/account/user/");
       // 백엔드 통신 성공 후 RN 앱으로 메시지 전송
-      const message = { status: 'DeleteAccount', data: { message: "delete" } };
-      window.ReactNativeWebView.postMessage(JSON.stringify(message));
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ status: "DeleteAccount" })
+      );
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
     }
   }
-  
 
   return (
     <Body>
@@ -103,7 +103,7 @@ export default function AccountOfficer() {
                   color: "#595959",
                 }}
                 onClick={() => {
-                  fetchData();
+                  handleDelete();
                 }}
               >
                 계정 탈퇴하기
