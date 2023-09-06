@@ -28,6 +28,11 @@ export default function AddStoreToEarning() {
         return id;
       }
     });
+
+    const storeName = nonFavoriteBrandData.find(
+      (element) => element.id === id
+    ).name;
+    setSelectedStoreName(storeName);
   };
 
   const handleButtonClick = () => {
@@ -35,10 +40,8 @@ export default function AddStoreToEarning() {
     navigation("/AddFavoriteMenu", {
       state: { selectedStore, selectedStoreName },
     });
-    localStorage.setItem(
-      "StoreName",
-      `${nonFavoriteBrandData[selectedStore - 1].name}`
-    ); // 브랜드이름 로컬스토리지 등록
+
+    localStorage.setItem("StoreName", `${selectedStoreName}`); // 브랜드이름 로컬스토리지 등록
     localStorage.setItem("StoreId", `${selectedStore}`);
   };
 
@@ -58,6 +61,10 @@ export default function AddStoreToEarning() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(selectedStore, selectedStoreName);
+  }, [selectedStore, selectedStoreName]);
 
   return (
     <>
