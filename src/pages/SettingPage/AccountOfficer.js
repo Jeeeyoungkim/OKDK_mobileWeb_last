@@ -61,6 +61,7 @@ export default function AccountOfficer() {
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ status: "DeleteAccount" })
       );
+      localStorage.clear();
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
     }
