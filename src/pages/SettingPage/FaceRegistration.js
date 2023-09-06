@@ -83,7 +83,7 @@ export default function FaceRegistration() {
               <BasicButton
                 width={"15rem"}
                 height={"3rem"}
-                btnName="갱생하기"
+                btnName="갱신하기"
                 onClick={() => handleUpdateFace()}
               />
             </>
