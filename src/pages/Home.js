@@ -45,7 +45,13 @@ export default function Home() {
       setRecents(topFive);
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
-      navigation("/login");
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            status: "login",
+          })
+        );
+      }
     }
   }
 
