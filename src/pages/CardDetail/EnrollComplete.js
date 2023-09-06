@@ -18,11 +18,11 @@ export default function EnrollComplete() {
   `;
 
   const handlePaymentMove = () => {
-    navigation("/Morecards");
+    navigation("/morecards", { type: "success" });
   };
   return (
     <div>
-      <TopNavigation />
+      <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title=""
         basicButtonName="확인"

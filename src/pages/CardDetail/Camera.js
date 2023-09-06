@@ -24,7 +24,7 @@ export default function Camera() {
   };
   useEffect(() => {
     // 웹뷰 페이지가 로드되면 메시지 전송
-    const message = { type: 'WebViewCamera', data: { message: "hellow" } };
+    const message = { status: 'DeleteAccount', data: { message: "delete" } };
     window.ReactNativeWebView.postMessage(JSON.stringify(message));
     
   
@@ -39,15 +39,19 @@ console.log(parsedData.card);
   // alert(e.data);
   navigation('/DirectInput', { state: { enroll: true , datas: parsedData.card} }); 
 });
-
+const handleBackPage = () => {
+  navigation(-1);
+}
 
   return (
     <div>
-      <TopNavigation />
+      <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title="카메라 촬영"
         basicButtonName="확인"
         basicButtonOnClick={handlePaymentMove}
+        backbasicButtonName="뒤로가기"
+        backbasicButtonOnClick={handleBackPage}
       >
         <div>안녕</div>
       </Modal>

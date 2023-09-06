@@ -20,13 +20,18 @@ export default function CardEnroll() {
   const handlePaymentMove = () => {
     navigation("/Payment");
   };
+  const handleBackPage = () => {
+    navigation(-1);
+  }
   return (
     <div>
-      <TopNavigation />
+      <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title="카드 등록"
         basicButtonName="확인"
         basicButtonOnClick={handlePaymentMove}
+        backbasicButtonName="뒤로가기"
+        backbasicButtonOnClick={handleBackPage}
       >
         <Container>
           <div

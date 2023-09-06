@@ -6,11 +6,21 @@ import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import BasicButton from "../../components/Button";
-
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DatasetController } from "chart.js";
 import { authInstance } from "../../API/utils";
+
+import yellowcard from "../../assets/images/yellowcard.png";
+import skybluecard from "../../assets/images/skybluecard.png";
+import redcard from "../../assets/images/redcard.png";
+import pupplecard from "../../assets/images/pupplecard.png";
+import pinkcard from "../../assets/images/pinkcard.png";
+import orangecard from "../../assets/images/orangecard.png";
+import greencard from "../../assets/images/greencard.png";
+import bluecard from "../../assets/images/bluecard.png";
+import blackcard from "../../assets/images/blackcard.png";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,7 +78,7 @@ const ImagePreview = styled.div`
   position: relative;
 `;
 
-export default function DirectInput({}) {
+export default function DirectInput() {
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCVC] = useState("");
@@ -76,41 +86,67 @@ export default function DirectInput({}) {
   const [isdefault, setIsDefault] = useState(false);
   const [cardImg, setCardImg] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
+  const [cardLength, setCardLength] = useState(null);
+  const [cardLastId, setCardLastId] = useState(null);
+  const [cardListData, setCardListData] = useState(null);
 
   const navigation = useNavigate();
   const location = useLocation();
-  const CameraCardInfo = location.state;
+  const CameraCardInfo = location?.state;
   console.log(CameraCardInfo);
 
-  if (CameraCardInfo !== undefined) {
-    //나는 setCardNumber setCVC setExpiration 해줄거임
-  }
+  // 이미지 경로 배열
+
+  // 이미지 객체를 만듦
+  const cardImages = {
+    yellowcard,
+    skybluecard,
+    redcard,
+    pupplecard,
+    pinkcard,
+    orangecard,
+    greencard,
+    bluecard,
+    blackcard,
+  };
+  const imagePaths = Object.keys(cardImages);
+  useEffect(() => {
+    async function fetchData() {
+      const accessToken = localStorage.getItem("access");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      try {
+        const cardlist = await authInstance.get("/payment/card/list/", config);
+        setCardListData(cardlist.data);
+        setCardLength(cardlist.data.length);
+        setCardLastId(cardlist.data[cardlist.data.length - 1].id);
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    }
+    fetchData();
+  }, []);
+  useEffect(() => {
+    let orderIndex = (cardLength)%9;
+    const selectedImagePath = cardImages[imagePaths[orderIndex]];
+    console.log(imagePaths[orderIndex]);
+
+    setSelectedImage(selectedImagePath);
+  }, [cardLength]);
+
   const handleCompleteMove = () => {
     navigation("/EnrollComplete");
   };
-  const handlePaymentMove = () => {
-    navigation("/Payment");
-  };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setSelectedImage(file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        console.log(reader);
-        setCardImg(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
   useEffect(() => {
     if (CameraCardInfo !== null) {
-      const data = CameraCardInfo.datas;
-      setCardNumber(data.card_number);
-      setCVC(data.cvc_number);
-      setExpiration(data.expiration_date);
+      const data = CameraCardInfo?.datas;
+      setCardNumber(data?.card_number);
+      setCVC(data?.cvc_number);
+      setExpiration(data?.expiration_date);
     }
   }, []);
   // 월/년 유효기간 검증
@@ -125,47 +161,123 @@ export default function DirectInput({}) {
       alert("유효기간이 지났습니다.");
     }
   };
+
+  function dataURItoBlob(dataURI) {
+    // Base64 데이터를 분리하여 가져옵니다
+    const parts = dataURI.split(";base64,");
+    const contentType = parts[0].split(":")[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+    const uint8Array = new Uint8Array(rawLength);
+
+    // Uint8Array에 이미지 데이터를 쓰기
+    for (let i = 0; i < rawLength; ++i) {
+      uint8Array[i] = raw.charCodeAt(i);
+    }
+
+    // Blob을 생성하여 반환
+    return new Blob([uint8Array], { type: contentType });
+  }
   const handleSubmit = async () => {
-    const accessToken = localStorage.getItem("access");
-    const formData = new FormData();
-    formData.append("image", selectedImage);
-    formData.append("serial_num", cardNumber);
-    formData.append("expiry_date", expiration);
-    formData.append("cvc", cvc);
-    formData.append("password", password);
-    formData.append("is_default", isdefault);
+    if (cardListData && cardListData.length > 0) {
+      for (const element of cardListData) {
+        console.log(cardNumber);
+        console.log(element);
+        if (element.serial_num === cardNumber) {
+          alert("이미 결제카드에 존재하는 카드번호입니다.");
+          return;
+        }
+      }
+    }
+    // 카드 번호 자릿수 검증
+    if (
+      cardNumber.replace(/\s+/g, "").length !== 16 ||
+      !/^\d+$/.test(cardNumber.replace(/\s+/g, ""))
+    ) {
+      alert("카드 번호는 16자리 숫자로 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+    // 유효기간 자릿수 검증
+    console.log(expiration.length);
+    console.log(expiration);
+    if (expiration.length !== 5) {
+      alert("유효기간은 MMYY 형식의 4자리 숫자로 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
 
-    try {
-      console.log(config);
-      // FormData 객체를 사용하여 POST 요청을 보냅니다.
-      const response = await authInstance.post(
-        "/payment/card/create/",
-        formData,
-        config
-      );
-      console.log(response.data);
-      console.log("성공");
-      handleCompleteMove();
-    } catch (error) {
-    
-      console.error("에러 발생:", error);
+    // CVC 자릿수 검증
+    if (cvc.length !== 3) {
+      alert("CVC는 3자리를 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+
+    // 비밀번호 자릿수 검증
+    if (password.length !== 2) {
+      alert("비밀번호는 2자리를 입력해주세요.");
+      return; // 요청 보내지 않고 함수 종료
+    }
+    if (
+      selectedImage &&
+      cardNumber &&
+      expiration &&
+      cvc &&
+      password &&
+      isdefault !== null
+    ) {
+      const accessToken = localStorage.getItem("access");
+
+      // FormData 생성 및 파일 추가
+      const formData = new FormData();
+      const blobImage = dataURItoBlob(selectedImage);
+      // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
+      const imageFile = new File([blobImage], "image.png", {
+        type: "image/png",
+      });
+      formData.append("image", imageFile);
+      formData.append("serial_num", cardNumber);
+      formData.append("expiry_date", expiration);
+      formData.append("cvc", cvc);
+      formData.append("password", password);
+      formData.append("is_default", isdefault);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      try {
+        console.log(config);
+        // FormData 객체를 사용하여 POST 요청을 보냅니다.
+        const response = await authInstance.post(
+          "/payment/card/create/",
+          formData,
+          config
+        );
+        console.log(response.data);
+        console.log("성공");
+        handleCompleteMove();
+      } catch (error) {
+        console.error("에러 발생:", error);
+      }
+    } else {
+      alert("값을 입력해주세요");
     }
   };
-
+  const handleBackPage = () => {
+    navigation(-1);
+  };
 
   return (
     <div>
-      <TopNavigation />
+      <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title="직접 입력"
         basicButtonName="확인"
         basicButtonOnClick={handleSubmit}
+        backbasicButtonName="뒤로가기"
+        backbasicButtonOnClick={handleBackPage}
       >
         <Container>
           <ImageFicker>
@@ -175,27 +287,16 @@ export default function DirectInput({}) {
             >
               {/* 파일 입력 대신 네모칸 역할을 하는 label */}
               <ImagePreview>
-                {selectedImage ? (
-                  <img
-                    src={cardImg}
-                    alt="Selected"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                ) : (
-                  <div>사진을 입력해주세요</div>
-                )}
+                <img
+                  src={selectedImage}
+                  alt="Selected"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "cover",
+                  }}
+                />
               </ImagePreview>
-              <input
-                type="file"
-                id="imageInput"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
             </label>
           </ImageFicker>
           <section>
