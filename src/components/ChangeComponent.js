@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
 import { ReactComponent as SelectLadder } from "../assets/images/selectLadder.svg";
 import { ReactComponent as ChangeArrow } from "../assets/images/changeArrow.svg";
 import { ReactComponent as SelectedLadder } from "../assets/images/selectedLadder.svg";
 
-function ChangeComponent({ handleParentClick }) {
+function ChangeComponent({ handleParentClick, userMode }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [easyMode, setEasyMode] = useState(false);
+
+  useEffect(() => {
+    if (userMode === "easy") {
+      setEasyMode(true);
+    } else {
+      setEasyMode(false);
+    }
+  }, [userMode]);
 
   const handleChangeButton = () => {
     if (isAnimating) {

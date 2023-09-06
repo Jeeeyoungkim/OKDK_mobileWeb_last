@@ -8,7 +8,6 @@ import ChangeComponent from "../components/ChangeComponent";
 import CoffeeComponent from "../components/CoffeeComponent";
 
 import { useNavigate } from "react-router-dom";
-
 import { authInstance } from "../API/utils";
 
 export default function Home() {
@@ -17,6 +16,7 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [favoriteList, setFavoriteList] = useState({});
   const [recents, setRecents] = useState([]);
+  const [userMode, setUserMode] = useState(null);
 
   useEffect(() => {
     window.fetchData = fetchData();
@@ -43,6 +43,8 @@ export default function Home() {
       setUser(userData.data.user);
       setFavoriteList(favoriteList.data);
       setRecents(topFive);
+      setUserMode(userData.data.user.mode);
+      console.log(userData.data.user.mode);
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
       if (window.ReactNativeWebView) {
@@ -104,7 +106,7 @@ export default function Home() {
           name={user ? user.nickname : "익명"}
           describe={getTimeOfDay()}
         />
-        <ChangeComponent handleParentClick={changeMode} />
+        <ChangeComponent handleParentClick={changeMode} userMode={userMode} />
         <ListBox
           listTitle={"즐겨찾는 메뉴"}
           handleShowMore={() => navigateWebView("Favorite")}
