@@ -36,7 +36,6 @@ export default function EarningInfomation() {
         const barcodeData = await authInstance.get("/payment/membership/list/");
         setUser(userData.data.user);
         setBarcode(barcodeData.data);
-        console.log(barcodeData.data);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
       }
@@ -50,7 +49,7 @@ export default function EarningInfomation() {
         brand: `${brand}`,
       };
       try {
-        const response = await authInstance.post(
+        const response = await authInstance.delete(
           "/payment/membership/",
           requestData
         );
