@@ -54,7 +54,7 @@ export default function BarcodeRegistration() {
           "/payment/membership/create/",
           requestData
         );
-        navigation("/EarningInfomation");
+        navigation("/EarningInfomation", { replace: true });
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
       }
