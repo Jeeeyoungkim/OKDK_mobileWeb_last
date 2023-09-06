@@ -53,7 +53,7 @@ export default function EarningInfomation() {
           "/payment/membership/",
           requestData
         );
-        console.log("s");
+        console.log(brand);
         navigation("");
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
