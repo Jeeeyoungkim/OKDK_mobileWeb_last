@@ -42,9 +42,6 @@ export default function BarcodeRegistration() {
   const handleInputChange = (e) => {
     setInputValue(e.target.value); // 입력값을 state 변수에 저장
   };
-  useEffect(() => {
-    console.log(brand);
-  }, []);
 
   const handleAddBrand = () => {
     async function fetchAccumulateData() {
