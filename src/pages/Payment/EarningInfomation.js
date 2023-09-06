@@ -72,7 +72,7 @@ export default function EarningInfomation() {
 
         {barcode.map((data, index) => (
           <ListBox
-            handleDelete={handleDeleteBrand(data.brand)}
+            handleDelete={() => handleDeleteBrand(data.brand)}
             key={index}
             listTitle={data.brand}
             handleShowMore={() =>
