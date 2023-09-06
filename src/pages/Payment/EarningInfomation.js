@@ -45,6 +45,7 @@ export default function EarningInfomation() {
   }, []);
 
   const handleDeleteBrand = (brand) => {
+    console.log(brand);
     async function fetchAccumulateData() {
       const requestData = {
         brand: brand,
