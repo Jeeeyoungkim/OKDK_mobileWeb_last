@@ -43,6 +43,24 @@ export default function EarningInfomation() {
     fetchData();
   }, []);
 
+  const handleDeleteBrand = (brand) => {
+    async function fetchAccumulateData() {
+      const requestData = {
+        brand: brand,
+      };
+      try {
+        const response = await authInstance.post(
+          "/payment/membership/",
+          requestData
+        );
+        navigation("/EarningInfomation");
+      } catch (error) {
+        console.error("fetchData 함수 에러 발생:", error);
+      }
+    }
+    fetchAccumulateData();
+  };
+
   return (
     <Body>
       <TopNavigation navigation={navigation} destination={"Home"} />
@@ -55,7 +73,7 @@ export default function EarningInfomation() {
         {barcode.map((data, index) => (
           <ListBox
             handleDelete={() => {
-              console.log("de");
+              handleDeleteBrand(data.brand);
             }}
             key={index}
             listTitle={data.brand}
