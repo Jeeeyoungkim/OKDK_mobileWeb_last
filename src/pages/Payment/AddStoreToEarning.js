@@ -93,7 +93,7 @@ export default function AddStoreToEarning() {
             <BrandComponent
               valeu={data.name}
               onClick={(e) => {
-                navigation("/EarningInfomation", {
+                navigation("/BarcodeRegistration", {
                   state: { brand: e.target.value },
                 });
               }}
