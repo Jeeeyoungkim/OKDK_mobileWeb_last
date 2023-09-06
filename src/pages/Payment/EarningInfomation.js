@@ -36,12 +36,34 @@ export default function EarningInfomation() {
         const barcodeData = await authInstance.get("/payment/membership/list/");
         setUser(userData.data.user);
         setBarcode(barcodeData.data);
+        console.log(barcodeData.data);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
       }
     }
     fetchData();
   }, []);
+
+  const handleDeleteBrand = (brand) => {
+    console.log(brand);
+    async function fetchAccumulateData() {
+      const requestData = {
+        brand: brand,
+      };
+      try {
+        const response = await authInstance.delete(
+          "/payment/membership/",
+          requestData
+        );
+        console.log(brand);
+        console.log(response);
+        // navigation("/Payment");
+      } catch (error) {
+        console.error("fetchData 함수 에러 발생:", error);
+      }
+    }
+    fetchAccumulateData();
+  };
 
   return (
     <Body>
@@ -52,32 +74,9 @@ export default function EarningInfomation() {
           describe={"적립정보를 관리합니다"}
         />
 
-        {/* {barcodeData.barcode.map((data, index) => (
-          <ListBox
-            listTitle={data.barcodename}
-            handleShowMore={() => navigation("/DetailEarningInfomation")}
-          >
-            <div
-              key={index}
-              style={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Barcode
-                width={"9.31331rem"}
-                height={"5.5rem"}
-                img={data.barcodeimg}
-              />
-              <p>{data.barcodeNum}</p>
-            </div>
-          </ListBox>
-        ))} */}
         {barcode.map((data, index) => (
           <ListBox
+            handleDelete={() => handleDeleteBrand(data.brand)}
             key={index}
             listTitle={data.brand}
             handleShowMore={() =>
@@ -100,7 +99,6 @@ export default function EarningInfomation() {
                 height={"5.5rem"}
                 img={data.image}
               />
-              <p>{data.serial_num}</p>
             </div>
           </ListBox>
         ))}

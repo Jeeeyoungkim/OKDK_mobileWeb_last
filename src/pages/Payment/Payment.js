@@ -132,7 +132,7 @@ export default function Payment() {
                   key={index}
                   img={data.image}
                   name={data.brand}
-                  num={data.serial_num}
+                  // num={data.serial_num}
                 />
               ))}
             </div>

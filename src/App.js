@@ -34,7 +34,7 @@ import ThemeSetting from "./pages/SettingPage/ThemeSetting";
 import KakaoLogin from "./pages/Login/KakaoLogin";
 import NaverLogin from "./pages/Login/NaverLogin";
 import GoogleLogin from "./pages/Login/GoogleLogin";
-
+import BarcodeRegistration from "./pages/Payment/BarcodeRegistration";
 import Camera from "./pages/CardDetail/Camera";
 import EnrollComplete from "./pages/CardDetail/EnrollComplete";
 import CardModify from "./pages/CardDetail/CardModify";
@@ -79,6 +79,10 @@ const router = createBrowserRouter([
   {
     path: "/EarningInfomation",
     element: <EarningInfomation />,
+  },
+  {
+    path: "/BarcodeRegistration",
+    element: <BarcodeRegistration />,
   },
   {
     path: "/AddStoreToEarning",
