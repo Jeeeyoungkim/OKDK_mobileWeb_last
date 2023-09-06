@@ -44,6 +44,8 @@ export default function BarcodeRegistration() {
   };
 
   const handleAddBrand = () => {
+    console.log(brand);
+    console.log(inputValue);
     async function fetchAccumulateData() {
       const requestData = {
         brand: brand,
