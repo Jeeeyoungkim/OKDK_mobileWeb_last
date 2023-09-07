@@ -21,7 +21,8 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       // const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-      const redirection_uri = "http://43.201.113.143/google/callback/";
+      const redirection_uri =
+        "http://ec2-43-201-113-143.ap-northeast-2.compute.amazonaws.com/google/callback/";
 
       const googleURL =
         "https://accounts.google.com/o/oauth2/auth?client_id=" +
