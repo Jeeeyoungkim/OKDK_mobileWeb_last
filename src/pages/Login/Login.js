@@ -26,7 +26,7 @@ export default function Login() {
 
       const googleURL =
         "https://accounts.google.com/o/oauth2/auth?client_id=" +
-        "37407377499-cbdeh927g2njp0nd6ibdp6iei8eus727.apps.googleusercontent.com" +
+        "435546094465-nkivfk3cju2jg1jp1katfsu5ttbfkgti.apps.googleusercontent.com" +
         "&redirect_uri=" +
         redirection_uri +
         "&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" +
