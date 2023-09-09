@@ -127,7 +127,9 @@ export default function Morecards() {
               alignItems: "flex-start",
             }}
           ></section>
-          <section style={{ padding: "55px", overflow: "auto" }}>
+          <section
+            style={{ padding: "55px 0px", overflow: "auto", height: "10rem" }}
+          >
             {cards.map((card) => (
               <>
                 <div>
