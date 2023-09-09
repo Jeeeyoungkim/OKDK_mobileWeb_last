@@ -44,13 +44,12 @@ export default function Morecards() {
     }
     fetchData();
   }, []);
-  
+
   console.log(cards);
   const navigation = useNavigate();
 
   const Container = styled.div`
     height: "477px";
-    overflow-y: scroll;
   `;
 
   const handlecardChange = (card) => {
@@ -59,8 +58,8 @@ export default function Morecards() {
   };
 
   const handlecardDelete = async () => {
-    if(!selectedcard){
-      alert("삭제할 카드를 선택해주세요")
+    if (!selectedcard) {
+      alert("삭제할 카드를 선택해주세요");
     }
     try {
       const accessToken = localStorage.getItem("access");
@@ -91,24 +90,22 @@ export default function Morecards() {
   };
 
   const handleModfiyMove = () => {
-    if(!selectedcard){
-      alert("수정할 카드를 선택해주세요")
+    if (!selectedcard) {
+      alert("수정할 카드를 선택해주세요");
       window.location.reload();
     } else {
-
-    
-    console.log(selectedcard);
-    // 여기서 navigation을 이용하여 CardModify 컴포넌트로 이동하면서 선택한 카드 정보도 함께 전달합니다.
-    navigation("/CardModify", { state: selectedcard });
-  }
+      console.log(selectedcard);
+      // 여기서 navigation을 이용하여 CardModify 컴포넌트로 이동하면서 선택한 카드 정보도 함께 전달합니다.
+      navigation("/CardModify", { state: selectedcard });
+    }
   };
   const handlePaymentMove = () => {
     navigation("/Payment");
   };
-  
+
   const handleBackPage = () => {
     navigation("/Payment");
-  }
+  };
   return (
     <div>
       <TopNavigation navigation={navigation} destination={"Home"} />
@@ -130,7 +127,7 @@ export default function Morecards() {
               alignItems: "flex-start",
             }}
           ></section>
-          <section style={{ padding: "55px" }}>
+          <section style={{ padding: "55px", overflow: "auto" }}>
             {cards.map((card) => (
               <>
                 <div>
