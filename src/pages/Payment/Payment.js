@@ -160,38 +160,45 @@ export default function Payment() {
           )}
         </ListBox>
 
-        {threeCurrentMonthData[
+        {/* {
+        threeCurrentMonthData[
           threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
-        ].total > 0 ? (
-          <ListBox
-            listTitle={"이번달 결제 내역"}
-            handleShowMore={() => {
-              navigation("/PaymentDetail", {
-                state: {
-                  month: threeCurrentMonths[
-                    threeCurrentMonthData.length - 1
-                  ].slice(1, 2),
-                },
-              });
+        ].total > 0 ? ( */}
+        <ListBox
+          listTitle={"이번달 결제 내역"}
+          handleShowMore={() => {
+            navigation("/PaymentDetail", {
+              state: {
+                month: threeCurrentMonths[
+                  threeCurrentMonthData.length - 1
+                ].slice(1, 2),
+              },
+            });
+          }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: "2rem",
+              fontWeight: 700,
+              fontStyle: "normal",
+              fontFamily: "Pretendard",
             }}
           >
-            <div
-              style={{
-                textAlign: "center",
-                fontSize: "2rem",
-                fontWeight: 700,
-                fontStyle: "normal",
-                fontFamily: "Pretendard",
-              }}
-            >
-              총 {}원
-            </div>
-          </ListBox>
-        ) : (
+            총{" "}
+            {
+              // threeCurrentMonthData[
+              //   threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
+              // ].total
+            }
+            원
+          </div>
+        </ListBox>
+        {/* ) : (
           <ListBox listTitle={"이번달 결제 내역"}>
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
           </ListBox>
-        )}
+        )} */}
 
         {/* <ListBox listTitle={"월별 결제 내역"}>
           {threeCurrentMonths.length > 0 ? (
