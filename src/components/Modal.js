@@ -70,6 +70,7 @@ export default function Modal({
   backbasicButtonName,
   backbasicButtonOnClick,
 }) {
+  const navigation = useNavigate();
   return (
     <Overlay>
       <ModalWrap onClick={(e) => e.stopPropagation()}>
