@@ -42,6 +42,7 @@ export default function AddFavoriteMenu() {
         prevSelectedItems: prevSelectedItems,
         FavoriteItems: FavoriteItems,
       },
+      replace: true,
     });
   };
 
