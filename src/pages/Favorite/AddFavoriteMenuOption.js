@@ -168,11 +168,7 @@ export default function AddFavoriteMenuOption() {
                                   }
                                   borderRadius="1.875rem"
                                   fontSize="0.75rem"
-                                  color={
-                                    tempItem.id === currentTempId
-                                      ? "black"
-                                      : "white"
-                                  }
+                                  color={"white"}
                                   opacity={
                                     tempItem.id === currentTempId ? 1 : 0.5
                                   }
@@ -223,11 +219,7 @@ export default function AddFavoriteMenuOption() {
                                   backgroundColor="#6D6D6D"
                                   borderRadius="1.875rem"
                                   fontSize="0.75rem"
-                                  color={
-                                    sizeItem.id === currentSizeId
-                                      ? "black"
-                                      : "white"
-                                  }
+                                  color={"white"}
                                   fontFamily="Pretendard"
                                   fontWeight={
                                     sizeItem.id === currentSizeId
@@ -235,6 +227,9 @@ export default function AddFavoriteMenuOption() {
                                       : "normal"
                                   }
                                   margin="0.2rem"
+                                  opacity={
+                                    sizeItem.id === currentSizeId ? 1 : 0.5
+                                  }
                                 />
                               );
                             })
