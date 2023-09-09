@@ -41,6 +41,10 @@ const Description = styled.p`
   margin: 0;
   margin-top: 0;
   padding: 0;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CoffeeComponent = ({
