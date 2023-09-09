@@ -92,7 +92,7 @@ export default function Home() {
     // }
 
     console.log("네이버 로그아웃");
-    const accessToken = localStorage.getItem("access"); //access Token
+    //const accessToken = localStorage.getItem("access"); //access Token
     try {
       const response = await axios.post(
         `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=oRQ7F4q_jX8AvonjIVNf&client_secret=jA2auTdVIo&access_token=${accessToken}`,
