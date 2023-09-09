@@ -44,11 +44,10 @@ export default function EarningInfomation() {
     fetchData();
   }, []);
 
-  const handleDeleteBrand = (brand) => {
-    console.log(brand);
+  const handleDeleteBrand = (brand_id) => {
     async function fetchAccumulateData() {
       const requestData = {
-        brand: brand,
+        brand_id: brand_id,
       };
       try {
         const response = await authInstance.delete(
@@ -78,7 +77,7 @@ export default function EarningInfomation() {
           <ListBox
             handleDelete={() => handleDeleteBrand(data.brand)}
             key={index}
-            listTitle={data.brand}
+            listTitle={data.brand_id}
             handleShowMore={() =>
               navigation("/DetailEarningInfomation", {
                 state: { brand: data.brand },
