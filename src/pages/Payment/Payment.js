@@ -38,6 +38,9 @@ export default function Payment() {
   const [barcode, setBarcode] = useState([]);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [monthKey, setMonthKey] = useState([]);
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+
   //Randering management--------------------------
   //axios function
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function Payment() {
         const monthlyData = await authInstance.get("/order/month/");
 
         // console.log(userData.data);
-        console.log(basicCardData.data);
+        // console.log(basicCardData.data);
         // console.log(barcodeData.data);
         // console.log(basicCardData.data);
         setUser(userData.data.user);
@@ -65,6 +68,14 @@ export default function Payment() {
     }
     fetchData();
   }, []);
+
+  function findThisMonth(element) {
+    if (currentMonth.length === 1) {
+      return element === "0" + currentMonth + "월";
+    } else {
+      return element === currentMonth + "월";
+    }
+  }
 
   return (
     <Body>
@@ -153,7 +164,7 @@ export default function Payment() {
             });
           }}
         >
-          {monthKey.length > 0 ? (
+          {monthKey.find(findThisMonth) ? (
             <div
               style={{
                 textAlign: "center",
@@ -170,23 +181,12 @@ export default function Payment() {
           )}
         </ListBox>
         <ListBox listTitle={"월별 결제 내역"}>
-          {/* {monthKey.map((data, index) => {
-            console.log(monthlyPayment[data]);
-          })} */}
-          {/* <MonthlyPayment
-            labels={monthKey}
-            data={monthKey.map((data) => monthlyPayment[data].total)}
-          />
-          {/* <MonthlyPayment monthlypayment={payment_main.monthlypayment} /> */}
-          {/* <UndefinedText>월별 결제 내역이 없어요.</UndefinedText> */}
           {monthKey.length > 0 ? (
-            <>
-              <MonthlyPayment
-                navigation={navigation}
-                labels={monthKey}
-                data={monthKey.map((data) => monthlyPayment[data].total)}
-              />
-            </>
+            <MonthlyPayment
+              navigation={navigation}
+              labels={monthKey}
+              data={monthKey.map((data) => monthlyPayment[data].total)}
+            />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           )}
