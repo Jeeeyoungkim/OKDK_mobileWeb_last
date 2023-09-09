@@ -160,9 +160,9 @@ export default function Payment() {
           )}
         </ListBox>
 
-        {/* {threeCurrentMonthData[
-          threeCurrentMonths[threeCurrentMonthData.length - 1]
-        ].total ? (
+        {threeCurrentMonthData[
+          threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
+        ].total > 0 ? (
           <ListBox
             listTitle={"이번달 결제 내역"}
             handleShowMore={() => {
@@ -187,7 +187,7 @@ export default function Payment() {
               총{" "}
               {
                 threeCurrentMonthData[
-                  threeCurrentMonths[threeCurrentMonthData.length - 1]
+                  threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
                 ].total
               }
               원
@@ -197,7 +197,7 @@ export default function Payment() {
           <ListBox listTitle={"이번달 결제 내역"}>
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
           </ListBox>
-        )} */}
+        )}
 
         {/* <ListBox listTitle={"월별 결제 내역"}>
           {threeCurrentMonths.length > 0 ? (
