@@ -195,7 +195,7 @@ export default function Payment() {
         )}
 
         <ListBox listTitle={"월별 결제 내역"}>
-          {monthKey.length > 0 ? (
+          {threeMonth.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
               labels={monthKey}
