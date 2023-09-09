@@ -97,16 +97,10 @@ export default function Setting() {
   };
 
   const handleLogout = async (social) => {
-    if (social === "구글") {
-      //  GoogleLogout();
-    }
+    console.log(social);
 
     if (social === "카카오톡") {
       await KakaoLogout();
-    }
-
-    if (social === "네이버") {
-      //NaverLogout();
     }
 
     //react-native에 메세지 전송
@@ -154,7 +148,7 @@ export default function Setting() {
             <ItemContainer>계정 관리</ItemContainer>
           </BlurEffect>
         </ListBoxContainer>
-        <ListBoxContainer onClick={() => handleLogout()}>
+        <ListBoxContainer onClick={() => handleLogout(social)}>
           <BlurEffect>
             <ItemContainer>로그아웃</ItemContainer>
           </BlurEffect>

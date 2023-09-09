@@ -76,22 +76,24 @@ export default function AccountOfficer() {
 
   const GoogleDelete = async () => {
     console.log("구글 탈퇴");
-    const accessToken = localStorage.getItem("access"); //access Token
+    const googleAccessToken = localStorage.getItem("googleAccessToken"); // 액세스 토큰
+
     try {
       const response = await axios.post(
-        "https://kapi.kakao.com/v1/user/logout",
-        {},
+        "https://oauth2.googleapis.com/revoke",
+        null,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            token: googleAccessToken,
           },
         }
       );
-      console.log(response);
-      localStorage.clear();
+      console.log("토큰이 성공적으로 폐기되었습니다:", response);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("토큰 폐기에 실패했습니다:", error);
     }
   };
 
@@ -99,12 +101,11 @@ export default function AccountOfficer() {
     console.log("네이버 탈퇴");
     const accessToken = localStorage.getItem("access"); //access Token
     try {
-      const response = await axios.post(
-        `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=oRQ7F4q_jX8AvonjIVNf&client_secret=jA2auTdVIo&access_token=${accessToken}`,
-        {}
+      const response = await axios.delete(
+        `http://3.38.180.187/account/naver/`,
+        { data: { token: accessToken } }
       );
       console.log(response);
-      localStorage.clear();
     } catch (error) {
       console.error("Error:", error);
     }
