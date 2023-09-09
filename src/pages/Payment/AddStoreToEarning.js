@@ -83,7 +83,7 @@ export default function AddStoreToEarning() {
 
   const handleButtonClick = () => {
     navigation("/BarcodeRegistration", {
-      state: { brand: data.name },
+      state: { selectedStore: selectedStoreName },
       replace: true,
     });
   };
