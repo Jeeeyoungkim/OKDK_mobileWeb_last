@@ -75,8 +75,9 @@ export default function Payment() {
   useEffect(() => {
     const data = {};
     threeCurrentMonths.forEach(async (month) => {
-      if (monthKey.includes(month + "월")) {
-        data[month + "월"] = monthlyPayment[month + "월"].total;
+      const enMonth = month / 10 > 1 ? month : "0" + month;
+      if (monthKey.includes(enMonth)) {
+        data[month + "월"] = monthlyPayment[enMonth].total;
       } else {
         data[month + "월"] = 0;
       }
