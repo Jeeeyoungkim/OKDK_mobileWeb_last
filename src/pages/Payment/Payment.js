@@ -90,6 +90,7 @@ export default function Payment() {
     // console.log(monthKey);
     console.log(threeCurrentMonths);
     console.log(threeCurrentMonthData);
+    console.log(threeCurrentMonthData[threeCurrentMonths.length - 1 + "월"]);
   }, [monthlyPayment]);
 
   return (
@@ -169,8 +170,8 @@ export default function Payment() {
           handleShowMore={() => {
             navigation("/PaymentDetail", {
               state: {
-                month: threeCurrentMonths[
-                  threeCurrentMonthData.length - 1
+                month: threeCurrentMonthData[
+                  threeCurrentMonths.length - 1
                 ].slice(1, 2),
               },
             });
@@ -185,7 +186,7 @@ export default function Payment() {
               fontFamily: "Pretendard",
             }}
           >
-            총 {threeCurrentMonths[threeCurrentMonthData.length - 1 + "월"]}원
+            총 {threeCurrentMonthData[threeCurrentMonths.length - 1 + "월"]}원
           </div>
         </ListBox>
         {/* ) : (
