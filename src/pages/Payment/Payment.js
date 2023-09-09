@@ -43,10 +43,20 @@ export default function Payment() {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
   const [threeMonth, setThreeMonth] = useState([]);
-
+  const [threeMonthData, setThreeMonthData] = useState(null);
   //Randering management--------------------------
   //axios function
   useEffect(() => {
+    async function getThreeCurrentMonth() {
+      for (let i = 2; i > 0; i--) {
+        if ((currentMonth - i) / 10 > 1) {
+          setThreeMonth(...threeMonth, "0" + (currentMonth - i));
+        } else {
+          setThreeMonth(...threeMonth, currentMonth - i);
+        }
+      }
+    }
+
     async function fetchData() {
       try {
         const userData = await authInstance.get("/account/user/");
@@ -70,18 +80,17 @@ export default function Payment() {
       }
     }
 
-    async function getThreeCurrentMonth() {
-      for (let i = 0; i < 3; i++) {
-        if ((currentMonth - i) / 10 > 1) {
-          setThreeMonth(...threeMonth, "0" + (currentMonth - i));
-        } else {
-          setThreeMonth(...threeMonth, currentMonth - i);
+    async function getThreeCurrentMonthData() {
+      threeMonth.map((data, index) => {
+        if (monthKey.find(data)) {
+          setThreeMonthData(...threeMonthData, monthlyPayment[monthKey]);
         }
-      }
+      });
     }
 
-    fetchData();
     getThreeCurrentMonth();
+    fetchData();
+    getThreeCurrentMonthData();
   }, []);
 
   function findThisMonth(element) {
@@ -190,7 +199,7 @@ export default function Payment() {
             <MonthlyPayment
               navigation={navigation}
               labels={monthKey}
-              data={monthKey.map((data) => monthlyPayment[data].total)}
+              data={threeMonth.map((data) => threeMonthData[data].total)}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
