@@ -174,9 +174,10 @@ export default function Payment() {
           handleShowMore={() => {
             navigation("/PaymentDetail", {
               state: {
-                month: threeCurrentMonthData[
-                  threeCurrentMonths.length - 1
-                ].slice(1, 2),
+                month: threeCurrentMonths[threeCurrentMonths.length - 1].slice(
+                  1,
+                  2
+                ),
               },
             });
           }}
@@ -190,7 +191,13 @@ export default function Payment() {
               fontFamily: "Pretendard",
             }}
           >
-            총 {threeCurrentMonthData[threeCurrentMonths.length - 1 + "월"]}원
+            총{" "}
+            {
+              threeCurrentMonthData[
+                threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
+              ]
+            }
+            원
           </div>
         </ListBox>
         {/* ) : (
