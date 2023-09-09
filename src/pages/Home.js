@@ -60,18 +60,18 @@ export default function Home() {
   const KakaoLogout = async () => {
     const accessToken = localStorage.getItem("access"); //access Token
 
-    axios
-      .post("https://oauth2.googleapis.com/revoke", null, {
-        params: {
-          token: accessToken,
-        },
-      })
-      .then((response) => {
-        console.log("토큰이 성공적으로 폐기되었습니다:", response);
-      })
-      .catch((error) => {
-        console.error("토큰 폐기에 실패했습니다:", error);
-      });
+    // axios
+    //   .post("https://oauth2.googleapis.com/revoke", null, {
+    //     params: {
+    //       token: accessToken,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log("토큰이 성공적으로 폐기되었습니다:", response);
+    //   })
+    //   .catch((error) => {
+    //     console.error("토큰 폐기에 실패했습니다:", error);
+    //   });
 
     // console.log("카카오 로그아웃");
     // const accessToken = localStorage.getItem("access"); //access Token
@@ -91,36 +91,18 @@ export default function Home() {
     //   console.error("Error:", error);
     // }
 
-    // console.log("카카오 토큰받기");
-    // const accessToken = localStorage.getItem("access"); //access Token
-    // try {
-    //   const response = await axios.post(
-    //     "https://kapi.kakao.com/v2/user/me",
-    //     {},
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/x-www-form-urlencoded",
-    //         Authorization: `Bearer ${accessToken}`,
-    //       },
-    //     }
-    //   );
-    //   console.log(response);
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
-
-    // console.log("네이버 로그아웃");
-    // const accessToken = localStorage.getItem("access"); //access Token
-    // try {
-    //   const response = await axios.post(
-    //     `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=oRQ7F4q_jX8AvonjIVNf&client_secret=jA2auTdVIo&access_token=${accessToken}`,
-    //     {}
-    //   );
-    //   console.log(response);
-    //   localStorage.clear();
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
+    console.log("네이버 로그아웃");
+    const accessToken = localStorage.getItem("access"); //access Token
+    try {
+      const response = await axios.post(
+        `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=oRQ7F4q_jX8AvonjIVNf&client_secret=jA2auTdVIo&access_token=${accessToken}`,
+        {}
+      );
+      console.log(response);
+      localStorage.clear();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const navigateWebView = (destination) => {
