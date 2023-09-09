@@ -86,8 +86,8 @@ export default function Payment() {
       }
     });
     setThreeCurrentMonthData(data);
-    console.log(data);
-    console.log(monthKey);
+    // console.log(data);
+    // console.log(monthKey);
     console.log(threeCurrentMonths);
     console.log(threeCurrentMonthData);
   }, [monthlyPayment]);
@@ -186,9 +186,9 @@ export default function Payment() {
             >
               총{" "}
               {
-                threeCurrentMonthData[
-                  threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
-                ].total
+                // threeCurrentMonthData[
+                //   threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
+                // ].total
               }
               원
             </div>
