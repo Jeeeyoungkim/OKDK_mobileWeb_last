@@ -71,7 +71,7 @@ export default function AddStoreToEarning() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title={`${
-          user ? user.nickname : "익명"
+          user ? user.nickname : ""
         }님이\n 즐겨찾는 매장을 설정해주세요`}
         basicButtonName="확인"
         buttonDisable={selectedStore === null}

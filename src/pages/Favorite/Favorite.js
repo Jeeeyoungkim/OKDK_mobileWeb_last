@@ -80,7 +80,7 @@ export default function Favorite() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user ? user.nickname : "익명"}
+          name={user && user.nickname}
           describe={"즐겨찾는 메뉴입니다"}
         />
         {favoriteList && Object.keys(favoriteList).length > 0
