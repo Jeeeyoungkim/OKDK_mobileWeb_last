@@ -31,6 +31,7 @@ const ModalWrap = styled.div`
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  position: relative;
 `;
 
 const ModalTitle = styled.span`
@@ -60,7 +61,7 @@ export const ArrowBackImage = styled.img`
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;
-  left: 2rem;
+  left: 1rem;
 `;
 
 export default function Modal({
