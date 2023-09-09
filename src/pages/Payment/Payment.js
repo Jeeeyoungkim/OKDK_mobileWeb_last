@@ -194,7 +194,7 @@ export default function Payment() {
             총{" "}
             {
               threeCurrentMonthData[
-                threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
+                threeCurrentMonths[threeCurrentMonths.length - 2] + "월"
               ]
             }
             원
