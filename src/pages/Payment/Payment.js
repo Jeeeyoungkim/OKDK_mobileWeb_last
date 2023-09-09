@@ -204,13 +204,13 @@ export default function Payment() {
 
         <ListBox listTitle={"월별 결제 내역"}>
           {/* {threeCurrentMonths.length > 0 ? ( */}
-          <MonthlyPayment
+          {/* <MonthlyPayment
             navigation={navigation}
             labels={threeCurrentMonths}
             data={threeCurrentMonths.sort().map((data) => {
               threeCurrentMonthData[data + "월"];
             })}
-          />
+          /> */}
           {/* // ) : (
           //   <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           // )} */}
