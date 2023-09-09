@@ -96,9 +96,7 @@ export default function Payment() {
       ]
     );
     threeCurrentMonths.map((data) => {
-      const month = data / 10 > 1 ? data : "0" + data;
-      console.log(month);
-      console.log(threeCurrentMonthData[month]);
+      console.log(threeCurrentMonthData[data + "월"]);
     });
   }, [monthlyPayment]);
 
@@ -210,19 +208,19 @@ export default function Payment() {
           </ListBox>
         )}
 
-        {/* <ListBox listTitle={"월별 결제 내역"}>
+        <ListBox listTitle={"월별 결제 내역"}>
           {threeCurrentMonths.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
               labels={monthKey}
               data={threeCurrentMonths.map((data) => {
-                threeCurrentMonthData[data / 10 > 1 ? data : "0" + data];
+                threeCurrentMonthData[data + "월"];
               })}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           )}
-        </ListBox> */}
+        </ListBox>
       </ScrollWrap>
     </Body>
   );
