@@ -51,7 +51,7 @@ export default function Payment() {
         const monthlyData = await authInstance.get("/order/month/");
 
         // console.log(userData.data);
-        // console.log(basicCardData.data);
+        console.log(basicCardData.data);
         // console.log(barcodeData.data);
         // console.log(basicCardData.data);
         setUser(userData.data.user);
@@ -92,6 +92,7 @@ export default function Payment() {
             {card ? (
               <>
                 <Card
+                  imguri={card.image}
                   Width={"6.333331rem"}
                   Height={"4rem"}
                   imgWidth={"6.333331rem"}
