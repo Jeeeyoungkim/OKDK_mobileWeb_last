@@ -99,6 +99,10 @@ export default function Payment() {
     console.log(monthlyPayment);
   }, []);
 
+  useEffect(() => {
+    // threeMonthData가 변경될 때 실행될 코드를 추가하세요.
+  }, [threeMonthData]);
+
   function findThisMonth(element) {
     return element === setThreeMonth[setThreeMonth.length - 1] + "월";
   }
