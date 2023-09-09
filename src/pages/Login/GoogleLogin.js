@@ -33,6 +33,7 @@ const GoogleLogin = (props) => {
         }
         const access_token = res.data["access"];
         const refresh_token = res.data["refresh"];
+        const googleAccessToken = res.data["google_access_token"];
 
         //react-native에 메세지 전송
         if (window.ReactNativeWebView) {
@@ -47,6 +48,7 @@ const GoogleLogin = (props) => {
 
         localStorage.setItem("access", access_token);
         localStorage.setItem("refresh", refresh_token);
+        localStorage.setItem("googleAccessToken", googleAccessToken);
 
         navigate("/");
       } catch (error) {

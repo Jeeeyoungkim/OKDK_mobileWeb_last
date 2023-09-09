@@ -76,8 +76,39 @@ export default function Setting() {
     fetchData();
   }, []);
 
-  const handleLogout = async () => {
-    console.log("native asyncStorage 없애기");
+  const KakaoLogout = async () => {
+    console.log("카카오 계정 로그아웃");
+    const kakaoAccessToken = localStorage.getItem("kakaoAccessToken"); //access Token
+    try {
+      const response = await axios.post(
+        "https://kapi.kakao.com/v1/user/logout",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${kakaoAccessToken}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleLogout = async (social) => {
+    if (social === "구글") {
+      GoogleLogout();
+    }
+
+    if (social === "카카오톡") {
+      await KakaoLogout();
+    }
+
+    if (social === "네이버") {
+      //NaverLogout();
+    }
+
     //react-native에 메세지 전송
     if (window.ReactNativeWebView) {
       window.ReactNativeWebView.postMessage(

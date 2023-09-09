@@ -54,9 +54,9 @@ export default function AccountOfficer() {
   const user = location.state && location.state.user;
   const social = location.state && location.state.social;
 
-  const KakaoLogout = async () => {
-    console.log("카카오 로그아웃");
-    const accessToken = localStorage.getItem("access"); //access Token
+  const KakaoDelete = async () => {
+    console.log("카카오 탈퇴");
+    const kakaoAccessToken = localStorage.getItem("kakaoAccessToken"); //access Token
     try {
       const response = await axios.post(
         "https://kapi.kakao.com/v1/user/unlink",
@@ -64,7 +64,7 @@ export default function AccountOfficer() {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${kakaoAccessToken}`,
           },
         }
       );
@@ -74,8 +74,8 @@ export default function AccountOfficer() {
     }
   };
 
-  const GoogleLogout = async () => {
-    console.log("카카오 로그아웃");
+  const GoogleDelete = async () => {
+    console.log("구글 탈퇴");
     const accessToken = localStorage.getItem("access"); //access Token
     try {
       const response = await axios.post(
@@ -95,8 +95,8 @@ export default function AccountOfficer() {
     }
   };
 
-  const NaverLogout = async () => {
-    console.log("네이버 로그아웃");
+  const NaverDelete = async () => {
+    console.log("네이버 탈퇴");
     const accessToken = localStorage.getItem("access"); //access Token
     try {
       const response = await axios.post(
@@ -113,15 +113,15 @@ export default function AccountOfficer() {
   async function handleDelete(social) {
     try {
       if (social === "구글") {
-        GoogleLogout();
+        GoogleDelete();
       }
 
       if (social === "카카오톡") {
-        KakaoLogout();
+        KakaoDelete();
       }
 
       if (social === "네이버") {
-        NaverLogout();
+        NaverDelete();
       }
 
       const data = await authInstance.delete("/account/user/");

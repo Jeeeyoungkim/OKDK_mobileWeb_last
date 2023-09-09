@@ -5,8 +5,6 @@ import axios from "axios";
 
 import LoadingSpinner from "../../assets/loading-spinner.gif";
 
-import { authInstance } from "../../API/utils";
-
 const KakaoLogin = (props) => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
