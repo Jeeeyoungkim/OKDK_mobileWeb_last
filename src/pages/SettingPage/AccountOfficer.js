@@ -54,8 +54,76 @@ export default function AccountOfficer() {
   const user = location.state && location.state.user;
   const social = location.state && location.state.social;
 
-  async function handleDelete() {
+  const KakaoLogout = async () => {
+    console.log("카카오 로그아웃");
+    const accessToken = localStorage.getItem("access"); //access Token
     try {
+      const response = await axios.post(
+        "https://kapi.kakao.com/v1/user/unlink",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const GoogleLogout = async () => {
+    console.log("카카오 로그아웃");
+    const accessToken = localStorage.getItem("access"); //access Token
+    try {
+      const response = await axios.post(
+        "https://kapi.kakao.com/v1/user/logout",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response);
+      localStorage.clear();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const NaverLogout = async () => {
+    console.log("네이버 로그아웃");
+    const accessToken = localStorage.getItem("access"); //access Token
+    try {
+      const response = await axios.post(
+        `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=oRQ7F4q_jX8AvonjIVNf&client_secret=jA2auTdVIo&access_token=${accessToken}`,
+        {}
+      );
+      console.log(response);
+      localStorage.clear();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  async function handleDelete(social) {
+    try {
+      if (social === "구글") {
+        GoogleLogout();
+      }
+
+      if (social === "카카오톡") {
+        KakaoLogout();
+      }
+
+      if (social === "네이버") {
+        NaverLogout();
+      }
+
       const data = await authInstance.delete("/account/user/");
       // 백엔드 통신 성공 후 RN 앱으로 메시지 전송
       window.ReactNativeWebView.postMessage(
@@ -104,7 +172,7 @@ export default function AccountOfficer() {
                   color: "#595959",
                 }}
                 onClick={() => {
-                  handleDelete();
+                  handleDelete(social);
                 }}
               >
                 계정 탈퇴하기
