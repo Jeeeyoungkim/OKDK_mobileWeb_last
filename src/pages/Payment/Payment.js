@@ -39,7 +39,10 @@ export default function Payment() {
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [monthKey, setMonthKey] = useState([]);
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
+  const currentMonth =
+    (currentDate.getMonth() + 1) / 10 > 1
+      ? currentDate.getMonth().toString
+      : "0" + currentDate.getMonth();
 
   //Randering management--------------------------
   //axios function
@@ -70,8 +73,8 @@ export default function Payment() {
   }, []);
 
   function findThisMonth(element) {
-    console.log(currentMonth / 10 > 1);
-    console.log(currentMonth / 10 < 1);
+    console.log(currentMonth);
+    console.log(typeof currentMonth);
     if (currentMonth.length === 1) {
       return element === "0" + currentMonth + "월";
     } else {
