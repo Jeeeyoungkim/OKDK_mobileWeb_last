@@ -52,7 +52,7 @@ export default function EarningInfomation() {
           `/payment/membership/?id=${id}`
         );
         console.log(response);
-        navigation("/");
+        navigation("/EarningInfomation");
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
       }
