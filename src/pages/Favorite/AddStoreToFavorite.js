@@ -77,12 +77,6 @@ export default function AddStoreToEarning() {
         buttonDisable={selectedStore === null}
         basicButtonOnClick={() => handleButtonClick()}
       >
-        {/* <SearchInputWrap>
-          <SearchInput />
-          <SearchButton>
-            <FiSearch size={"1.25rem"} />
-          </SearchButton>
-        </SearchInputWrap> */}
         <BrandComponentWrap>
           {nonFavoriteBrandData.map((data, index) => (
             <BrandComponent key={index} onClick={() => handleSelect(data.id)}>
