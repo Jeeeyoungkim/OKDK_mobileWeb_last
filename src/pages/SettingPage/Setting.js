@@ -98,7 +98,7 @@ export default function Setting() {
 
   const handleLogout = async (social) => {
     if (social === "구글") {
-      GoogleLogout();
+      //  GoogleLogout();
     }
 
     if (social === "카카오톡") {
