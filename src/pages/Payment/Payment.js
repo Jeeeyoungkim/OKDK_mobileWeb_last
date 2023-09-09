@@ -186,11 +186,9 @@ export default function Payment() {
             }}
           >
             총{" "}
-            {
-              // threeCurrentMonthData[
-              //   threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
-              // ].total
-            }
+            {threeCurrentMonthData.threeCurrentMonths[
+              threeCurrentMonthData.length - 1
+            ] + "월".total}
             원
           </div>
         </ListBox>
