@@ -208,7 +208,7 @@ export default function Payment() {
           </ListBox>
         )}
 
-        <ListBox listTitle={"월별 결제 내역"}>
+        {/* <ListBox listTitle={"월별 결제 내역"}>
           {threeCurrentMonths.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
@@ -216,11 +216,12 @@ export default function Payment() {
               data={threeCurrentMonths.map((data) => {
                 threeCurrentMonthData[data + "월"];
               })}
+
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           )}
-        </ListBox>
+        </ListBox> */}
       </ScrollWrap>
     </Body>
   );
