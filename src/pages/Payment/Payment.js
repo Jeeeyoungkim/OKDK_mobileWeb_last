@@ -210,10 +210,14 @@ export default function Payment() {
             <MonthlyPayment
               navigation={navigation}
               labels={monthKey}
-              data={threeCurrentMonths.map(
-                (data) =>
+              data={threeCurrentMonths.map((data) => {
+                threeCurrentMonthData[data / 10 > 1 ? data : "0" + data];
+                console.log(threeCurrentMonthData);
+                console.log(threeCurrentMonthData[data]);
+                console.log(
                   threeCurrentMonthData[data / 10 > 1 ? data : "0" + data]
-              )}
+                );
+              })}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
