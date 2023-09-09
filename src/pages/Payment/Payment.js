@@ -84,10 +84,6 @@ export default function Payment() {
     setThreeCurrentMonthData(data);
   }, [monthlyPayment]);
 
-  function findThisMonth(element) {
-    return element === setThreeMonth[setThreeMonth.length - 1] + "월";
-  }
-
   return (
     <Body>
       <TopNavigation navigation={navigation} destination={"Home"} />
@@ -156,7 +152,9 @@ export default function Payment() {
           )}
         </ListBox>
 
-        {monthKey.find(findThisMonth) ? (
+        {threeCurrentMonthData[
+          threeCurrentMonths[threeCurrentMonthData.length - 1]
+        ].total ? (
           <ListBox
             listTitle={"이번달 결제 내역"}
             handleShowMore={() => {
