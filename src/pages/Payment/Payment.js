@@ -71,7 +71,7 @@ export default function Payment() {
     }
 
     async function getThreeCurrentMonth() {
-      for (i = 0; i < 3; i++) {
+      for (let i = 0; i < 3; i++) {
         if ((currentMonth - i) / 10 > 1) {
           setThreeMonth(...threeMonth, "0" + (currentMonth - i));
         } else {
