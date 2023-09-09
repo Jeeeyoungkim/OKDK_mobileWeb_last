@@ -205,19 +205,20 @@ export default function Payment() {
           </ListBox>
         )}
 
-        {/* <ListBox listTitle={"월별 결제 내역"}>
+        <ListBox listTitle={"월별 결제 내역"}>
           {threeCurrentMonths.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
               labels={monthKey}
               data={threeCurrentMonths.map(
-                (data) => threeCurrentMonthData[data].total
+                (data) =>
+                  threeCurrentMonthData[data / 10 > 1 ? data : "0" + data]
               )}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           )}
-        </ListBox> */}
+        </ListBox>
       </ScrollWrap>
     </Body>
   );
