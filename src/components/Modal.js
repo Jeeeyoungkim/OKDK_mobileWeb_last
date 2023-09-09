@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import BasicButton from "./Button";
+import ArrowBack from "../assets/images/arrowBack.svg";
 
 const Overlay = styled.section`
   z-index: 1;
@@ -52,6 +53,13 @@ const ModalDocument = styled.div`
   align-items: center;
 `;
 
+export const ArrowBackImage = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  left: 1rem;
+`;
+
 export default function Modal({
   children,
   title,
@@ -65,13 +73,19 @@ export default function Modal({
   return (
     <Overlay>
       <ModalWrap onClick={(e) => e.stopPropagation()}>
+        <ArrowBackImage
+          src={ArrowBack}
+          onClick={() => {
+            navigation(-1);
+          }}
+        />
         <ModalDocument>
           <ModalTitle>{title}</ModalTitle>
           {children}
         </ModalDocument>
       </ModalWrap>
-      {(basicButtonName && basicButtonOnClick) ? (
-        <div style={{flexDirection:'row'}}>
+      {basicButtonName && basicButtonOnClick ? (
+        <div style={{ flexDirection: "row" }}>
           {backbasicButtonName && backbasicButtonOnClick && (
             <BasicButton
               btnName={backbasicButtonName}
@@ -110,11 +124,8 @@ export default function Modal({
               disabled={buttonDisable}
             />
           )}
-          
         </div>
-      ) : (
-       null
-      )}
+      ) : null}
     </Overlay>
   );
 }
