@@ -25,10 +25,9 @@ export const ScrollWrap = styled.div`
 export default function EarningInfomation() {
   //variable management---------------------------
   const navigation = useNavigate();
-
   const [user, setUser] = useState({});
   const [barcode, setBarcode] = useState([]);
-
+  const [refreshValue, setRefreshValue] = useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -42,10 +41,10 @@ export default function EarningInfomation() {
       }
     }
     fetchData();
-  }, []);
+  }, [refreshValue]);
 
   const handleDeleteBrand = (id) => {
-    console.log(id);
+    setRefreshValue(!refreshValue);
     async function fetchAccumulateData() {
       try {
         const response = await authInstance.delete(
