@@ -25,6 +25,7 @@ const Image = styled.img`
   height: 3.4rem;
   object-fit: cover;
   padding: 0.5rem;
+  border-radius: 1rem;
 `;
 
 const DescriptionContainer = styled.div`
