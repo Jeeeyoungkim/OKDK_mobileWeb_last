@@ -39,6 +39,7 @@ export default function AddStoreToEarning() {
     //다음 페이지 넘어감
     navigation("/AddFavoriteMenu", {
       state: { selectedStore, selectedStoreName },
+      replace: true,
     });
 
     localStorage.setItem("StoreName", `${selectedStoreName}`); // 브랜드이름 로컬스토리지 등록
