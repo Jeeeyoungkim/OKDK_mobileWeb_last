@@ -77,11 +77,9 @@ export default function Payment() {
     threeCurrentMonths.forEach(async (month) => {
       const enMonth = month / 10 > 1 ? month : "0" + month;
       if (monthKey.includes(enMonth)) {
-        console.log(monthlyPayment[enMonth]);
         console.log(monthlyPayment[enMonth].total);
         data[month + "월"] = monthlyPayment[enMonth].total;
       } else {
-        console.log(3);
         data[month + "월"] = 0;
       }
     });
@@ -90,12 +88,8 @@ export default function Payment() {
     // console.log(monthKey);
     console.log(threeCurrentMonths);
     console.log(threeCurrentMonthData);
-    console.log(
-      threeCurrentMonthData[
-        threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
-      ]
-    );
     threeCurrentMonths.map((data) => {
+      console.log(data);
       console.log(threeCurrentMonthData[data + "월"]);
     });
   }, [monthlyPayment]);
