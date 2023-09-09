@@ -177,6 +177,7 @@ export const Body = styled.div`
   height: fit-content;
   min-height: 100vh;
   background-color: #f5f7fb;
+  overflow: hidden;
 `;
 
 export const ScrollWrap = styled.div`
