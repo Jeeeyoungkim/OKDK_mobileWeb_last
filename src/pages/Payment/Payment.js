@@ -206,8 +206,8 @@ export default function Payment() {
           {threeCurrentMonths.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
-              labels={monthKey}
-              data={threeCurrentMonths.map((data, index) => {
+              labels={threeCurrentMonths}
+              data={threeCurrentMonths.map((data) => {
                 threeCurrentMonthData[data + "월"];
               })}
             />
