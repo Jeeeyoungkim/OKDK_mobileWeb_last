@@ -45,14 +45,11 @@ export default function EarningInfomation() {
   }, []);
 
   const handleDeleteBrand = (id) => {
+    console.log(id);
     async function fetchAccumulateData() {
-      const requestData = {
-        id: id,
-      };
       try {
         const response = await authInstance.delete(
-          "/payment/membership/",
-          requestData
+          `/payment/membership/?id=${id}`
         );
         console.log(response);
         // navigation("/Payment");
