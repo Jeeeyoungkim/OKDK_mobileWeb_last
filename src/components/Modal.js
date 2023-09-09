@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import BasicButton from "./Button";
 import ArrowBack from "../assets/images/arrowBack.svg";
+import { useNavigate } from "react-router-dom";
 
 const Overlay = styled.section`
   z-index: 1;
