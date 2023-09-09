@@ -83,6 +83,7 @@ export default function Payment() {
       }
     });
     setThreeCurrentMonthData(data);
+    console.log(monthKey);
     console.log(threeCurrentMonths);
     console.log(threeCurrentMonthData);
   }, [monthlyPayment]);
