@@ -25,6 +25,7 @@ export const ScrollWrap = styled.div`
 `;
 
 export const UndefinedText = styled.p`
+  padding-top: 1rem;
   color: #aaaaaa;
 `;
 
