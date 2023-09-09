@@ -173,6 +173,9 @@ export default function AddFavoriteMenuOption() {
                                       ? "black"
                                       : "white"
                                   }
+                                  opacity={
+                                    tempItem.id === currentTempId ? 1 : 0.5
+                                  }
                                   fontFamily="Pretendard"
                                   fontWeight={
                                     tempItem.id === currentTempId

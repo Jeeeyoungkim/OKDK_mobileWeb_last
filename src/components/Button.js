@@ -11,7 +11,7 @@ const Button = styled.button`
   border-radius: ${(props) =>
     props.$borderRadius ? props.$borderRadius : "30px"};
   margin: ${(props) => (props.margin ? props.margin : "0.5rem")};
-
+  opacity: ${(props) => (props.opacity ? props.opacity : 1)};
   &:hover {
     color: white;
     cursor: pointer;
@@ -56,6 +56,7 @@ const BasicButton = ({
   fontWeight,
   imguri,
   margin,
+  opacity,
 }) => {
   return (
     <Button
@@ -65,6 +66,7 @@ const BasicButton = ({
       $backgroundColor={backgroundColor} // camelCase 사용
       $borderRadius={borderRadius} // camelCase 사용
       margin={margin}
+      opacity={opacity}
     >
       <ButtonWarp>
         {imguri ? <Image src={imguri} /> : null}
