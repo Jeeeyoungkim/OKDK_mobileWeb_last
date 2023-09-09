@@ -43,7 +43,7 @@ export default function Payment() {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
   const [threeMonth, setThreeMonth] = useState([]);
-  const [threeMonthData, setThreeMonthData] = useState(null);
+  const [threeMonthData, setThreeMonthData] = useState([]);
   //Randering management--------------------------
   //axios function
   useEffect(() => {
@@ -81,15 +81,18 @@ export default function Payment() {
     }
 
     async function getThreeCurrentMonthData() {
-      threeMonth.map((data, index) => {
-        if (monthKey.find(data)) {
-          setThreeMonthData(...threeMonthData, monthlyPayment[monthKey]);
+      const data = {};
+      threeMonth.forEach(async (month) => {
+        if (monthKey.includes(month + "월")) {
+          data[month + "월"] = monthlyPayment[month + "월"];
         }
       });
+      setThreeMonthData(data);
     }
 
-    getThreeCurrentMonth().then(fetchData()).then(getThreeCurrentMonthData());
-
+    getThreeCurrentMonth();
+    fetchData();
+    getThreeCurrentMonthData();
     console.log(threeMonth);
     console.log(threeMonthData);
     console.log(monthKey);
