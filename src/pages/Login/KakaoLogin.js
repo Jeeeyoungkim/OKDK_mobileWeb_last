@@ -23,26 +23,9 @@ const KakaoLogin = (props) => {
           },
         });
 
-        const data = {
-          grant_type: "authorization_code",
-          client_id: "1def2aa86fd42c81904840220886ac54",
-          redirect_uri: "http://43.201.113.143/kakao/callback/",
-          code: `${code}`,
-        };
-
-        const kakaoToken = await axios({
-          method: "POST",
-          url: `https://kauth.kakao.com/oauth/token`,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          data,
-        });
-
-        console.log(kakaoToken.response);
-
         const accessToken = res.data["access"];
         const refreshToken = res.data["refresh"];
+        const kakaoAccessToken = res.data["kakaoAccessToken"];
 
         //react-native에 메세지 전송
         if (window.ReactNativeWebView) {
@@ -57,6 +40,7 @@ const KakaoLogin = (props) => {
 
         localStorage.setItem("access", accessToken);
         localStorage.setItem("refresh", refreshToken);
+        localStorage.setItem("kakaoAccessToken", kakaoAccessToken);
 
         navigate("/");
       } catch (error) {
