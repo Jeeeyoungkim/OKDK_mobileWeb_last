@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import TopNavigation from "../../components/TopNavigation";
 import { useNavigate } from "react-router-dom";
 import ListBox from "../../components/ListBox";
 import Card from "../../components/Card";
 import PaymentTitle from "../../components/PaymentTitle";
-import payment_main from "../../mock/payment_main.json";
 import Barcode from "../../components/Barcode";
 import MonthlyPayment from "../../components/MonthlyPayment";
 import { authInstance } from "../../API/utils";
@@ -60,7 +58,7 @@ export default function Payment() {
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        console.log(monthlyData.data);
+        // console.log(monthlyData.data);
         setUser(userData.data.user);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
@@ -87,12 +85,8 @@ export default function Payment() {
     setThreeCurrentMonthData(data);
     // console.log(data);
     // console.log(monthKey);
-    console.log(threeCurrentMonths);
-    console.log(threeCurrentMonthData);
-    threeCurrentMonths.map((data) => {
-      console.log(data);
-      console.log(threeCurrentMonthData[data + "월"]);
-    });
+    // console.log(threeCurrentMonths);
+    // console.log(threeCurrentMonthData);
   }, [monthlyPayment]);
 
   return (
@@ -150,12 +144,7 @@ export default function Payment() {
               }}
             >
               {barcode.map((data, index) => (
-                <Barcode
-                  key={index}
-                  img={data.image}
-                  name={data.brand}
-                  // num={data.serial_num}
-                />
+                <Barcode key={index} img={data.image} name={data.brand} />
               ))}
             </div>
           ) : (
