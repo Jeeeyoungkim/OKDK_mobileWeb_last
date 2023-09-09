@@ -23,6 +23,24 @@ const KakaoLogin = (props) => {
           },
         });
 
+        const data = {
+          grant_type: "authorization_code",
+          client_id: "1def2aa86fd42c81904840220886ac54",
+          redirect_uri: "http://43.201.113.143/kakao/callback/",
+          code: `${code}`,
+        };
+
+        const kakaoToken = await axios({
+          method: "POST",
+          url: `https://kauth.kakao.com/oauth/token`,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          data,
+        });
+
+        console.log(kakaoToken.response);
+
         const accessToken = res.data["access"];
         const refreshToken = res.data["refresh"];
 

@@ -6,6 +6,7 @@ import PaymentTitle from "../components/PaymentTitle";
 import ListBox from "../components/ListBox";
 import ChangeComponent from "../components/ChangeComponent";
 import CoffeeComponent from "../components/CoffeeComponent";
+import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 import { authInstance } from "../API/utils";
@@ -32,8 +33,8 @@ export default function Home() {
   async function fetchData() {
     try {
       const userData = await authInstance.get("/account/user/");
-      const recentData = await authInstance.get("/order/recents/");
       const favoriteList = await authInstance.get("/order/favorite/");
+      const recentData = await authInstance.get("/order/recents/");
 
       const sortedRecents = recentData.data.sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -41,10 +42,9 @@ export default function Home() {
       const topFive = sortedRecents.slice(0, 4);
 
       setUser(userData.data.user);
+      setUserMode(userData.data.user.mode);
       setFavoriteList(favoriteList.data);
       setRecents(topFive);
-      setUserMode(userData.data.user.mode);
-      console.log(userData.data.user.mode);
     } catch (error) {
       console.error("fetchData 함수 에러 발생:", error);
       if (window.ReactNativeWebView) {
@@ -56,6 +56,72 @@ export default function Home() {
       }
     }
   }
+
+  const KakaoLogout = async () => {
+    const accessToken = localStorage.getItem("access"); //access Token
+
+    axios
+      .post("https://oauth2.googleapis.com/revoke", null, {
+        params: {
+          token: accessToken,
+        },
+      })
+      .then((response) => {
+        console.log("토큰이 성공적으로 폐기되었습니다:", response);
+      })
+      .catch((error) => {
+        console.error("토큰 폐기에 실패했습니다:", error);
+      });
+
+    // console.log("카카오 로그아웃");
+    // const accessToken = localStorage.getItem("access"); //access Token
+    // try {
+    //   const response = await axios.post(
+    //     "https://kapi.kakao.com/v1/user/unlink",
+    //     {},
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //         Authorization: `KakaoAK 5c161e1b7f87b97ff9c4dc8f5c0fad92`,
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
+
+    // console.log("카카오 토큰받기");
+    // const accessToken = localStorage.getItem("access"); //access Token
+    // try {
+    //   const response = await axios.post(
+    //     "https://kapi.kakao.com/v2/user/me",
+    //     {},
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //         Authorization: `Bearer ${accessToken}`,
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
+
+    // console.log("네이버 로그아웃");
+    // const accessToken = localStorage.getItem("access"); //access Token
+    // try {
+    //   const response = await axios.post(
+    //     `https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=oRQ7F4q_jX8AvonjIVNf&client_secret=jA2auTdVIo&access_token=${accessToken}`,
+    //     {}
+    //   );
+    //   console.log(response);
+    //   localStorage.clear();
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
+  };
 
   const navigateWebView = (destination) => {
     console.log(destination);
@@ -100,6 +166,7 @@ export default function Home() {
 
   return (
     <Body>
+      <button onClick={KakaoLogout}>로그아웃</button>
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle name={user && user.nickname} describe={getTimeOfDay()} />
