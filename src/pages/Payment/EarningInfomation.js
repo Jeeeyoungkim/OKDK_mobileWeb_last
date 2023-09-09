@@ -44,10 +44,10 @@ export default function EarningInfomation() {
     fetchData();
   }, []);
 
-  const handleDeleteBrand = (brand_id) => {
+  const handleDeleteBrand = (id) => {
     async function fetchAccumulateData() {
       const requestData = {
-        brand_id: brand_id,
+        id: id,
       };
       try {
         const response = await authInstance.delete(
