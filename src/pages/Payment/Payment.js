@@ -184,13 +184,7 @@ export default function Payment() {
                 fontFamily: "Pretendard",
               }}
             >
-              총{" "}
-              {
-                // threeCurrentMonthData[
-                //   threeCurrentMonths[threeCurrentMonthData.length - 1] + "월"
-                // ].total
-              }
-              원
+              총 {}원
             </div>
           </ListBox>
         ) : (
