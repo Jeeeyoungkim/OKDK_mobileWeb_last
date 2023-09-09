@@ -54,7 +54,6 @@ export default function EarningInfomation() {
           "/payment/membership/",
           requestData
         );
-        console.log(brand);
         console.log(response);
         // navigation("/Payment");
       } catch (error) {
