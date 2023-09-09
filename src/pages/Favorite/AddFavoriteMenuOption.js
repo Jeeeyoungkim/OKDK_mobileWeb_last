@@ -14,7 +14,6 @@ import { authInstance } from "../../API/utils";
 export default function AddFavoriteMenuOption() {
   const navigation = useNavigate();
   const location = useLocation();
-  const history = useHistory();
 
   const prevSelectedItems = location.state.prevSelectedItems;
   const FavoriteItems = location.state.FavoriteItems;
