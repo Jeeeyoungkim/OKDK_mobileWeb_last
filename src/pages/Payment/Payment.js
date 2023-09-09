@@ -38,11 +38,11 @@ export default function Payment() {
   const [barcode, setBarcode] = useState([]);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [monthKey, setMonthKey] = useState([]);
+
+  // 현재 날짜 계산 및 최근 3달
   const currentDate = new Date();
-  const currentMonth =
-    (currentDate.getMonth() + 1) / 10 > 1
-      ? currentDate.getMonth().toString
-      : "0" + currentDate.getMonth();
+  const currentMonth = currentDate.getMonth() + 1;
+  const [threeMonth, setThreeMonth] = useState([]);
 
   //Randering management--------------------------
   //axios function
@@ -59,7 +59,7 @@ export default function Payment() {
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        // console.log(basicCardData.data);
+        console.log(monthlyData.data);
         setUser(userData.data.user);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
@@ -69,17 +69,23 @@ export default function Payment() {
         console.error("fetchData 함수 에러 발생:", error);
       }
     }
+
+    async function getThreeCurrentMonth() {
+      for (i = 0; i < 3; i++) {
+        if ((currentMonth - i) / 10 > 1) {
+          setThreeMonth(...threeMonth, "0" + (currentMonth - i));
+        } else {
+          setThreeMonth(...threeMonth, currentMonth - i);
+        }
+      }
+    }
+
     fetchData();
+    getThreeCurrentMonth();
   }, []);
 
   function findThisMonth(element) {
-    console.log(currentMonth);
-    console.log(typeof currentMonth);
-    if (currentMonth.length === 1) {
-      return element === "0" + currentMonth + "월";
-    } else {
-      return element === currentMonth + "월";
-    }
+    return element === setThreeMonth[setThreeMonth.length - 1] + "월";
   }
 
   return (
@@ -127,14 +133,6 @@ export default function Payment() {
             navigation("/EarningInfomation");
           }}
         >
-          {/* {payment_main.barcode.map((data, index) => (
-              <Barcode
-                img={data.barcodeimg}
-                num={data.barcodenum}
-                name={data.barcodename}
-              />
-            ))} */}
-
           {barcode.length > 0 ? (
             <div
               style={{
@@ -157,19 +155,18 @@ export default function Payment() {
             <UndefinedText>바코드를 등록해 주세요</UndefinedText>
           )}
         </ListBox>
-        <ListBox
-          listTitle={"이번달 결제 내역"}
-          handleShowMore={() => {
-            navigation("/PaymentDetail", {
-              state: {
-                month: monthKey
-                  ? monthKey[monthKey.length - 1].slice(1, 2)
-                  : null,
-              },
-            });
-          }}
-        >
-          {monthKey.find(findThisMonth) ? (
+
+        {monthKey.find(findThisMonth) ? (
+          <ListBox
+            listTitle={"이번달 결제 내역"}
+            handleShowMore={() => {
+              navigation("/PaymentDetail", {
+                state: {
+                  month: monthKey[monthKey.length - 1].slice(1, 2),
+                },
+              });
+            }}
+          >
             <div
               style={{
                 textAlign: "center",
@@ -181,10 +178,13 @@ export default function Payment() {
             >
               총 {monthlyPayment[[monthKey[monthKey.length - 1]]].total}원
             </div>
-          ) : (
+          </ListBox>
+        ) : (
+          <ListBox listTitle={"이번달 결제 내역"}>
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
-          )}
-        </ListBox>
+          </ListBox>
+        )}
+
         <ListBox listTitle={"월별 결제 내역"}>
           {monthKey.length > 0 ? (
             <MonthlyPayment
