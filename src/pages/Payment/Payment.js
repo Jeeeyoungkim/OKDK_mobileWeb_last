@@ -95,6 +95,11 @@ export default function Payment() {
         threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
       ]
     );
+    threeCurrentMonths.map((data) => {
+      const month = data / 10 > 1 ? data : "0" + data;
+      console.log(month);
+      console.log(threeCurrentMonthData[month]);
+    });
   }, [monthlyPayment]);
 
   return (
