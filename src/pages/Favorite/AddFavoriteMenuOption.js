@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useHistory } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import axios from "axios";
 
@@ -102,7 +102,7 @@ export default function AddFavoriteMenuOption() {
   };
 
   const handleModalButton = () => {
-    navigation("/Favorite");
+    history.replace("/Favorite");
     sendData(FavoriteItemsOption); //post 요청
 
     localStorage.removeItem("StoreId"); // 로컬스토리지에 스토어 정보 삭제
