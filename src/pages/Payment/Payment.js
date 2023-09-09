@@ -212,8 +212,7 @@ export default function Payment() {
               labels={monthKey}
               data={threeCurrentMonths.map((data) => {
                 threeCurrentMonthData[data / 10 > 1 ? data : "0" + data];
-                console.log(threeCurrentMonthData);
-                console.log(threeCurrentMonthData[data]);
+
                 console.log(
                   threeCurrentMonthData[data / 10 > 1 ? data : "0" + data]
                 );
