@@ -90,7 +90,11 @@ export default function Payment() {
     // console.log(monthKey);
     console.log(threeCurrentMonths);
     console.log(threeCurrentMonthData);
-    console.log(threeCurrentMonthData[threeCurrentMonths.length - 1 + "월"]);
+    console.log(
+      threeCurrentMonthData[
+        threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
+      ]
+    );
   }, [monthlyPayment]);
 
   return (
