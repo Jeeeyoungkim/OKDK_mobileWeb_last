@@ -102,10 +102,7 @@ export default function Home() {
     <Body>
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
-        <PaymentTitle
-          name={user ? user.nickname : "익명"}
-          describe={getTimeOfDay()}
-        />
+        <PaymentTitle name={user && user.nickname} describe={getTimeOfDay()} />
         <ChangeComponent handleParentClick={changeMode} userMode={userMode} />
         <ListBox
           listTitle={"즐겨찾는 메뉴"}
