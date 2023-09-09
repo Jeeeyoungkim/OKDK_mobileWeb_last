@@ -173,11 +173,7 @@ export default function AddFavoriteMenuOption() {
                                     tempItem.id === currentTempId ? 1 : 0.5
                                   }
                                   fontFamily="Pretendard"
-                                  fontWeight={
-                                    tempItem.id === currentTempId
-                                      ? "bold"
-                                      : "normal"
-                                  }
+                                  fontWeight={"normal"}
                                   margin="0.2rem"
                                 />
                               );
@@ -221,11 +217,7 @@ export default function AddFavoriteMenuOption() {
                                   fontSize="0.75rem"
                                   color={"white"}
                                   fontFamily="Pretendard"
-                                  fontWeight={
-                                    sizeItem.id === currentSizeId
-                                      ? "bold"
-                                      : "normal"
-                                  }
+                                  fontWeight={"normal"}
                                   margin="0.2rem"
                                   opacity={
                                     sizeItem.id === currentSizeId ? 1 : 0.5
