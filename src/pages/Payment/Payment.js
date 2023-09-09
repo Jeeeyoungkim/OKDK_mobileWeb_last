@@ -91,6 +91,10 @@ export default function Payment() {
     getThreeCurrentMonth();
     fetchData();
     getThreeCurrentMonthData();
+    console.log(threeMonth);
+    console.log(threeMonthData);
+    console.log(monthKey);
+    console.log(monthlyPayment);
   }, []);
 
   function findThisMonth(element) {
