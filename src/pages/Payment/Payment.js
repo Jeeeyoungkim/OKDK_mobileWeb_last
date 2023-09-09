@@ -207,9 +207,9 @@ export default function Payment() {
             <MonthlyPayment
               navigation={navigation}
               labels={threeCurrentMonths}
-              data={threeCurrentMonths.sort().map((data) => {
-                threeCurrentMonthData[data + "월"];
-              })}
+              data={threeCurrentMonths
+                .sort()
+                .map((data) => threeCurrentMonthData[data + "월"])}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
