@@ -52,13 +52,14 @@ const ModalDocument = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 2rem;
 `;
 
 export const ArrowBackImage = styled.img`
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;
-  left: 1rem;
+  left: 2rem;
 `;
 
 export default function Modal({
