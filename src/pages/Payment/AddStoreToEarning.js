@@ -82,12 +82,6 @@ export default function AddStoreToEarning() {
         basicButtonName="확인"
         basicButtonOnClick={() => navigation(-1)}
       >
-        {/* <SearchInputWrap>
-          <SearchInput />
-          <SearchButton>
-            <FiSearch size={"1.25rem"} />
-          </SearchButton>
-        </SearchInputWrap> */}
         <BrandComponentWrap>
           {membershipBrand.map((data, index) => (
             <BrandComponent
