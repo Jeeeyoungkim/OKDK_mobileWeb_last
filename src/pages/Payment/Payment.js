@@ -174,10 +174,10 @@ export default function Payment() {
           handleShowMore={() => {
             navigation("/PaymentDetail", {
               state: {
-                month: threeCurrentMonths[threeCurrentMonths.length - 1].slice(
-                  1,
-                  2
-                ),
+                month:
+                  threeCurrentMonths[threeCurrentMonths.length - 1] / 10 > 1
+                    ? threeCurrentMonths[threeCurrentMonths.length - 1]
+                    : "0" + threeCurrentMonths[threeCurrentMonths.length - 1],
               },
             });
           }}
@@ -194,7 +194,7 @@ export default function Payment() {
             총{" "}
             {
               threeCurrentMonthData[
-                threeCurrentMonths[threeCurrentMonths.length - 2] + "월"
+                threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
               ]
             }
             원
