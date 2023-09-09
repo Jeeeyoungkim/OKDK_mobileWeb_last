@@ -82,6 +82,8 @@ export default function Payment() {
       }
     });
     setThreeCurrentMonthData(data);
+    console.log(threeCurrentMonths);
+    console.log(threeCurrentMonthData);
   }, [monthlyPayment]);
 
   return (
@@ -152,7 +154,7 @@ export default function Payment() {
           )}
         </ListBox>
 
-        {threeCurrentMonthData[
+        {/* {threeCurrentMonthData[
           threeCurrentMonths[threeCurrentMonthData.length - 1]
         ].total ? (
           <ListBox
@@ -189,9 +191,9 @@ export default function Payment() {
           <ListBox listTitle={"이번달 결제 내역"}>
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
           </ListBox>
-        )}
+        )} */}
 
-        <ListBox listTitle={"월별 결제 내역"}>
+        {/* <ListBox listTitle={"월별 결제 내역"}>
           {threeCurrentMonths.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
@@ -203,7 +205,7 @@ export default function Payment() {
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           )}
-        </ListBox>
+        </ListBox> */}
       </ScrollWrap>
     </Body>
   );
