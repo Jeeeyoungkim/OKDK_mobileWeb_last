@@ -39,24 +39,14 @@ export default function Payment() {
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [monthKey, setMonthKey] = useState([]);
 
-  // 현재 날짜 계산 및 최근 3달
+  // 현재 날짜 계산 및 최근 3달 데이터 넣기
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
-  const [threeMonth, setThreeMonth] = useState([]);
-  const [threeMonthData, setThreeMonthData] = useState([]);
+  const threeCurrentMonths = [currentMonth - 2, currentMonth - 1, currentMonth];
+  const [threeCurrentMonthData, setThreeCurrentMonthData] = useState({});
   //Randering management--------------------------
   //axios function
   useEffect(() => {
-    async function getThreeCurrentMonth() {
-      for (let i = 2; i > 0; i--) {
-        if ((currentMonth - i) / 10 > 1) {
-          setThreeMonth(...threeMonth, "0" + (currentMonth - i));
-        } else {
-          setThreeMonth(...threeMonth, currentMonth - i);
-        }
-      }
-    }
-
     async function fetchData() {
       try {
         const userData = await authInstance.get("/account/user/");
@@ -79,29 +69,20 @@ export default function Payment() {
         console.error("fetchData 함수 에러 발생:", error);
       }
     }
-
-    async function getThreeCurrentMonthData() {
-      const data = {};
-      threeMonth.forEach(async (month) => {
-        if (monthKey.includes(month + "월")) {
-          data[month + "월"] = monthlyPayment[month + "월"];
-        }
-      });
-      setThreeMonthData(data);
-    }
-
-    getThreeCurrentMonth();
     fetchData();
-    getThreeCurrentMonthData();
-    console.log(threeMonth);
-    console.log(threeMonthData);
-    console.log(monthKey);
-    console.log(monthlyPayment);
   }, []);
 
   useEffect(() => {
-    // threeMonthData가 변경될 때 실행될 코드를 추가하세요.
-  }, [threeMonthData]);
+    const data = {};
+    threeCurrentMonths.forEach(async (month) => {
+      if (monthKey.includes(month + "월")) {
+        data[month + "월"] = monthlyPayment[month + "월"].total;
+      } else {
+        data[month + "월"] = 0;
+      }
+    });
+    setThreeCurrentMonthData(data);
+  }, [monthlyPayment]);
 
   function findThisMonth(element) {
     return element === setThreeMonth[setThreeMonth.length - 1] + "월";
@@ -181,7 +162,9 @@ export default function Payment() {
             handleShowMore={() => {
               navigation("/PaymentDetail", {
                 state: {
-                  month: monthKey[monthKey.length - 1].slice(1, 2),
+                  month: threeCurrentMonths[
+                    threeCurrentMonthData.length - 1
+                  ].slice(1, 2),
                 },
               });
             }}
@@ -195,7 +178,13 @@ export default function Payment() {
                 fontFamily: "Pretendard",
               }}
             >
-              총 {monthlyPayment[[monthKey[monthKey.length - 1]]].total}원
+              총{" "}
+              {
+                threeCurrentMonthData[
+                  threeCurrentMonths[threeCurrentMonthData.length - 1]
+                ].total
+              }
+              원
             </div>
           </ListBox>
         ) : (
@@ -205,11 +194,13 @@ export default function Payment() {
         )}
 
         <ListBox listTitle={"월별 결제 내역"}>
-          {threeMonth.length > 0 ? (
+          {threeCurrentMonths.length > 0 ? (
             <MonthlyPayment
               navigation={navigation}
               labels={monthKey}
-              data={threeMonth.map((data) => threeMonthData[data].total)}
+              data={threeCurrentMonths.map(
+                (data) => threeCurrentMonthData[data].total
+              )}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
