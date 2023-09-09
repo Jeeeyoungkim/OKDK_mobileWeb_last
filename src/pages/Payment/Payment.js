@@ -70,7 +70,8 @@ export default function Payment() {
   }, []);
 
   function findThisMonth(element) {
-    console.log(currentMonth);
+    console.log(currentMonth / 10 > 1);
+    console.log(currentMonth / 10 < 1);
     if (currentMonth.length === 1) {
       return element === "0" + currentMonth + "월";
     } else {
