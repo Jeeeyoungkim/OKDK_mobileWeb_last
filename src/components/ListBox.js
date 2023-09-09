@@ -58,7 +58,7 @@ const ChildrenContainer = styled.div`
   padding: 0px 10px 10px 5px;
   box-sizing: border-box;
   background-color: transparent;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 const ListBox = ({
