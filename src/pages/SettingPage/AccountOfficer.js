@@ -72,7 +72,7 @@ export default function AccountOfficer() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user ? user.nickname : "익명"}
+          name={user ? user.nickname : ""}
           describe={"계정을 관리합니다."}
         />
         <PaymentWrap>

@@ -95,7 +95,7 @@ export default function Setting() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user ? user.nickname : "익명"}
+          name={user ? user.nickname : ""}
           describe={"설정화면 입니다."}
         />
         <ListBoxContainer

@@ -38,7 +38,7 @@ export default function ThemeSetting() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user ? user.nickname : "익명"}
+          name={user ? user.nickname : ""}
           describe={"테마를 설정합니다."}
         />
         <PaymentWrap></PaymentWrap>

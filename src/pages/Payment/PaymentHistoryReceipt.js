@@ -101,7 +101,7 @@ export default function PaymentHistoryReceipt() {
     <Body>
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
-        <PaymentTitle name={user || "익명"} describe={"결제내역 입니다."} />
+        <PaymentTitle name={user ? user : ""} describe={"결제내역 입니다."} />
         <PaymentWrap>
           <CreatedAtWrap>{payment.created_at.slice(0, 10)}</CreatedAtWrap>
           <TotalPriceWrap>{payment.totalPrice}원</TotalPriceWrap>

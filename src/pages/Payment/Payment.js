@@ -71,7 +71,7 @@ export default function Payment() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user ? user.nickname : "익명"}
+          name={user ? user.nickname : ""}
           describe={"적립 관리 화면입니다."}
         />
         <ListBox

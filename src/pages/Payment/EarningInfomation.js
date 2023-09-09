@@ -70,7 +70,7 @@ export default function EarningInfomation() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user.nickname || "익명"}
+          name={user ? user.nickname : ""}
           describe={"적립정보를 관리합니다"}
         />
 

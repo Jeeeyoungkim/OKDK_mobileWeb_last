@@ -164,7 +164,7 @@ export default function PaymentDetail() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user.nickname || "익명"}
+          name={user ? user.nickname : ""}
           describe={"결제내역 입니다."}
         />
         <PaymentWrap>

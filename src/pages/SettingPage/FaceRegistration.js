@@ -65,7 +65,7 @@ export default function FaceRegistration() {
       <TopNavigation navigation={navigation} destination={"Home"} />
       <ScrollWrap>
         <PaymentTitle
-          name={user ? user.nickname : "익명"}
+          name={user ? user.nickname : ""}
           describe={"얼굴데이터를 관리합니다."}
         />
         <PaymentWrap>
