@@ -60,12 +60,7 @@ export default function AddStoreToEarning() {
     async function fetchData() {
       try {
         const membershipBrandData = await authInstance.get(
-          "/payment/membership/",
-          {
-            params: {
-              brand: "OKDK",
-            },
-          }
+          "/payment/membership/"
         );
         setMembershipBrand(membershipBrandData.data);
       } catch (error) {
