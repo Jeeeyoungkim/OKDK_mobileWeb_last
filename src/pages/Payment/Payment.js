@@ -88,9 +88,8 @@ export default function Payment() {
       });
     }
 
-    getThreeCurrentMonth();
-    fetchData();
-    getThreeCurrentMonthData();
+    getThreeCurrentMonth().then(fetchData()).then(getThreeCurrentMonthData());
+
     console.log(threeMonth);
     console.log(threeMonthData);
     console.log(monthKey);
