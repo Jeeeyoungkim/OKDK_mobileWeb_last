@@ -77,7 +77,8 @@ export default function Payment() {
     threeCurrentMonths.forEach(async (month) => {
       const enMonth = month / 10 > 1 ? month : "0" + month;
       if (monthKey.includes(enMonth)) {
-        console.log(2);
+        console.log(monthlyPayment[enMonth]);
+        console.log(monthlyPayment[enMonth].total);
         data[month + "월"] = monthlyPayment[enMonth].total;
       } else {
         console.log(3);
@@ -85,6 +86,7 @@ export default function Payment() {
       }
     });
     setThreeCurrentMonthData(data);
+    console.log(data);
     console.log(monthKey);
     console.log(threeCurrentMonths);
     console.log(threeCurrentMonthData);
