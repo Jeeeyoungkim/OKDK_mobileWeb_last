@@ -211,9 +211,9 @@ export default function Payment() {
               threeCurrentMonthData[data + "월"];
             })}
           /> */}
-          {/* // ) : (
-          //   <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
-          // )} */}
+          {/* ) : ( */}
+          <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
+          {/* )}  */}
         </ListBox>
       </ScrollWrap>
     </Body>
