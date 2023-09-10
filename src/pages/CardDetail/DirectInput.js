@@ -114,6 +114,7 @@ export default function DirectInput() {
     async function fetchData() {
       try {
         const cardlist = await authInstance.get("/payment/card/list/");
+        console.log(cardlist.data);
         setCardListData(cardlist.data);
         setCardLength(cardlist.data.length);
         setCardLastId(cardlist.data[cardlist.data.length - 1].id);
