@@ -8,7 +8,7 @@ import Directinput from "./DirectInput";
 import BasicButton from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 export default function CardEnroll() {
-    const navigation = useNavigate();
+  const navigation = useNavigate();
   const Container = styled.div`
     height: 100%;
     display: flex;
@@ -22,7 +22,7 @@ export default function CardEnroll() {
   };
   const handleBackPage = () => {
     navigation(-1);
-  }
+  };
   return (
     <div>
       <TopNavigation navigation={navigation} destination={"Home"} />
@@ -50,7 +50,7 @@ export default function CardEnroll() {
               height="3.5rem"
               backgroundColor="#056CF2"
               borderRadius="30px"
-              font-size="1.25rem"
+              fontSize="1rem"
               color="white"
               font-family="Pretendard"
               font-weight="bold"
@@ -63,7 +63,7 @@ export default function CardEnroll() {
               height="3.5rem"
               backgroundColor="#056CF2"
               borderRadius="30px"
-              font-size="1.25rem"
+              fontSize="1rem"
               color="white"
               font-family="Pretendard"
               font-weight="bold"

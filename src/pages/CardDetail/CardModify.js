@@ -6,7 +6,6 @@ import Card from "../../components/Card";
 import styled from "styled-components";
 import BasicButton from "../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import ArrowBack from "../../assets/images/arrowBack.svg";
 // API base URl 관리
 import { authInstance } from "../../API/utils";
@@ -120,42 +119,32 @@ export default function CardModify() {
   const imagePaths = Object.keys(cardImages);
 
   useEffect(() => {
-   
     // let orderIndex = state;
 
     // if (state !== 0) {
     //   orderIndex = (orderIndex - 41) % 9;
     //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
     //   console.log(imagePaths[orderIndex]);
-  
+
     //   setSelectedImage(selectedImagePath);
     // } else {
     //   orderIndex = orderIndex % 9;
     //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
 
-   
     //   setSelectedImage(selectedImagePath);
     // }
 
-    
-      let orderIndex = (cardLength-1)%9;
-      const selectedImagePath = cardImages[imagePaths[orderIndex]];
-      console.log(imagePaths[orderIndex]);
-  
-      setSelectedImage(selectedImagePath);
-    
+    let orderIndex = (cardLength - 1) % 9;
+    const selectedImagePath = cardImages[imagePaths[orderIndex]];
+    console.log(imagePaths[orderIndex]);
+
+    setSelectedImage(selectedImagePath);
   }, [cardLength]);
 
   useEffect(() => {
     async function GetfetchData() {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
-        const cardlist = await authInstance.get("/payment/card/list/", config);
+        const cardlist = await authInstance.get("/payment/card/list/");
         setCardListData(cardlist.data);
         setCardLength(cardlist.data.length);
       } catch (error) {
@@ -170,22 +159,12 @@ export default function CardModify() {
     console.log(selected);
 
     async function fetchData() {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
         const requestData = {
           id: selected,
         };
 
-        const response = await authInstance.post(
-          "/payment/card/",
-          requestData,
-          config
-        );
+        const response = await authInstance.post("/payment/card/", requestData);
 
         return response.data; // Return the data instead of updating state here
       } catch (error) {
@@ -200,7 +179,7 @@ export default function CardModify() {
       setExpiration(data.expiry_date);
       setCVC(data.cvc);
       setPassword(data.password);
-      setIsDefault(data.is_default);
+      setIsDefault(data.default);
     });
   }, [selected]);
 
@@ -237,8 +216,8 @@ export default function CardModify() {
       for (const element of cardListData) {
         console.log(cardNumber);
         console.log(element);
-        console.log(element.id, state)
-        if ((element.serial_num === cardNumber) && (state !== element.id)) {
+        console.log(element.id, state);
+        if (element.serial_num === cardNumber && state !== element.id) {
           alert("이미 결제카드에 존재하는 카드번호입니다.");
           return;
         }
@@ -277,12 +256,6 @@ export default function CardModify() {
       password &&
       isdefault !== null
     ) {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       const formData = new FormData();
 
       formData.append("id", selected);
@@ -308,8 +281,7 @@ export default function CardModify() {
         // FormData 객체를 사용하여 PUT 요청을 보냅니다.
         const response = await authInstance.put(
           "/payment/card/create/",
-          formData,
-          config
+          formData
         );
         console.log(response.data);
         navigation("/Morecards");

@@ -108,7 +108,12 @@ export default function Morecards() {
         </div>
         <Container>
           <section
-            style={{ padding: "55px 0px", overflow: "auto", height: "10rem" }}
+            style={{
+              padding: "55px 0px",
+              overflow: "auto",
+              height: "10rem",
+              marginBottom: "1rem",
+            }}
           >
             {cards.map((card) => (
               <>
@@ -130,7 +135,11 @@ export default function Morecards() {
                       type="radio"
                       value={card.id}
                       checked={selectedcard === card.id}
-                      onChange={() => handlecardChange(card.id)}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        // e.stopPropagation();
+                        handlecardChange(card.id);
+                      }}
                     />
                     <p style={{ padding: "5px" }}>{card.name}</p>
                   </div>
@@ -146,7 +155,7 @@ export default function Morecards() {
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1rem"
+            fontSize="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -154,11 +163,11 @@ export default function Morecards() {
           <BasicButton
             btnName="수정"
             onClick={handleModfiyMove}
-            width="6.5rem"
+            width="7rem"
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1rem"
+            fontSize="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -166,11 +175,11 @@ export default function Morecards() {
           <BasicButton
             btnName="삭제"
             onClick={handlecardDelete}
-            width="6.5rem"
+            width="7rem"
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1rem"
+            fontSize="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
