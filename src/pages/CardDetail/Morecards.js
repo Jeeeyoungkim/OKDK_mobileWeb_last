@@ -136,7 +136,7 @@ export default function Morecards() {
                       value={card.id}
                       checked={selectedcard === card.id}
                       onChange={() => handlecardChange(card.id)}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => e.preventDefault()}
                     />
                     <p style={{ padding: "5px" }}>{card.name}</p>
                   </div>
