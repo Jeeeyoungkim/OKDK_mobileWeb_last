@@ -32,8 +32,6 @@ export default function Morecards() {
     fetchData();
   }, []);
 
-  useEffect(() => {}, [selectedcard]);
-
   console.log(cards);
   const navigation = useNavigate();
 
