@@ -39,11 +39,10 @@ export default function Morecards() {
   `;
 
   const handlecardChange = (card, event) => {
-    event.preventDefault();   
     console.log(card);
     setSelectedcard(card);
 
-    window.scrollTo(0, 0);
+    window.scrollTo(0, window.scrollY);
   };
 
   const handlecardDelete = async () => {
