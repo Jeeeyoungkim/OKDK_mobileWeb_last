@@ -22,7 +22,7 @@ const Button = styled.button`
 `;
 
 const Text = styled.p`
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "1.5rem")};
+  font-size: ${(props) => (props.fontSize ? `${props.fontSize}rem` : "1.5rem")};
   color: ${(props) => (props.color ? props.color : "white")};
   font-family: ${(props) =>
     props.fontFamily ? props.fontFamily : "Pretendard"};
@@ -71,7 +71,7 @@ const BasicButton = ({
       <ButtonWarp>
         {imguri ? <Image src={imguri} /> : null}
         <Text
-          fontSize={`${fontSize}rem`} // camelCase 사용
+          fontSize={fontSize} // camelCase 사용
           color={color} // camelCase 사용
           fontFamily={fontFamily} // camelCase 사용
           fontWeight={fontWeight} // camelCase 사용
