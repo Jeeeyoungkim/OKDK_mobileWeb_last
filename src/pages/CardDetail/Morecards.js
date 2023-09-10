@@ -136,8 +136,8 @@ export default function Morecards() {
                       value={card.id}
                       checked={selectedcard === card.id}
                       onChange={(e) => {
-                        // e.preventDefault();
-                        e.stopPropagation();
+                        e.preventDefault();
+                        // e.stopPropagation();
                         handlecardChange(card.id);
                       }}
                     />
