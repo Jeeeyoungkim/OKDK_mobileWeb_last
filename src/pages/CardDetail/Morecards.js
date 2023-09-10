@@ -1,15 +1,10 @@
-// Morecards
-
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
 import BasicButton from "../../components/Button";
 import Modal from "../../components/Modal";
 import TopNavigation from "../../components/TopNavigation";
 import Card from "../../components/Card";
-import DirectInput from "./DirectInput";
 import { useLocation } from "react-router-dom";
 import { authInstance } from "../../API/utils";
 
@@ -33,7 +28,7 @@ export default function Morecards() {
         },
       };
       try {
-        const cardlist = await authInstance.get("/payment/card/list/", config);
+        const cardlist = await authInstance.get("/payment/card/list/");
 
         console.log(cardlist.data);
 
