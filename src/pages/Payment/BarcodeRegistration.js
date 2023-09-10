@@ -12,6 +12,7 @@ export const SearchInputWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin-top: 1rem;
 `;
 
 export const SearchInput = styled.input`
@@ -19,14 +20,18 @@ export const SearchInput = styled.input`
   height: 100%;
   border: none;
   outline: none;
+  font-size: 1.25rem;
 `;
 
 export const SearchButton = styled.button`
   background-color: #056cf2;
+  font-size: 1.25rem;
   border: none;
   color: white;
-  padding: 0 1rem;
   border-radius: 1rem;
+  width: 4rem;
+  height: 3rem;
+  margin: 1rem;
 `;
 
 export default function BarcodeRegistration() {
@@ -72,14 +77,14 @@ export default function BarcodeRegistration() {
       >
         <SearchInputWrap>
           <SearchInput value={inputValue} onChange={handleInputChange} />{" "}
-          <SearchButton
-            onClick={() => {
-              handleAddBrand();
-            }}
-          >
-            OK
-          </SearchButton>
         </SearchInputWrap>
+        <SearchButton
+          onClick={() => {
+            handleAddBrand();
+          }}
+        >
+          OK
+        </SearchButton>
       </Modal>
     </>
   );
