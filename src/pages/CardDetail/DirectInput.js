@@ -253,7 +253,7 @@ export default function DirectInput() {
           "/account/user/default/card/",
           formData
         );
-
+        console.log(response2);
         console.log(response.data);
         console.log("성공");
         handleCompleteMove();
