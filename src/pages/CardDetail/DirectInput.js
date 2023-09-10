@@ -248,6 +248,12 @@ export default function DirectInput() {
           "/payment/card/create/",
           formData
         );
+
+        const response2 = await authInstance.post(
+          "/account/user/default/card/",
+          formData
+        );
+
         console.log(response.data);
         console.log("성공");
         handleCompleteMove();
