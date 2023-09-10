@@ -6,7 +6,6 @@ import PaymentTitle from "../components/PaymentTitle";
 import ListBox from "../components/ListBox";
 import ChangeComponent from "../components/ChangeComponent";
 import CoffeeComponent from "../components/CoffeeComponent";
-import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 import { authInstance } from "../API/utils";
