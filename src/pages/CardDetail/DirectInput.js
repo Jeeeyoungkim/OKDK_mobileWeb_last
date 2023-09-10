@@ -239,7 +239,7 @@ export default function DirectInput() {
       formData.append("cvc", cvc);
       formData.append("password", password);
       // formData.append("is_default", isdefault);
-      formData.append("default", false);
+      formData.append("is_default", isdefault);
       try {
         console.log(isdefault);
 
