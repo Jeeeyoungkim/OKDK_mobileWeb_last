@@ -232,6 +232,7 @@ export default function DirectInput() {
       const imageFile = new File([blobImage], "image.png", {
         type: "image/png",
       });
+      console.log(isdefault);
       formData.append("image", imageFile);
       formData.append("serial_num", cardNumber);
       formData.append("expiry_date", expiration);
@@ -239,6 +240,8 @@ export default function DirectInput() {
       formData.append("password", password);
       formData.append("is_default", isdefault);
       try {
+        console.log(isdefault);
+
         // FormData 객체를 사용하여 POST 요청을 보냅니다.
         const response = await authInstance.post(
           "/payment/card/create/",
