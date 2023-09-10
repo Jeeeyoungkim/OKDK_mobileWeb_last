@@ -223,14 +223,7 @@ export default function DirectInput() {
       alert("비밀번호는 2자리를 입력해주세요.");
       return; // 요청 보내지 않고 함수 종료
     }
-    if (
-      selectedImage &&
-      cardNumber &&
-      expiration &&
-      cvc &&
-      password &&
-      isdefault !== null
-    ) {
+    if (selectedImage && cardNumber && expiration && cvc && password) {
       // FormData 생성 및 파일 추가
       const formData = new FormData();
       const blobImage = dataURItoBlob(selectedImage);
@@ -399,7 +392,10 @@ export default function DirectInput() {
                   <SmallInput
                     type="checkbox"
                     checked={isdefault}
-                    onChange={(e) => setIsDefault(e.target.checked)}
+                    onChange={(e) => {
+                      console.log(e.target.checked);
+                      setIsDefault(e.target.checked);
+                    }}
                   />
                 </span>
               </div>
