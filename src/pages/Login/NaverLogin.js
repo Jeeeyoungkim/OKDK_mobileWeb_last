@@ -25,11 +25,6 @@ const NaverLogin = (props) => {
           },
         });
 
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(
-            JSON.stringify({ data: "성공" })
-          );
-        }
         const access_token = res.data["access"];
         const refresh_token = res.data["refresh"];
 

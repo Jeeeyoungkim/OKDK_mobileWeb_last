@@ -26,11 +26,6 @@ const GoogleLogin = (props) => {
           },
         });
 
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(
-            JSON.stringify({ data: "성공" })
-          );
-        }
         const access_token = res.data["access"];
         const refresh_token = res.data["refresh"];
         const googleAccessToken = res.data["googleAccessToken"];
@@ -50,7 +45,7 @@ const GoogleLogin = (props) => {
         localStorage.setItem("refresh", refresh_token);
         localStorage.setItem("googleAccessToken", googleAccessToken);
 
-        navigate("/");
+        navigate("http://43.201.113.143/");
       } catch (error) {
         console.error("로그인 실패:", error);
 
