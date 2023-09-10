@@ -124,7 +124,7 @@ export default function AccountOfficer() {
         await NaverDelete();
       }
 
-      //const data = await authInstance.delete("/account/user/");
+      const data = await authInstance.delete("/account/user/");
       // 백엔드 통신 성공 후 RN 앱으로 메시지 전송
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ status: "DeleteAccount" })
