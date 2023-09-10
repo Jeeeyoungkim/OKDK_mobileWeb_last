@@ -248,8 +248,6 @@ export default function DirectInput() {
           "/payment/card/create/",
           formData
         );
-
-        console.log(response2);
         console.log(response.data);
         console.log("성공");
         handleCompleteMove();
