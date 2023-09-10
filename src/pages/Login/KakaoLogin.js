@@ -15,7 +15,7 @@ const KakaoLogin = (props) => {
       try {
         const res = await axios({
           method: "GET",
-          url: `http://3.36.95.105/account/kakao/callback/?code=${code}`,
+          url: `https://www.okdkbackend.shop/account/kakao/callback/?code=${code}`,
           headers: {
             "Content-Type": "application/json;charset=utf-8",
           },

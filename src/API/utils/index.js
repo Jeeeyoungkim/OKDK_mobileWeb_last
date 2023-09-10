@@ -4,7 +4,7 @@ function getToken() {
   return localStorage.getItem("access");
 }
 
-const BASE_URL = "http://3.36.95.105/";
+const BASE_URL = "https://www.okdkbackend.shop/";
 
 const axiosApi = (url, options) => {
   const instance = axios.create({ baseURL: url, ...options });

@@ -102,7 +102,7 @@ export default function AccountOfficer() {
     const accessToken = localStorage.getItem("access"); //access Token
     try {
       const response = await authInstance.delete(
-        `http://3.36.95.105/account/naver/callback/?accessToken=${accessToken}`
+        `/account/naver/callback/?accessToken=${accessToken}`
       );
       console.log(response);
     } catch (error) {
