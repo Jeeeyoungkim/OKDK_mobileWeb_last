@@ -9,7 +9,8 @@ export default function Login() {
   const handleKakaoLogin = async () => {
     try {
       // const api_key = process.env.REACT_APP_KAKAO_API_KEY; //REST API KEY
-      const redirect_uri = "http://43.201.113.143/kakao/callback/"; //Redirect URI
+      const redirect_uri =
+        "http://ec2-43-201-113-143.ap-northeast-2.compute.amazonaws.com/kakao/callback/"; //Redirect URI
       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=1def2aa86fd42c81904840220886ac54&redirect_uri=${redirect_uri}&response_type=code`;
 
       window.location.replace(kakaoURL);
@@ -43,7 +44,8 @@ export default function Login() {
     try {
       // const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
       const response_type = "code";
-      const uri = "http://43.201.113.143/naver/callback/";
+      const uri =
+        "http://ec2-43-201-113-143.ap-northeast-2.compute.amazonaws.com/naver/callback/";
       const state = "false";
       // oauth 요청 URL
 

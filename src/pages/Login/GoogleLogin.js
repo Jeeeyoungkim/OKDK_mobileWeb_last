@@ -45,7 +45,7 @@ const GoogleLogin = (props) => {
         localStorage.setItem("refresh", refresh_token);
         localStorage.setItem("googleAccessToken", googleAccessToken);
 
-        navigate("http://43.201.113.143/");
+        navigate("/");
       } catch (error) {
         console.error("로그인 실패:", error);
 

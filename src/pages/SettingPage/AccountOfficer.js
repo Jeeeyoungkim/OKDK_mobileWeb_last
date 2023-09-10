@@ -102,10 +102,7 @@ export default function AccountOfficer() {
     const accessToken = localStorage.getItem("access"); //access Token
     try {
       const response = await axios.delete(
-        `http://3.36.95.105/account/naver/callback/`,
-        {
-          data: { accessToken: accessToken },
-        }
+        `http://3.36.95.105/account/naver/callback/?accessToken=${accessToken}`
       );
       console.log(response);
     } catch (error) {
