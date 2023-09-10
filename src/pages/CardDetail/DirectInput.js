@@ -238,7 +238,8 @@ export default function DirectInput() {
       formData.append("expiry_date", expiration);
       formData.append("cvc", cvc);
       formData.append("password", password);
-      formData.append("is_default", isdefault);
+      // formData.append("is_default", isdefault);
+      formData.append("is_default", false);
       try {
         console.log(isdefault);
 
