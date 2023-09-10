@@ -101,7 +101,7 @@ export default function AccountOfficer() {
     console.log("네이버 탈퇴");
     const accessToken = localStorage.getItem("access"); //access Token
     try {
-      const response = await axios.delete(
+      const response = await authInstance.delete(
         `http://3.36.95.105/account/naver/callback/?accessToken=${accessToken}`
       );
       console.log(response);
@@ -124,7 +124,7 @@ export default function AccountOfficer() {
         await NaverDelete();
       }
 
-      const data = await authInstance.delete("/account/user/");
+      //const data = await authInstance.delete("/account/user/");
       // 백엔드 통신 성공 후 RN 앱으로 메시지 전송
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ status: "DeleteAccount" })
