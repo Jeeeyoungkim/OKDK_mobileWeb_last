@@ -101,9 +101,12 @@ export default function AccountOfficer() {
     console.log("네이버 탈퇴");
     const accessToken = localStorage.getItem("access"); //access Token
     try {
-      const response = await axios.delete(`http://3.36.95.105/account/naver/`, {
-        data: { accessToken: accessToken },
-      });
+      const response = await axios.delete(
+        `http://3.36.95.105/account/naver/callback/`,
+        {
+          data: { accessToken: accessToken },
+        }
+      );
       console.log(response);
     } catch (error) {
       console.error("Error:", error);
