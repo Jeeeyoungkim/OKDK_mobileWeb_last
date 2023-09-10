@@ -108,7 +108,12 @@ export default function Morecards() {
         </div>
         <Container>
           <section
-            style={{ padding: "55px 0px", overflow: "auto", height: "10rem" }}
+            style={{
+              padding: "55px 0px",
+              overflow: "auto",
+              height: "10rem",
+              marginBottom: "1rem",
+            }}
           >
             {cards.map((card) => (
               <>
