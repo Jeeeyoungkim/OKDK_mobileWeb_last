@@ -132,7 +132,12 @@ export default function DirectInput() {
   }, [cardLength]);
 
   const handleCompleteMove = () => {
-    navigation("/EnrollComplete");
+    navigation("/EnrollComplete", {
+      replace: true,
+      state: {
+        image: selectedImage,
+      },
+    });
   };
 
   useEffect(() => {
@@ -143,6 +148,13 @@ export default function DirectInput() {
       setExpiration(data?.expiration_date);
     }
   }, []);
+
+  useEffect(() => {
+    setSelectedImage(
+      cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
+    );
+  }, [cardNumber]);
+
   // 월/년 유효기간 검증
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
@@ -221,9 +233,8 @@ export default function DirectInput() {
     ) {
       // FormData 생성 및 파일 추가
       const formData = new FormData();
-      const blobImage = dataURItoBlob(
-        cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
-      );
+      const blobImage = dataURItoBlob(selectedImage);
+
       // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
       const imageFile = new File([blobImage], "image.png", {
         type: "image/png",
