@@ -135,11 +135,7 @@ export default function Morecards() {
                       type="radio"
                       value={card.id}
                       checked={selectedcard === card.id}
-                      onChange={(e) => {
-                        e.preventDefault();
-                        // e.stopPropagation();
-                        handlecardChange(card.id);
-                      }}
+                      onChange={() => handlecardChange(card.id)}
                     />
                     <p style={{ padding: "5px" }}>{card.name}</p>
                   </div>

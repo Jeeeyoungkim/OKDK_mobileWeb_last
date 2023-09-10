@@ -23,7 +23,7 @@ export default function MonthlyPayment({ labels, data, navigation }) {
 
   const avgLabels = ["평균", ...labels.map((month) => `${Number(month)}월`)];
   const avgData = [
-    data.reduce((acc, value) => acc + value, 0) / data.length,
+    parseInt(data.reduce((acc, value) => acc + value, 0) / data.length),
     ...data,
   ];
 
