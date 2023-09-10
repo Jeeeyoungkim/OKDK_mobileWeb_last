@@ -42,6 +42,8 @@ export default function Morecards() {
     event.preventDefault();   
     console.log(card);
     setSelectedcard(card);
+
+    window.scrollTo(0, 0);
   };
 
   const handlecardDelete = async () => {
