@@ -272,14 +272,11 @@ export default function DirectInput() {
             >
               {/* 파일 입력 대신 네모칸 역할을 하는 label */}
               <ImagePreview>
-                <img
-                  src={selectedImage}
-                  alt="Selected"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    objectFit: "cover",
-                  }}
+                <Card
+                  Width={"100%"}
+                  Height={"100%"}
+                  imgWidth={"6.333331rem"}
+                  imgHeight={"4rem"}
                 />
               </ImagePreview>
             </label>
