@@ -146,7 +146,7 @@ export default function Morecards() {
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1rem"
+            fontSize="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -154,11 +154,11 @@ export default function Morecards() {
           <BasicButton
             btnName="수정"
             onClick={handleModfiyMove}
-            width="6.5rem"
+            width="7rem"
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1rem"
+            fontSize="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -166,11 +166,11 @@ export default function Morecards() {
           <BasicButton
             btnName="삭제"
             onClick={handlecardDelete}
-            width="6.5rem"
+            width="7rem"
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1rem"
+            fontSize="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
