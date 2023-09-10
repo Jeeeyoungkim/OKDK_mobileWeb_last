@@ -113,8 +113,7 @@ export default function DetailEarningInfomation() {
   useEffect(() => {
     async function fetchData() {
       const requestData = {
-        // brand: brand,
-        brand: "OKDK",
+        brand: brand,
       };
       try {
         const membershipBrandData = await authInstance.post(

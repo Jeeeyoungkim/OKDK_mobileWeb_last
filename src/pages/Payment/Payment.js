@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import TopNavigation from "../../components/TopNavigation";
 import { useNavigate } from "react-router-dom";
 import ListBox from "../../components/ListBox";
 import Card from "../../components/Card";
 import PaymentTitle from "../../components/PaymentTitle";
-import payment_main from "../../mock/payment_main.json";
 import Barcode from "../../components/Barcode";
 import MonthlyPayment from "../../components/MonthlyPayment";
 import { authInstance } from "../../API/utils";
@@ -25,6 +23,7 @@ export const ScrollWrap = styled.div`
 `;
 
 export const UndefinedText = styled.p`
+  padding-top: 1rem;
   color: #aaaaaa;
 `;
 
@@ -38,6 +37,12 @@ export default function Payment() {
   const [barcode, setBarcode] = useState([]);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [monthKey, setMonthKey] = useState([]);
+
+  // 현재 날짜 계산 및 최근 3달 데이터 넣기
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const threeCurrentMonths = [currentMonth - 2, currentMonth - 1, currentMonth];
+  const [threeCurrentMonthData, setThreeCurrentMonthData] = useState({});
   //Randering management--------------------------
   //axios function
   useEffect(() => {
@@ -53,7 +58,7 @@ export default function Payment() {
         // console.log(userData.data);
         // console.log(basicCardData.data);
         // console.log(barcodeData.data);
-        // console.log(basicCardData.data);
+        // console.log(monthlyData.data);
         setUser(userData.data.user);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
@@ -65,6 +70,24 @@ export default function Payment() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const data = {};
+    threeCurrentMonths.forEach(async (month) => {
+      const enMonth = month / 10 > 1 ? month : "0" + month;
+      if (monthKey.includes(enMonth)) {
+        console.log(monthlyPayment[enMonth].total);
+        data[month + "월"] = monthlyPayment[enMonth].total;
+      } else {
+        data[month + "월"] = 0;
+      }
+    });
+    setThreeCurrentMonthData(data);
+    // console.log(data);
+    // console.log(monthKey);
+    // console.log(threeCurrentMonths);
+    // console.log(threeCurrentMonthData);
+  }, [monthlyPayment]);
 
   return (
     <Body>
@@ -92,6 +115,7 @@ export default function Payment() {
             {card ? (
               <>
                 <Card
+                  imguri={card.image}
                   Width={"6.333331rem"}
                   Height={"4rem"}
                   imgWidth={"6.333331rem"}
@@ -110,14 +134,6 @@ export default function Payment() {
             navigation("/EarningInfomation");
           }}
         >
-          {/* {payment_main.barcode.map((data, index) => (
-              <Barcode
-                img={data.barcodeimg}
-                num={data.barcodenum}
-                name={data.barcodename}
-              />
-            ))} */}
-
           {barcode.length > 0 ? (
             <div
               style={{
@@ -128,31 +144,27 @@ export default function Payment() {
               }}
             >
               {barcode.map((data, index) => (
-                <Barcode
-                  key={index}
-                  img={data.image}
-                  name={data.brand}
-                  // num={data.serial_num}
-                />
+                <Barcode key={index} img={data.image} name={data.brand} />
               ))}
             </div>
           ) : (
             <UndefinedText>바코드를 등록해 주세요</UndefinedText>
           )}
         </ListBox>
-        <ListBox
-          listTitle={"이번달 결제 내역"}
-          handleShowMore={() => {
-            navigation("/PaymentDetail", {
-              state: {
-                month: monthKey
-                  ? monthKey[monthKey.length - 1].slice(1, 2)
-                  : null,
-              },
-            });
-          }}
-        >
-          {monthKey.length > 0 ? (
+
+        {threeCurrentMonthData[
+          threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
+        ] > 0 ? (
+          <ListBox
+            listTitle={"이번달 결제 내역"}
+            handleShowMore={() => {
+              navigation("/PaymentDetail", {
+                state: {
+                  month: threeCurrentMonths[threeCurrentMonths.length - 1],
+                },
+              });
+            }}
+          >
             <div
               style={{
                 textAlign: "center",
@@ -162,30 +174,30 @@ export default function Payment() {
                 fontFamily: "Pretendard",
               }}
             >
-              총 {monthlyPayment[[monthKey[monthKey.length - 1]]].total}원
+              총{" "}
+              {
+                threeCurrentMonthData[
+                  threeCurrentMonths[threeCurrentMonths.length - 1] + "월"
+                ]
+              }
+              원
             </div>
-          ) : (
+          </ListBox>
+        ) : (
+          <ListBox listTitle={"이번달 결제 내역"}>
             <UndefinedText>이번달 결제 내역이 없어요.</UndefinedText>
-          )}
-        </ListBox>
+          </ListBox>
+        )}
+
         <ListBox listTitle={"월별 결제 내역"}>
-          {/* {monthKey.map((data, index) => {
-            console.log(monthlyPayment[data]);
-          })} */}
-          {/* <MonthlyPayment
-            labels={monthKey}
-            data={monthKey.map((data) => monthlyPayment[data].total)}
-          />
-          {/* <MonthlyPayment monthlypayment={payment_main.monthlypayment} /> */}
-          {/* <UndefinedText>월별 결제 내역이 없어요.</UndefinedText> */}
-          {monthKey.length > 0 ? (
-            <>
-              <MonthlyPayment
-                navigation={navigation}
-                labels={monthKey}
-                data={monthKey.map((data) => monthlyPayment[data].total)}
-              />
-            </>
+          {threeCurrentMonths.length > 0 ? (
+            <MonthlyPayment
+              navigation={navigation}
+              labels={threeCurrentMonths}
+              data={threeCurrentMonths
+                .sort()
+                .map((data) => threeCurrentMonthData[data + "월"])}
+            />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
           )}

@@ -25,10 +25,9 @@ export const ScrollWrap = styled.div`
 export default function EarningInfomation() {
   //variable management---------------------------
   const navigation = useNavigate();
-
   const [user, setUser] = useState({});
   const [barcode, setBarcode] = useState([]);
-
+  const [refreshValue, setRefreshValue] = useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -42,20 +41,17 @@ export default function EarningInfomation() {
       }
     }
     fetchData();
-  }, []);
+  }, [refreshValue]);
 
-  const handleDeleteBrand = (brand_id) => {
+  const handleDeleteBrand = (id) => {
+    setRefreshValue(!refreshValue);
     async function fetchAccumulateData() {
-      const requestData = {
-        brand_id: brand_id,
-      };
       try {
         const response = await authInstance.delete(
-          "/payment/membership/",
-          requestData
+          `/payment/membership/?id=${id}`
         );
         console.log(response);
-        // navigation("/Payment");
+        navigation("/EarningInfomation");
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
       }
@@ -74,9 +70,9 @@ export default function EarningInfomation() {
 
         {barcode.map((data, index) => (
           <ListBox
-            handleDelete={() => handleDeleteBrand(data.brand)}
+            handleDelete={() => handleDeleteBrand(data.id)}
             key={index}
-            listTitle={data.brand_id}
+            listTitle={data.brand}
             handleShowMore={() =>
               navigation("/DetailEarningInfomation", {
                 state: { brand: data.brand },

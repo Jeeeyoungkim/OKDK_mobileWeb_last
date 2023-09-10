@@ -6,6 +6,8 @@ import axios from "axios";
 import TopNavigation from "../../components/TopNavigation";
 import { FiSearch } from "react-icons/fi";
 import { authInstance } from "../../API/utils";
+import { AiFillCheckCircle } from "react-icons/ai";
+
 export const SearchInputWrap = styled.div`
   width: 17.5rem;
   height: 1.875rem;
@@ -50,11 +52,41 @@ export const BrandComponent = styled.div`
   height: 5.25rem;
 `;
 
+export const CheckIcon = styled(AiFillCheckCircle)`
+  position: absolute;
+  z-index: 1;
+  color: #056cf2;
+`;
+
 export default function AddStoreToEarning() {
   //variable management---------------------------
   const navigation = useNavigate();
   // state management-----------------------------
-  const [membershipBrand, setMembershipBrand] = useState([]);
+  const [nonMembershipBrand, setNonMembershipBrand] = useState([]);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [selectedStoreName, setSelectedStoreName] = useState(null);
+
+  const handleSelect = (id) => {
+    setSelectedStore((prevStore) => {
+      if (prevStore === id) {
+        return null;
+      } else {
+        return id;
+      }
+    });
+
+    const storeName = nonMembershipBrand.find(
+      (element) => element.id === id
+    ).name;
+    setSelectedStoreName(storeName);
+  };
+
+  const handleButtonClick = () => {
+    navigation("/BarcodeRegistration", {
+      state: { brand: selectedStoreName },
+      replace: true,
+    });
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -62,32 +94,37 @@ export default function AddStoreToEarning() {
         const membershipBrandData = await authInstance.get(
           "/payment/membership/"
         );
-        setMembershipBrand(membershipBrandData.data);
+        setNonMembershipBrand(membershipBrandData.data);
       } catch (error) {
         console.error("fetchData 함수 에러 발생:", error);
       }
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(selectedStore, selectedStoreName);
+  }, [selectedStore, selectedStoreName]);
+
   return (
     <>
       <TopNavigation navigation={navigation} destination={"Home"} />
       <Modal
         title={"멤버십을 적립할\n 브랜드를 선택해주세요"}
         basicButtonName="확인"
-        basicButtonOnClick={() => navigation(-1)}
+        buttonDisable={selectedStore === null}
+        basicButtonOnClick={() => handleButtonClick()}
       >
         <BrandComponentWrap>
-          {membershipBrand.map((data, index) => (
+          {nonMembershipBrand.map((data, index) => (
             <BrandComponent
               onClick={() => {
-                navigation("/BarcodeRegistration", {
-                  state: { brand: data.name },
-                });
+                handleSelect(data.id);
               }}
               key={index}
             >
-              {data.name}
+              {selectedStore === data.id && <CheckIcon size={"3rem"} />}
+              {selectedStore !== data.id && data.name}
             </BrandComponent>
           ))}
         </BrandComponentWrap>
