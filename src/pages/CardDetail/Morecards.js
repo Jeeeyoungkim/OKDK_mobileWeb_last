@@ -15,23 +15,15 @@ export default function Morecards() {
   const location = useLocation();
   const someProp = location.state?.someProp; // props에서 데이터 추출
   useEffect(() => {
-    console.log("Rerendering");
-    // window.location.reload();
+    // console.log("Rerendering");
+    // // window.location.reload();
   }, [someProp]);
 
   useEffect(() => {
     async function fetchData() {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
         const cardlist = await authInstance.get("/payment/card/list/");
-
         console.log(cardlist.data);
-
         setcards(cardlist.data);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -158,10 +150,10 @@ export default function Morecards() {
             btnName="카드 등록하기"
             onClick={handleEnrollMove}
             width="15rem"
-            height="3.5rem"
+            height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1.25rem"
+            font-size="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -170,10 +162,10 @@ export default function Morecards() {
             btnName="수정"
             onClick={handleModfiyMove}
             width="6.5rem"
-            height="3.5rem"
+            height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1.25rem"
+            font-size="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -182,10 +174,10 @@ export default function Morecards() {
             btnName="삭제"
             onClick={handlecardDelete}
             width="6.5rem"
-            height="3.5rem"
+            height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            font-size="1.25rem"
+            font-size="1rem"
             color="white"
             font-family="Pretendard"
             font-weight="bold"
