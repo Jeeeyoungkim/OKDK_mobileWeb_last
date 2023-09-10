@@ -249,7 +249,7 @@ export default function DirectInput() {
           formData
         );
 
-        const response2 = await authInstance.post(
+        const response2 = await authInstance.put(
           "/account/user/default/card/",
           formData
         );
