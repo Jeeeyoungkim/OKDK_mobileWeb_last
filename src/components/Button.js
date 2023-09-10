@@ -71,7 +71,7 @@ const BasicButton = ({
       <ButtonWarp>
         {imguri ? <Image src={imguri} /> : null}
         <Text
-          fontSize={fontSize} // camelCase 사용
+          fontSize={`${fontSize}rem`} // camelCase 사용
           color={color} // camelCase 사용
           fontFamily={fontFamily} // camelCase 사용
           fontWeight={fontWeight} // camelCase 사용

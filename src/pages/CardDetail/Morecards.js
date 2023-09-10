@@ -146,7 +146,7 @@ export default function Morecards() {
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            fontSize="1rem"
+            fontSize={1}
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -158,7 +158,7 @@ export default function Morecards() {
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            fontSize="1rem"
+            fontSize={1}
             color="white"
             font-family="Pretendard"
             font-weight="bold"
@@ -170,7 +170,7 @@ export default function Morecards() {
             height="3rem"
             backgroundColor="#056CF2"
             borderRadius="30px"
-            fontSize="1rem"
+            fontSize={1}
             color="white"
             font-family="Pretendard"
             font-weight="bold"
