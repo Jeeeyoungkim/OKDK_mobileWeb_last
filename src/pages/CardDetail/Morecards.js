@@ -51,7 +51,7 @@ export default function Morecards() {
     for (const element of cards) {
       console.log(element, selectedcard);
       if (element.id === selectedcard && element.default) {
-        alert("카드 수정에서 기본카드 선택 해제 후 삭제해주세요.")
+        alert("다른 카드를 기본카드로 선택후에 삭제해주세요.")
         return;
       }
     }
