@@ -38,7 +38,8 @@ export default function Morecards() {
     height: "477px";
   `;
 
-  const handlecardChange = (card) => {
+  const handlecardChange = (card, event) => {
+    event.preventDefault();   
     console.log(card);
     setSelectedcard(card);
   };
@@ -144,7 +145,7 @@ export default function Morecards() {
                       type="radio"
                       value={card.id}
                       checked={selectedcard === card.id}
-                      onChange={() => handlecardChange(card.id)}
+                      onChange={(event) => handlecardChange(card.id, event)}
                     />
                     <p style={{ padding: "5px" }}>{card.name}</p>
                   </div>
