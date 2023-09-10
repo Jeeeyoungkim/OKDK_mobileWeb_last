@@ -160,10 +160,7 @@ export default function Payment() {
             handleShowMore={() => {
               navigation("/PaymentDetail", {
                 state: {
-                  month:
-                    threeCurrentMonths[threeCurrentMonths.length - 1] / 10 > 1
-                      ? threeCurrentMonths[threeCurrentMonths.length - 1]
-                      : "0" + threeCurrentMonths[threeCurrentMonths.length - 1],
+                  month: threeCurrentMonths[threeCurrentMonths.length - 1],
                 },
               });
             }}
