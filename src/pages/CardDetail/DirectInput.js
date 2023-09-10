@@ -236,8 +236,7 @@ export default function DirectInput() {
         // FormData 객체를 사용하여 POST 요청을 보냅니다.
         const response = await authInstance.post(
           "/payment/card/create/",
-          formData,
-          config
+          formData
         );
         console.log(response.data);
         console.log("성공");

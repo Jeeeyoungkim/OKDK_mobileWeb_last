@@ -24,24 +24,23 @@ export default function Camera() {
   };
   useEffect(() => {
     // 웹뷰 페이지가 로드되면 메시지 전송
-    const message = { status: 'DeleteAccount', data: { message: "delete" } };
+    const message = { status: "DeleteAccount", data: { message: "delete" } };
     window.ReactNativeWebView.postMessage(JSON.stringify(message));
-    
-  
   }, []);
 
-
-document.addEventListener('message',(e) => {
-  console.log(e.data);
-  const parsedData = JSON.parse(e.data);
-console.log(parsedData.card);
-  // const data1 = JSON.parse(e.data.card);
-  // alert(e.data);
-  navigation('/DirectInput', { state: { enroll: true , datas: parsedData.card} }); 
-});
-const handleBackPage = () => {
-  navigation(-1);
-}
+  document.addEventListener("message", (e) => {
+    console.log(e.data);
+    const parsedData = JSON.parse(e.data);
+    console.log(parsedData.card);
+    // const data1 = JSON.parse(e.data.card);
+    // alert(e.data);
+    navigation("/DirectInput", {
+      state: { enroll: true, datas: parsedData.card },
+    });
+  });
+  const handleBackPage = () => {
+    navigation(-1);
+  };
 
   return (
     <div>

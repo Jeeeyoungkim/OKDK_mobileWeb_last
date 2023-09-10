@@ -143,14 +143,8 @@ export default function CardModify() {
 
   useEffect(() => {
     async function GetfetchData() {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
-        const cardlist = await authInstance.get("/payment/card/list/", config);
+        const cardlist = await authInstance.get("/payment/card/list/");
         setCardListData(cardlist.data);
         setCardLength(cardlist.data.length);
       } catch (error) {
