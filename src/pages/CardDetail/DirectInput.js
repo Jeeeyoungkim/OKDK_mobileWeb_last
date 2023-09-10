@@ -112,14 +112,8 @@ export default function DirectInput() {
   const imagePaths = Object.keys(cardImages);
   useEffect(() => {
     async function fetchData() {
-      const accessToken = localStorage.getItem("access");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       try {
-        const cardlist = await authInstance.get("/payment/card/list/", config);
+        const cardlist = await authInstance.get("/payment/card/list/");
         setCardListData(cardlist.data);
         setCardLength(cardlist.data.length);
         setCardLastId(cardlist.data[cardlist.data.length - 1].id);
@@ -130,7 +124,7 @@ export default function DirectInput() {
     fetchData();
   }, []);
   useEffect(() => {
-    let orderIndex = (cardLength)%9;
+    let orderIndex = cardLength % 9;
     const selectedImagePath = cardImages[imagePaths[orderIndex]];
     console.log(imagePaths[orderIndex]);
 
@@ -225,8 +219,6 @@ export default function DirectInput() {
       password &&
       isdefault !== null
     ) {
-      const accessToken = localStorage.getItem("access");
-
       // FormData 생성 및 파일 추가
       const formData = new FormData();
       const blobImage = dataURItoBlob(selectedImage);
@@ -240,15 +232,7 @@ export default function DirectInput() {
       formData.append("cvc", cvc);
       formData.append("password", password);
       formData.append("is_default", isdefault);
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
       try {
-        console.log(config);
         // FormData 객체를 사용하여 POST 요청을 보냅니다.
         const response = await authInstance.post(
           "/payment/card/create/",
