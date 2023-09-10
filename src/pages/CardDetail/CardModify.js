@@ -259,12 +259,12 @@ export default function CardModify() {
       const formData = new FormData();
 
       formData.append("id", selected);
-      const blobImage = dataURItoBlob(selectedImage);
-      // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
-      const imageFile = new File([blobImage], "image.png", {
-        type: "image/png",
-      });
-      formData.append("image", imageFile);
+      // const blobImage = dataURItoBlob(selectedImage);
+      // // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
+      // const imageFile = new File([blobImage], "image.png", {
+      //   type: "image/png",
+      // });
+      // formData.append("image", imageFile);
 
       formData.append("serial_num", cardNumber);
       formData.append("expiry_date", expiration);
