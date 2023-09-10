@@ -101,10 +101,9 @@ export default function AccountOfficer() {
     console.log("네이버 탈퇴");
     const accessToken = localStorage.getItem("access"); //access Token
     try {
-      const response = await axios.delete(
-        `http://3.38.180.187/account/naver/`,
-        { data: { token: accessToken } }
-      );
+      const response = await axios.delete(`http://3.36.95.105/account/naver/`, {
+        data: { accessToken: accessToken },
+      });
       console.log(response);
     } catch (error) {
       console.error("Error:", error);
@@ -114,15 +113,15 @@ export default function AccountOfficer() {
   async function handleDelete(social) {
     try {
       if (social === "구글") {
-        GoogleDelete();
+        await GoogleDelete();
       }
 
       if (social === "카카오톡") {
-        KakaoDelete();
+        await KakaoDelete();
       }
 
       if (social === "네이버") {
-        NaverDelete();
+        await NaverDelete();
       }
 
       const data = await authInstance.delete("/account/user/");
