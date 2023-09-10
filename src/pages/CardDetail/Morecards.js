@@ -47,6 +47,16 @@ export default function Morecards() {
     if (!selectedcard) {
       alert("삭제할 카드를 선택해주세요");
     }
+    
+    for (const element of cards) {
+      console.log(element, selectedcard);
+      if (element.id === selectedcard && element.default) {
+        alert("카드 수정에서 기본카드 선택 해제 후 삭제해주세요.")
+        return;
+      }
+    }
+    console.log(selectedcard);
+    
     try {
       const accessToken = localStorage.getItem("access");
       const requestData = {
