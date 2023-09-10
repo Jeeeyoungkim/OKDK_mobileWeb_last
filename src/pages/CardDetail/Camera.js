@@ -52,7 +52,7 @@ export default function Camera() {
         backbasicButtonName="뒤로가기"
         backbasicButtonOnClick={handleBackPage}
       >
-        <div>안녕</div>
+        <div>카메라를 불러오고 있습니다 ..</div>
       </Modal>
     </div>
   );
