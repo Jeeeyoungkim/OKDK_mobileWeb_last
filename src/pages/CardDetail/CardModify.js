@@ -258,6 +258,7 @@ export default function CardModify() {
       const formData = new FormData();
 
       formData.append("id", selected);
+      console.log(selected);
       const blobImage = dataURItoBlob(selectedImage);
       // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
       const imageFile = new File([blobImage], "image.png", {
