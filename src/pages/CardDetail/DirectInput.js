@@ -244,16 +244,11 @@ export default function DirectInput() {
         console.log(isdefault);
 
         // FormData 객체를 사용하여 POST 요청을 보냅니다.
-        const response = await authInstance.post(
+        const response = await authInstance.put(
           "/payment/card/create/",
           formData
         );
-
-        const response2 = await authInstance.put(
-          "/account/user/default/card/",
-          formData
-        );
-        console.log(response2);
+        // console.log(response2);
         console.log(response.data);
         console.log("성공");
         handleCompleteMove();
