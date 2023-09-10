@@ -118,28 +118,21 @@ export default function CardModify() {
   };
   const imagePaths = Object.keys(cardImages);
 
-  useEffect(() => {
-    // let orderIndex = state;
+  // useEffect(() => {
+  //   // let orderIndex = state;
+  //   // if (state !== 0) {
+  //   //   orderIndex = (orderIndex - 41) % 9;
+  //   //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
+  //   //   console.log(imagePaths[orderIndex]);
+  //   //   setSelectedImage(selectedImagePath);
+  //   // } else {
+  //   //   orderIndex = orderIndex % 9;
+  //   //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
+  //   //   setSelectedImage(selectedImagePath);
+  //   // }
 
-    // if (state !== 0) {
-    //   orderIndex = (orderIndex - 41) % 9;
-    //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
-    //   console.log(imagePaths[orderIndex]);
-
-    //   setSelectedImage(selectedImagePath);
-    // } else {
-    //   orderIndex = orderIndex % 9;
-    //   const selectedImagePath = cardImages[imagePaths[orderIndex]];
-
-    //   setSelectedImage(selectedImagePath);
-    // }
-
-    let orderIndex = (cardLength - 1) % 9;
-    const selectedImagePath = cardImages[imagePaths[orderIndex]];
-    console.log(imagePaths[orderIndex]);
-
-    setSelectedImage(selectedImagePath);
-  }, [cardLength]);
+  //   setSelectedImage(cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]);
+  // }, [cardLength]);
 
   useEffect(() => {
     async function GetfetchData() {
@@ -182,6 +175,12 @@ export default function CardModify() {
       setIsDefault(data.default);
     });
   }, [selected]);
+
+  useEffect(() => {
+    setSelectedImage(
+      cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
+    );
+  }, [cardNumber]);
 
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
@@ -249,7 +248,7 @@ export default function CardModify() {
       return; // 요청 보내지 않고 함수 종료
     }
     if (
-      selectedImage &&
+      // selectedImage &&
       cardNumber &&
       expiration &&
       cvc &&

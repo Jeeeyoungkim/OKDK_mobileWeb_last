@@ -132,7 +132,12 @@ export default function DirectInput() {
   }, [cardLength]);
 
   const handleCompleteMove = () => {
-    navigation("/EnrollComplete");
+    navigation("/EnrollComplete", {
+      replace: true,
+      state: {
+        image: selectedImage,
+      },
+    });
   };
 
   useEffect(() => {
@@ -143,6 +148,13 @@ export default function DirectInput() {
       setExpiration(data?.expiration_date);
     }
   }, []);
+
+  useEffect(() => {
+    setSelectedImage(
+      cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
+    );
+  }, [cardNumber]);
+
   // 월/년 유효기간 검증
   const checkExpiry = (month, year) => {
     const currentYear = new Date().getFullYear() % 100;
@@ -211,28 +223,26 @@ export default function DirectInput() {
       alert("비밀번호는 2자리를 입력해주세요.");
       return; // 요청 보내지 않고 함수 종료
     }
-    if (
-      selectedImage &&
-      cardNumber &&
-      expiration &&
-      cvc &&
-      password &&
-      isdefault !== null
-    ) {
+    if (selectedImage && cardNumber && expiration && cvc && password) {
       // FormData 생성 및 파일 추가
       const formData = new FormData();
       const blobImage = dataURItoBlob(selectedImage);
+
       // Blob을 File 객체로 변환 (파일 이름을 지정할 수 있습니다)
       const imageFile = new File([blobImage], "image.png", {
         type: "image/png",
       });
+      console.log(isdefault);
       formData.append("image", imageFile);
       formData.append("serial_num", cardNumber);
       formData.append("expiry_date", expiration);
       formData.append("cvc", cvc);
       formData.append("password", password);
+      // formData.append("is_default", isdefault);
       formData.append("is_default", isdefault);
       try {
+        console.log(isdefault);
+
         // FormData 객체를 사용하여 POST 요청을 보냅니다.
         const response = await authInstance.post(
           "/payment/card/create/",
@@ -270,14 +280,11 @@ export default function DirectInput() {
             >
               {/* 파일 입력 대신 네모칸 역할을 하는 label */}
               <ImagePreview>
-                <img
-                  src={selectedImage}
-                  alt="Selected"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    objectFit: "cover",
-                  }}
+                <Card
+                  Width={"100%"}
+                  Height={"100%"}
+                  imgWidth={"6.333331rem"}
+                  imgHeight={"4rem"}
                 />
               </ImagePreview>
             </label>
@@ -389,7 +396,10 @@ export default function DirectInput() {
                   <SmallInput
                     type="checkbox"
                     checked={isdefault}
-                    onChange={(e) => setIsDefault(e.target.checked)}
+                    onChange={(e) => {
+                      console.log(e.target.checked);
+                      setIsDefault(e.target.checked);
+                    }}
                   />
                 </span>
               </div>

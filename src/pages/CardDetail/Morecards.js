@@ -32,7 +32,6 @@ export default function Morecards() {
     fetchData();
   }, []);
 
-  console.log(cards);
   const navigation = useNavigate();
 
   const Container = styled.div`
