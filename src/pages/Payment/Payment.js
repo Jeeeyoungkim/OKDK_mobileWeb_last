@@ -112,7 +112,7 @@ export default function Payment() {
               justifyContent: "center",
             }}
           >
-            {card ? (
+            {card && card.name !== null ? (
               <>
                 <Card
                   imguri={card.image}
