@@ -108,13 +108,6 @@ export default function Morecards() {
         </div>
         <Container>
           <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
-          ></section>
-          <section
             style={{ padding: "55px 0px", overflow: "auto", height: "10rem" }}
           >
             {cards.map((card) => (
