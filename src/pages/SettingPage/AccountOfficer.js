@@ -114,17 +114,18 @@ export default function AccountOfficer() {
     try {
       if (social === "구글") {
         await GoogleDelete();
+        await authInstance.delete("/account/user/");
       }
 
       if (social === "카카오톡") {
         await KakaoDelete();
+        await authInstance.delete("/account/user/");
       }
 
       if (social === "네이버") {
         await NaverDelete();
       }
 
-      const data = await authInstance.delete("/account/user/");
       // 백엔드 통신 성공 후 RN 앱으로 메시지 전송
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ status: "DeleteAccount" })
