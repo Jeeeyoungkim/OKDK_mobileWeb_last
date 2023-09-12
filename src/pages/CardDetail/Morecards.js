@@ -39,7 +39,6 @@ export default function Morecards() {
   `;
 
   const handlecardChange = (card, event) => {
-    event.preventDefault();   
     console.log(card);
     setSelectedcard(card);
 
@@ -147,7 +146,10 @@ export default function Morecards() {
                       type="radio"
                       value={card.id}
                       checked={selectedcard === card.id}
-                      onChange={(event) => handlecardChange(card.id, event)}
+                      onChange={(event) => {
+                        event.preventDefault(); // 브라우저의 기본 동작을 막음
+                        handlecardChange(card.id, event);
+                      }}
                     />
                     <p style={{ padding: "5px" }}>{card.name}</p>
                   </div>
