@@ -249,7 +249,7 @@ export default function CardModify() {
     const year = parseInt(expiration.split("/")[1]);
 
     // 현재 연도 구하기
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear() % 100;
     
     // 만료 연도가 현재 연도보다 작다면 유효기간이 지났음
     if (year < currentYear) {
