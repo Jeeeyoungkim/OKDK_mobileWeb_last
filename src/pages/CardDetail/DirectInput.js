@@ -246,6 +246,9 @@ export default function DirectInput() {
       return; 
     }
     const regex = /^[0-9]+$/;
+
+    console.log('!regex.test(password)' + !regex.test(password));
+    console.log(regex, password);
     if (!regex.test(password)) {
     alert("비밀번호는 숫자만 입력 가능합니다.");
     return; // 요청 보내지 않고 유효성 검사 실패
