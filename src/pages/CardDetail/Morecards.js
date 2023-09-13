@@ -43,7 +43,7 @@ export default function Morecards() {
     section.scrollTo(0, section.scrollTop); // 현재 스크롤 위치를 다시 설정하여 스크롤이 이동하지 않도록 합니다.
   }
 
-  const handlecardChange = (card, event) => {
+  const handlecardChange = (card) => {
     console.log(card);
     setSelectedcard(card);
   };
@@ -149,9 +149,8 @@ export default function Morecards() {
                       type="radio"
                       value={card.id}
                       checked={selectedcard === card.id}
-                      onChange={(event) => {
-                        event.preventDefault(); // 브라우저의 기본 동작을 막음
-                        handlecardChange(card.id, event);
+                      onChange={() => {
+                        handlecardChange(card.id);
                       }}
                     />
                     <p style={{ padding: "5px" }}>{card.name}</p>
