@@ -8,6 +8,10 @@ import Card from "../../components/Card";
 import { useLocation } from "react-router-dom";
 import { authInstance } from "../../API/utils";
 
+const Container = styled.div`
+  height: "477px";
+`;
+
 export default function Morecards() {
   const [cards, setcards] = useState([]);
   const [selectedcard, setSelectedcard] = useState(null);
@@ -34,9 +38,10 @@ export default function Morecards() {
 
   const navigation = useNavigate();
 
-  const Container = styled.div`
-    height: "477px";
-  `;
+  const section = document.querySelector(".CardScrollContainer"); 
+  if (section) {
+    section.scrollTo(0, section.scrollTop); // 현재 스크롤 위치를 다시 설정하여 스크롤이 이동하지 않도록 합니다.
+  }
 
   const handlecardChange = (card, event) => {
     console.log(card);
@@ -47,16 +52,16 @@ export default function Morecards() {
     if (!selectedcard) {
       alert("삭제할 카드를 선택해주세요");
     }
-    
+
     for (const element of cards) {
       console.log(element, selectedcard);
       if (element.id === selectedcard && element.default) {
-        alert("다른 카드를 기본카드로 선택후에 삭제해주세요.")
+        alert("다른 카드를 기본카드로 선택후에 삭제해주세요.");
         return;
       }
     }
     console.log(selectedcard);
-    
+
     try {
       const accessToken = localStorage.getItem("access");
       const requestData = {
@@ -67,7 +72,7 @@ export default function Morecards() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        data: requestData, // DELETE 요청에서는 data를 사용하여 body를 명시합니다.
+        data: requestData, 
       };
 
       const response = await authInstance.delete(
@@ -116,7 +121,7 @@ export default function Morecards() {
           기본으로 결제할 카드를 설정해주세요
         </div>
         <Container>
-          <section
+          <section className="CardScrollContainer"
             style={{
               padding: "55px 0px",
               overflow: "auto",
