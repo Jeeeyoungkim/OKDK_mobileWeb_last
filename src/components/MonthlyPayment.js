@@ -22,11 +22,25 @@ export default function MonthlyPayment({ labels, data, navigation }) {
   const chartRef = useRef();
 
   const avgLabels = ["평균", ...labels.map((month) => `${Number(month)}월`)];
-  const avgData = [
-    parseInt(data.reduce((acc, value) => acc + value, 0) / data.length),
-    ...data,
-  ];
 
+  // 데이터가 있을 때부터 평균 구하기
+  let a = false;
+  let avg = 0;
+  let count = 0;
+  data.foreach((item) => {
+    if (item !== 0) {
+      a = true;
+    }
+    if (a) {
+      avg = avg + item;
+      count++;
+    }
+  });
+  if (count > 0) {
+    avg /= count;
+  }
+
+  const avgData = [avg, ...data];
   const backgroundColors = ["#F29B0C", "#056CF2", "#056CF2", "#056CF2"];
   const borderColors = ["#F29B0C", "#056CF2", "#056CF2", "#056CF2"];
   const chartData = {

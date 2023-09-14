@@ -195,7 +195,6 @@ export default function Payment() {
               navigation={navigation}
               labels={threeCurrentMonths}
               data={threeCurrentMonths
-                .sort()
                 .map((data) => threeCurrentMonthData[data + "월"])}
             />
           ) : (
