@@ -27,7 +27,7 @@ export default function MonthlyPayment({ labels, data, navigation }) {
   let a = false;
   let avg = 0;
   let count = 0;
-  data.foreach((item) => {
+  data.map((item, index) => {
     if (item !== 0) {
       a = true;
     }
