@@ -202,28 +202,57 @@ export default function DirectInput() {
       !/^\d+$/.test(cardNumber.replace(/\s+/g, ""))
     ) {
       alert("카드 번호는 16자리 숫자로 입력해주세요.");
-      return; // 요청 보내지 않고 함수 종료
+      return; 
     }
+
 
     // 유효기간 자릿수 검증
     console.log(expiration.length);
     console.log(expiration);
     if (expiration.length !== 5) {
       alert("유효기간은 MMYY 형식의 4자리 숫자로 입력해주세요.");
-      return; // 요청 보내지 않고 함수 종료
+      return; 
     }
+    // 월을 추출하여 숫자로 변환
+    const month = parseInt(expiration.split("/")[0]);
+    
+    // 월이 01에서 12 사이의 유효한 값인지 확인
+    if (month < 1 || month > 12) {
+      alert("올바른 월을 입력해주세요 (01에서 12 사이).");
+      return; 
+    }
+    const year = parseInt(expiration.split("/")[1]);
+    
+    // 현재 연도 구하기
+    const currentYear = new Date().getFullYear() % 100;
+    console.log(`month: ${month} , year : ${year}, currentYear : ${currentYear}`);
+    // 만료 연도가 현재 연도보다 작다면 유효기간이 지났음
+    if (year < currentYear) {
+      alert("유효기간이 지났습니다.");
+      return;
+    }
+
 
     // CVC 자릿수 검증
     if (cvc.length !== 3) {
       alert("CVC는 3자리를 입력해주세요.");
-      return; // 요청 보내지 않고 함수 종료
+      return; 
     }
 
     // 비밀번호 자릿수 검증
     if (password.length !== 2) {
       alert("비밀번호는 2자리를 입력해주세요.");
-      return; // 요청 보내지 않고 함수 종료
+      
+      return; 
     }
+    const regex = /^[0-9]+$/;
+
+    console.log('!regex.test(password)' + !regex.test(password));
+    console.log(regex, password);
+    if (!regex.test(password)) {
+    alert("비밀번호는 숫자만 입력 가능합니다.");
+    return; // 요청 보내지 않고 유효성 검사 실패
+  }
     if (selectedImage && cardNumber && expiration && cvc && password) {
       // FormData 생성 및 파일 추가
       const formData = new FormData();
