@@ -151,10 +151,10 @@ export default function DirectInput() {
   }, []);
 
   useEffect(() => {
-    if(cardNumber.length > 0){
-    setSelectedImage(
-      cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
-    );
+    if (cardNumber && cardNumber.length > 0) {
+      setSelectedImage(
+        cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
+      );
     }
   }, [cardNumber]);
 
