@@ -151,9 +151,11 @@ export default function DirectInput() {
   }, []);
 
   useEffect(() => {
+    if(cardNumber.length > 0){
     setSelectedImage(
       cardImages[imagePaths[parseInt(cardNumber.slice(-1)) % 9]]
     );
+    }
   }, [cardNumber]);
 
   // 월/년 유효기간 검증
@@ -217,10 +219,10 @@ export default function DirectInput() {
     const month = parseInt(expiration.split("/")[0]);
     
     // 월이 01에서 12 사이의 유효한 값인지 확인
-    if (month < 1 || month > 12) {
-      alert("올바른 월을 입력해주세요 (01에서 12 사이).");
-      return; 
-    }
+    // if (month < 1 || month > 12) {
+    //   alert("올바른 월을 입력해주세요 (01에서 12 사이).");
+    //   return; 
+    // }
     const year = parseInt(expiration.split("/")[1]);
     
     // 현재 연도 구하기
