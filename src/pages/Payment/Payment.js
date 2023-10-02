@@ -57,8 +57,8 @@ export default function Payment() {
 
         // console.log(userData.data);
         console.log(basicCardData.data);
-        // console.log(barcodeData.data);
-        // console.log(monthlyData.data);
+        console.log(barcodeData.data);
+        console.log(monthlyData.data);
         setUser(userData.data.user);
         setCard(basicCardData.data);
         setBarcode(barcodeData.data);
@@ -91,7 +91,11 @@ export default function Payment() {
 
   return (
     <Body>
-      <TopNavigation navigation={navigation} destination={"Home"} item={false}/>
+      <TopNavigation
+        navigation={navigation}
+        destination={"Home"}
+        item={false}
+      />
       <ScrollWrap>
         <PaymentTitle
           name={user ? user.nickname : ""}
@@ -194,8 +198,9 @@ export default function Payment() {
             <MonthlyPayment
               navigation={navigation}
               labels={threeCurrentMonths}
-              data={threeCurrentMonths
-                .map((data) => threeCurrentMonthData[data + "월"])}
+              data={threeCurrentMonths.map(
+                (data) => threeCurrentMonthData[data + "월"]
+              )}
             />
           ) : (
             <UndefinedText>월별 결제 내역이 없어요.</UndefinedText>
