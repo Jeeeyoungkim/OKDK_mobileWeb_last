@@ -36,16 +36,18 @@ const navigateWebView = (destination) => {
   }
 };
 
-export default function TopNavigation({ navigation, destination }) {
+export default function TopNavigation({ navigation, destination, item }) {
   return (
     <WrapTopNavigation>
       <LogoImage src={Logo} onClick={() => navigateWebView(destination)} />
-      <ArrowBackImage
-        src={ArrowBack}
-        onClick={() => {
-          navigation(-1);
-        }}
-      />
+      {item && (
+        <ArrowBackImage
+          src={ArrowBack}
+          onClick={() => {
+            navigation(-1);
+          }}
+        />
+      )}
     </WrapTopNavigation>
   );
 }

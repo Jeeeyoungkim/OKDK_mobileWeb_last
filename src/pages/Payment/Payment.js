@@ -91,7 +91,7 @@ export default function Payment() {
 
   return (
     <Body>
-      <TopNavigation navigation={navigation} destination={"Home"} />
+      <TopNavigation navigation={navigation} destination={"Home"} item={false}/>
       <ScrollWrap>
         <PaymentTitle
           name={user ? user.nickname : ""}

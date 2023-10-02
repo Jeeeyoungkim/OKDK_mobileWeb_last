@@ -99,7 +99,7 @@ export default function Home() {
 
   return (
     <Body>
-      <TopNavigation navigation={navigation} destination={"Home"} />
+      <TopNavigation navigation={navigation} destination={"Home"} item={false}/>
       <ScrollWrap>
         <PaymentTitle name={user && user.nickname} describe={getTimeOfDay()} />
         <ChangeComponent handleParentClick={changeMode} userMode={userMode} />
