@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "../assets/images/OKDKLogo.png";
 import ArrowBack from "../assets/images/arrowBack.svg";
 import { useNavigate } from "react-router-dom";
+
+
 
 export const WrapTopNavigation = styled.div`
   display: flex;
@@ -37,10 +39,18 @@ const navigateWebView = (destination) => {
 };
 
 export default function TopNavigation({ navigation, destination, item }) {
+  const [itemi, setItemis] = useState(true);
+
+
+  useEffect(() => {
+    if(item === false){
+    setItemis(false)
+  }
+  },[item])
   return (
     <WrapTopNavigation>
       <LogoImage src={Logo} onClick={() => navigateWebView(destination)} />
-      {item && (
+      {itemi && (
         <ArrowBackImage
           src={ArrowBack}
           onClick={() => {
