@@ -129,7 +129,7 @@ export default function PaymentDetail() {
         const userData = await authInstance.get("/account/user/");
         const paymentData = await authInstance.get("/order/recents/");
         // console.log(userData.data);
-        console.log(paymentData.data);
+        //console.log(paymentData.data);
         setUser(userData.data.user);
         SetPayment(paymentData.data);
       } catch (error) {
@@ -145,8 +145,8 @@ export default function PaymentDetail() {
 
     data.forEach((item) => {
       const date = item.created_at.slice(0, 10); // "YYYY-MM-DD" 형식의 날짜 추출
-      // console.log(date.slice(6, 7));
-      // console.log(month);
+      console.log(date.slice(6, 7));
+      console.log(month);
       if (month && date.slice(6, 7) != month) {
         return;
       }
