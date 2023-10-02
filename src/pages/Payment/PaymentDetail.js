@@ -129,7 +129,7 @@ export default function PaymentDetail() {
         const userData = await authInstance.get("/account/user/");
         const paymentData = await authInstance.get("/order/recents/");
         // console.log(userData.data);
-        // console.log(paymentData.data);
+        console.log(paymentData.data);
         setUser(userData.data.user);
         SetPayment(paymentData.data);
       } catch (error) {
