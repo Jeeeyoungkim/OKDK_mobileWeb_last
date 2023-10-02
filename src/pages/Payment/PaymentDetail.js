@@ -146,9 +146,11 @@ export default function PaymentDetail() {
     data.forEach((item) => {
       const date = item.created_at.slice(0, 10); // "YYYY-MM-DD" 형식의 날짜 추출
       console.log(date);
-      console.log(date.slice(6, 7));
-      console.log(month);
-      if (month && date.slice(6, 7) != month) {
+      const thisMonth =
+        date.slice(5, 7) / 10 >= 1 ? date.slice(5, 7) : date.slice(6, 7);
+      //console.log(date.slice(6, 7));
+      //console.log(month);
+      if (month && thisMonth != month) {
         return;
       }
       if (!groupedData[date]) {
